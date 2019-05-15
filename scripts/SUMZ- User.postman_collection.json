@@ -1,0 +1,356 @@
+{
+	"info": {
+		"_postman_id": "4a3c4a74-f3ad-4305-9e26-1ea8ec2eadc0",
+		"name": "SUMZ: User",
+		"description": "Die folgende Collection enthält Beispiel-Request, die das Anlegen, Bearbeiten und Löschen von Usern erläutern.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Anlegen eines neuen Benutzers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"maxmuster@host.com\",\n\t\"password\": \"123abcABC###\"\n}"
+				},
+				"url": {
+					"raw": "sumz1718.dh-karlsruhe.de:8080/users",
+					"host": [
+						"sumz1718",
+						"dh-karlsruhe",
+						"de"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				},
+				"description": "Der Endpunkt ist offen und fordert keine Authentifizierung. Es wird überprüft, ob schon ein Benutzerkonto mit der angegebenen Email-Adresse existiert. "
+			},
+			"response": []
+		},
+		{
+			"name": "Neu angelegten User bestätigen",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "sumz1718.dh-karlsruhe.de:8080/users/activate/eyJ1c2VyQWN0aXZhdGlvblRva2VuSWQiOjMsImFwcFVzZXJJZCI6NSwiZXhwaXJhdGlvbkRhdGUiOlsyMDE4LDcsNywyLDldLCJ0b2tlbktleSI6ImViZGQyODMxMmJjNzVmOGZkMDk5YjVjOTY4ZTBiMGUxIn0b",
+					"host": [
+						"sumz1718",
+						"dh-karlsruhe",
+						"de"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"activate",
+						"eyJ1c2VyQWN0aXZhdGlvblRva2VuSWQiOjMsImFwcFVzZXJJZCI6NSwiZXhwaXJhdGlvbkRhdGUiOlsyMDE4LDcsNywyLDldLCJ0b2tlbktleSI6ImViZGQyODMxMmJjNzVmOGZkMDk5YjVjOTY4ZTBiMGUxIn0b"
+					]
+				},
+				"description": "Achtung: Die Anfrage erfolgt durch Klicken des Bestätigungslinks in der Email, die nach der Registrierung eines neuen Nutzers versendet wird. Es öffnet sich ein Browser-Tab und die GET-Anfrage wird automatisch abgesendet. Ist der Token gültig, wird der User aktiviert. "
+			},
+			"response": []
+		},
+		{
+			"name": "Initiales Abholen eines Bearer Tokens (Access Token) ",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sumzAngularFrontend",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "XY7kmzoNzl100",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "maxmuster@host.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123abcABC###",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "sumz1718.dh-karlsruhe.de:8080/oauth/token",
+					"host": [
+						"sumz1718",
+						"dh-karlsruhe",
+						"de"
+					],
+					"port": "8080",
+					"path": [
+						"oauth",
+						"token"
+					]
+				},
+				"description": "Hat ein Benutzer sein Konto aktiviert, kann er sich bei business horizon anmelden. Dazu muss die unter \"Authorization\" aufgeführte Basic Auth immer (mit den immre gleichen Credentials) mitgesendet werden. Dies dient dazu, den Client, der die Api anspricht zu verifizieren. Im Body des Request werden Username und Passwort als x-www-form-urlencoded Parameter übergeben. Der grant_type steht immer auf \"password\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Abholen eines Bearer Tokens mit einem Refresh Token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "sumz1718AngularFrontend",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "XY7kmzoNzl100",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "refresh_token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVzdGp3dHJlc291cmNlaWQiXSwidXNlcl9pZCI6NSwidXNlcl9uYW1lIjoibWF0dGhpYXMua3VnZWxAZ214LmRlIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwiZXhwIjoxNTMwODQxNjUxLCJhdXRob3JpdGllcyI6WyJTVEFOREFSRF9VU0VSIl0sImp0aSI6ImY2ZjExNDlkLWEyNDktNGU1ZC1iMDllLWFkZjg4MzVkMTE0NCIsImNsaWVudF9pZCI6InRlc3Rqd3RjbGllbnRpZCJ9.au40TC45zZ95gQuRRviHdYEJCcY5wHHsf5KJn3FVBc4",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "refresh_token",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "sumz1718.dh-karlsruhe.de:8080/oauth/token",
+					"host": [
+						"sumz1718",
+						"dh-karlsruhe",
+						"de"
+					],
+					"port": "8080",
+					"path": [
+						"oauth",
+						"token"
+					]
+				},
+				"description": "Wenn der Access-Token abgelaufen ist, kann der User mit dem Refresh-Token einen neuen Access-Token beantragen. Es gelten die selben Rahmenbedingungen wie beim Abholen des initialen Access Tokens. Lediglich die x-www-url-encoded Parameter im Body der Anfrage sind anders: Statt username und passwort wird nun der Refresh-Token mitgesendet. Der grant_type muss auf \"refresh_token\" stehen."
+			},
+			"response": []
+		},
+		{
+			"name": "Password ändern (als eingeloggter User)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVzdGp3dHJlc291cmNlaWQiXSwidXNlcl9pZCI6NSwidXNlcl9uYW1lIjoibWF0dGhpYXMua3VnZWxAZ214LmRlIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwiZXhwIjoxNTMwODg3MTkxLCJhdXRob3JpdGllcyI6WyJTVEFOREFSRF9VU0VSIl0sImp0aSI6IjU0ODFlYjljLTM3ZWUtNGQ0Zi05ZTEzLTA1MjJkM2JlMmI4ZSIsImNsaWVudF9pZCI6InN1bXpBbmd1bGFyRnJvbnRlbmQifQ.Qcx4fPmlMGnC8G-F91Ph8J5_0A9BDf6CrbtCkL9w3Tk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"oldPassword\": \"123abcABC###\",\n\t\"newPassword\": \"###123abcABC####\"\n}"
+				},
+				"url": {
+					"raw": "sumz1718.dh-karlsruhe.de:8080/users/5",
+					"host": [
+						"sumz1718",
+						"dh-karlsruhe",
+						"de"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"5"
+					]
+				},
+				"description": "Ein User kann sein Passwort ändern, wenn er eingeloggt ist (einen gültigen Access Token besitzt). Dazu muss er das alte sowie das neue Passwort an den Endpunkt senden."
+			},
+			"response": []
+		},
+		{
+			"name": "Passwort-Reset Email anfordern",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"maxmuster@host.com\"\n}"
+				},
+				"url": {
+					"raw": "sumz1718.dh-karlsruhe.de:8080/users/forgot",
+					"host": [
+						"sumz1718",
+						"dh-karlsruhe",
+						"de"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"forgot"
+					]
+				},
+				"description": "Hat ein Benutzer sein Passwort vergessen, kann er mit seiner Email-Adresse einen Link zum Zurücksetzen des Passworts anfordern."
+			},
+			"response": []
+		},
+		{
+			"name": "Passwort-Reset Link bestätigen",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://sumz1718.dh-karlsruhe.de:8080/users/reset/eyJ1c2VyUGFzc3dvcmRSZXNldFRva2VuSWQiOjIsImFwcFVzZXJJZCI6NSwiZXhwaXJhdGlvbkRhdGUiOlsyMDE4LDcsNywxNSwxMl0sInRva2VuS2V5IjoiYTk3NjQyNGQyYzdjZjhmNWUzMGU5M2ExNTg5MDNkMDEifQ==",
+					"protocol": "http",
+					"host": [
+						"sumz1718",
+						"dh-karlsruhe",
+						"de"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"reset",
+						"eyJ1c2VyUGFzc3dvcmRSZXNldFRva2VuSWQiOjIsImFwcFVzZXJJZCI6NSwiZXhwaXJhdGlvbkRhdGUiOlsyMDE4LDcsNywxNSwxMl0sInRva2VuS2V5IjoiYTk3NjQyNGQyYzdjZjhmNWUzMGU5M2ExNTg5MDNkMDEifQ=="
+					]
+				},
+				"description": "Achtung: Die Anfrage erfolgt durch Klicken des Bestätigungslinks in der Email, die nach Anfordern durch einen Benutzer versendet wird. Es öffnet sich ein Browser-Tab und die GET-Anfrage wird automatisch abgesendet. Ist der Token gültig, erfolgt ein Redirect."
+			},
+			"response": []
+		},
+		{
+			"name": "Neues Passwort setzen nach Passwort-Reset",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"password\": \"123abcABC###\"\n}"
+				},
+				"url": {
+					"raw": "http://sumz1718.dh-karlsruhe.de:8080/users/reset/eyJ1c2VyUGFzc3dvcmRSZXNldFRva2VuSWQiOjIsImFwcFVzZXJJZCI6NSwiZXhwaXJhdGlvbkRhdGUiOlsyMDE4LDcsNywxNSwxMl0sInRva2VuS2V5IjoiYTk3NjQyNGQyYzdjZjhmNWUzMGU5M2ExNTg5MDNkMDEifQ==",
+					"protocol": "http",
+					"host": [
+						"sumz1718",
+						"dh-karlsruhe",
+						"de"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"reset",
+						"eyJ1c2VyUGFzc3dvcmRSZXNldFRva2VuSWQiOjIsImFwcFVzZXJJZCI6NSwiZXhwaXJhdGlvbkRhdGUiOlsyMDE4LDcsNywxNSwxMl0sInRva2VuS2V5IjoiYTk3NjQyNGQyYzdjZjhmNWUzMGU5M2ExNTg5MDNkMDEifQ=="
+					]
+				},
+				"description": "Klickt der User auf den Passwort-Reset-Link in der Email und ist der Token gültig, wird er auf diese Seite weitergeleitet. Mit einem Post kann das neue Passwort gesetzt werden. Der Token wird erneut auf Gültigkeit überprüft."
+			},
+			"response": []
+		},
+		{
+			"name": "Löschen eines Benutzers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVzdGp3dHJlc291cmNlaWQiXSwidXNlcl9pZCI6NSwidXNlcl9uYW1lIjoibWF0dGhpYXMua3VnZWxAZ214LmRlIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIiwidHJ1c3QiXSwiZXhwIjoxNTMwODg3MTkxLCJhdXRob3JpdGllcyI6WyJTVEFOREFSRF9VU0VSIl0sImp0aSI6IjU0ODFlYjljLTM3ZWUtNGQ0Zi05ZTEzLTA1MjJkM2JlMmI4ZSIsImNsaWVudF9pZCI6InN1bXpBbmd1bGFyRnJvbnRlbmQifQ.Qcx4fPmlMGnC8G-F91Ph8J5_0A9BDf6CrbtCkL9w3Tk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"password\": \"aDadf6#\"\n}"
+				},
+				"url": {
+					"raw": "sumz1718.dh-karlsruhe.de:8080/users/1/delete",
+					"host": [
+						"sumz1718",
+						"dh-karlsruhe",
+						"de"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"1",
+						"delete"
+					]
+				},
+				"description": "Will ein Benutzer sein Konto löschen, muss er eingeloggt sein (einen gültigen Token besitzen) und sein Password an den Endpunkt mitsenden. Alle mit dem User verknüpften Szenarien werden ebenfalls mitgelöscht. "
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,36 @@
+{
+	"info": {
+		"_postman_id": "047b5adf-efd5-4e13-a10b-7d6f60396255",
+		"name": "SUMZ Python Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:5000/predict",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"time_series\": [{\n\t\t\"id\": \"AV\",\n\t\t\"values\": [10,7,4,1,-2,-4]\n\t},{\n\t\t\"id\": \"UV\",\n\t\t\"values\": [1,2,4,5,6,6]\n\t}],\n\t\"pred_steps\":3,\n\t\"num_samples\": 3\n}"
+				},
+				"url": {
+					"raw": "localhost:5000/predict",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
