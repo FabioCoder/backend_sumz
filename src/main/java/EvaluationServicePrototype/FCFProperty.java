@@ -11,8 +11,8 @@ package EvaluationServicePrototype;
  */
 public class FCFProperty extends PredictableVariable<Double> {
 
-    public FCFProperty(boolean predicted, Double value, FCFProperty prev, FCFProperty next) {
-        super(predicted, value, prev, next);
+    public FCFProperty(boolean predicted, Double value) {
+        super(predicted, value);
     }
     
 }

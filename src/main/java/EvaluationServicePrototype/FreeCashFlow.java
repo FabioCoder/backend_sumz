@@ -11,8 +11,8 @@ package EvaluationServicePrototype;
  */
 public class FreeCashFlow extends PredictableVariable<Double> {
 
-    public FreeCashFlow(boolean predicted, Double value, FreeCashFlow prev, FreeCashFlow next) {
-        super(predicted, value, prev, next);
+    public FreeCashFlow(boolean predicted, Double value) {
+        super(predicted, value);
     }
     
     

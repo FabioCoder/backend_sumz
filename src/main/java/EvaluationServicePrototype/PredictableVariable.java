@@ -14,14 +14,10 @@ public class PredictableVariable<T> {
 
     private boolean predicted;
     private T value;
-    private PredictableVariable<T> prev;
-    private PredictableVariable<T> next;
 
-    public PredictableVariable(boolean predicted, T value, PredictableVariable<T> prev, PredictableVariable<T> next) {
+    public PredictableVariable(boolean predicted, T value) {
         this.predicted = predicted;
         this.value = value;
-        this.prev = prev;
-        this.next = next;
     }
 
 }

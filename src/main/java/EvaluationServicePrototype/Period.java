@@ -16,23 +16,23 @@ public class Period {
     private final Period prev;
     private final Period next;
     
-    private PredictableVariable<Double> depreciation;
-    private PredictableVariable<Double> additionalIncome;
-    private PredictableVariable<Double> additionalCosts;
-    private PredictableVariable<Double> investments;
-    private PredictableVariable<Double> disvestments;
-    private PredictableVariable<Double> revenue;
-    private PredictableVariable<Double> costOfMaterial;
-    private PredictableVariable<Double> costOfStaff;
-    private PredictableVariable<Double> liabilities;
-    private PredictableVariable<Double> flowToEquity;
+    private FCFProperty depreciation;
+    private FCFProperty additionalIncome;
+    private FCFProperty additionalCosts;
+    private FCFProperty investments;
+    private FCFProperty disvestments;
+    private FCFProperty revenue;
+    private FCFProperty costOfMaterial;
+    private FCFProperty costOfStaff;
+    private FCFProperty liabilities;
+    private FCFProperty flowToEquity;
     
-    private PredictableVariable<Double> freeCashFlow;
+    private FreeCashFlow freeCashFlow;
     
     private Double companyValue;
 
-    public Period(Period prev, Period next, PredictableVariable<Double> depreciation, PredictableVariable<Double> additionalIncome, PredictableVariable<Double> additionalCosts, PredictableVariable<Double> investments, 
-            PredictableVariable<Double> disvestments, PredictableVariable<Double> revenue, PredictableVariable<Double> costOfMaterial, PredictableVariable<Double> costOfStaff, PredictableVariable<Double> liabilities, PredictableVariable<Double> flowToEquity) {
+    public Period(Period prev, Period next, FCFProperty depreciation, FCFProperty additionalIncome, FCFProperty additionalCosts, FCFProperty investments, 
+            FCFProperty disvestments, FCFProperty revenue, FCFProperty costOfMaterial, FCFProperty costOfStaff, FCFProperty liabilities, FCFProperty flowToEquity) {
         this.prev = prev;
         this.next = next;
         this.depreciation = depreciation;
@@ -45,21 +45,12 @@ public class Period {
         this.costOfStaff = costOfStaff;
         this.liabilities = liabilities;
         this.flowToEquity = flowToEquity;
-        
-        this.freeCashFlow = this.calcFreeCashFlow();
     }
 
-    public Period(Period prev, Period next, PredictableVariable<Double> freeCashFlow) {
+    public Period(Period prev, Period next, FreeCashFlow freeCashFlow) {
         this.prev = prev;
         this.next = next;
         this.freeCashFlow = freeCashFlow;
-    }
-    
-    public Period(Period prev, Period next) {
-        this.prev = prev;
-        this.next = next;
-        
-        this.freeCashFlow = this.predictFreeCashFlow();
     }
 
     public Double getCompanyValue() {
@@ -72,25 +63,6 @@ public class Period {
 
     public Period getNext() {
         return next;
-    }
-    
-    //Todo: outsource this to since this is business logic
-    public Double calcCompanyValue() {
-        //Todo: include current cashflow in calculation
-        return this.prev.getCompanyValue();
-    }
-    
-    //Todo: outsource this since this is business logic
-    public PredictableVariable<Double> calcFreeCashFlow() {
-        //Todo: calculate current cashflow by considering the other variables 
-        return new PredictableVariable(true, 0.0);
-    }
-    
-    //Todo: outsource this since this is business logic
-    public PredictableVariable<Double> predictFreeCashFlow() {
-        //Todo: predict fcf:  build time series by using as many periods as possible as time series until there is a gap or the period has an already predicted value itself (gap or estimated value should be predicted again as well);
-        //Example: 4 periods in the beginning, then period with estimated value; then period with no fcf -> use the 4 periods and estimate this and the other two
-        return new PredictableVariable(true, 0.0);
     }
 
 }
