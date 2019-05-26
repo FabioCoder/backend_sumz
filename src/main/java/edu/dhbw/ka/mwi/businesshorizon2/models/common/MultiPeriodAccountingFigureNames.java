@@ -1,16 +1,65 @@
 package edu.dhbw.ka.mwi.businesshorizon2.models.common;
 
 //this enum is a class to categorize all possible provided inputs?
+
+/**
+ *
+ * @author Fabian Wallisch
+ */
 public enum MultiPeriodAccountingFigureNames {
-	Depreciation,
-	AdditionalIncome,
-	AdditionalCosts,
-	Investments,
-	Divestments,
-	Revenue,
-	CostOfMaterial,
-	CostOfStaff,
-	Liabilities,
-	FreeCashFlows,
-	FlowToEquity
+
+    /**
+     *
+     */
+    Depreciation,
+
+    /**
+     *
+     */
+    AdditionalIncome,
+
+    /**
+     *
+     */
+    AdditionalCosts,
+
+    /**
+     *
+     */
+    Investments,
+
+    /**
+     *
+     */
+    Divestments,
+
+    /**
+     *
+     */
+    Revenue,
+
+    /**
+     *
+     */
+    CostOfMaterial,
+
+    /**
+     *
+     */
+    CostOfStaff,
+
+    /**
+     *
+     */
+    Liabilities,
+
+    /**
+     *
+     */
+    FreeCashFlows,
+
+    /**
+     *
+     */
+    FlowToEquity
 }

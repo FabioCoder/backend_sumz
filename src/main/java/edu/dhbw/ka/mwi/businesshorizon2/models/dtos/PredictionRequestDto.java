@@ -3,29 +3,70 @@ package edu.dhbw.ka.mwi.businesshorizon2.models.dtos;
 import java.util.List;
 
 //this class helps to easily send a request for prediction to the python backend
+
+/**
+ *
+ * @author Fabian Wallisch
+ */
 public class PredictionRequestDto {
 	private List<PredictionRequestTimeSeriesDto> timeSeries;
 	private Integer predSteps;
 	private Integer numSamples;
 	
-	public PredictionRequestDto() { }
+    /**
+     *
+     */
+    public PredictionRequestDto() { }
 	
-	public PredictionRequestDto(List<PredictionRequestTimeSeriesDto> timeSeries, Integer predSteps, Integer numSamples) {
+    /**
+     *
+     * @param timeSeries
+     * @param predSteps
+     * @param numSamples
+     */
+    public PredictionRequestDto(List<PredictionRequestTimeSeriesDto> timeSeries, Integer predSteps, Integer numSamples) {
 		this.timeSeries = timeSeries;
 		this.predSteps = predSteps;
 		this.numSamples = numSamples;
 	}
 	
-	public List<PredictionRequestTimeSeriesDto> getTimeSeries() {
+    /**
+     *
+     * @return
+     */
+    public List<PredictionRequestTimeSeriesDto> getTimeSeries() {
 		return timeSeries;
 	}
-	public void setTimeSeries(List<PredictionRequestTimeSeriesDto> timeSeries) { this.timeSeries = timeSeries; }
+
+    /**
+     *
+     * @param timeSeries
+     */
+    public void setTimeSeries(List<PredictionRequestTimeSeriesDto> timeSeries) { this.timeSeries = timeSeries; }
 	
-	public Integer getPredSteps() { return predSteps; }
-	public void setPredSteps(Integer predSteps) { this.predSteps = predSteps; }
+    /**
+     *
+     * @return
+     */
+    public Integer getPredSteps() { return predSteps; }
+
+    /**
+     *
+     * @param predSteps
+     */
+    public void setPredSteps(Integer predSteps) { this.predSteps = predSteps; }
 	
-	public Integer getNumSamples() { return numSamples; }
-	public void setNumSamples(Integer numSamples) { this.numSamples = numSamples; }
+    /**
+     *
+     * @return
+     */
+    public Integer getNumSamples() { return numSamples; }
+
+    /**
+     *
+     * @param numSamples
+     */
+    public void setNumSamples(Integer numSamples) { this.numSamples = numSamples; }
 	
 	@Override
 	public String toString() {

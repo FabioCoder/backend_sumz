@@ -16,6 +16,7 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioResponseDto;
 public class ScenarioMapper {
 	
 	public static ScenarioPostRequestDto mapPutDtoToPostDto(ScenarioPutRequestDto putDto) {
+            //this method is used to update an existing scenario
 		
 		if(putDto == null) {
 			return null;
@@ -47,6 +48,8 @@ public class ScenarioMapper {
 	
 	
 	public static ScenarioDao mapDtoToDao(ScenarioPostRequestDto dto) {
+            
+            //this method is used to map a DTO to DAO for saving it in the database?
 		
 		if(dto == null) {
 			return null;
@@ -93,6 +96,8 @@ public class ScenarioMapper {
 	}
 	
 	public static ScenarioResponseDto mapDaoToDto(ScenarioDao dao) {
+            
+            //this method maps an DAO to a DTO to use it in the application?
 		
 		if(dao == null) {
 			return null;

@@ -1,14 +1,36 @@
 package edu.dhbw.ka.mwi.businesshorizon2.models.dtos;
 
+/**
+ *
+ * @author Fabian Wallisch
+ */
 public class PredictionResponseTimeSeriesDto {
 	private String id;
 	private Double[][] preds;
 	
-	public String getId() { return id; }
-	public void setId(String id) { this.id = id; }
+    /**
+     *
+     * @return
+     */
+    public String getId() { return id; }
+
+    /**
+     *
+     * @param id
+     */
+    public void setId(String id) { this.id = id; }
 	
-	public Double[][] getPreds() { return preds; }
-	public void setPreds(Double[][] preds) { this.preds = preds; }
+    /**
+     *
+     * @return
+     */
+    public Double[][] getPreds() { return preds; }
+
+    /**
+     *
+     * @param preds
+     */
+    public void setPreds(Double[][] preds) { this.preds = preds; }
 	
 	@Override
 	public String toString() {

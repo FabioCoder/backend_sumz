@@ -20,13 +20,25 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionResponseTimeSeries
 
 //this service sends a request to the python backend to receive a prediction for one or more time series
 //you could probably get rid of a lot of classes by just allowing predictions for one time series per request
+
+/**
+ *
+ * @author WWI DHBW KA
+ */
 @Service
 public class TimeSeriesPredictionService implements ITimeSeriesPredictionService{
 	
         //bad style: hardcoded endpoint
 	final String uri = "http://sumz1718.dh-karlsruhe.de:5000/predict";
 	
-	@Override
+    /**
+     *
+     * @param historicAccountingFigures
+     * @param stochasticAccountingFigures
+     * @param periods
+     * @param numSamples
+     */
+    @Override
 	public void MakePredictions(
 			List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures, 
 			HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures,

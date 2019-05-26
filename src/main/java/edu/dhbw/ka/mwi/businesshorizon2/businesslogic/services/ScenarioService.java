@@ -36,7 +36,13 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.FteCompanyValuationResult
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.ScenarioMapper;
 import javassist.tools.web.BadHttpRequest;
 
-//this is a key class since it basically initiate the whole scenario creation and calculation
+//this is a key class since it basically initiates the whole scenario creation and calculation
+//the ScenarioRepository / ScenarioGraphRepository (difference?) is the storage to which all scenarios are written to  / deleted from
+
+/**
+ *
+ * @author WWI DHBW KA
+ */
 
 @Service
 public class ScenarioService implements IScenarioService{
@@ -59,7 +65,13 @@ public class ScenarioService implements IScenarioService{
 	@Autowired
 	private IScenarioGraphRepository scenarioGraphRepository;
 	
-	@Override
+    /**
+     *
+     * @param scenarioDto
+     * @param appUserId
+     * @return
+     */
+    @Override
 	public Long create(ScenarioPostRequestDto scenarioDto, Long appUserId) {
 		
                 //this is a key-value object for all calculation inputs that is filled later?
@@ -115,6 +127,7 @@ public class ScenarioService implements IScenarioService{
 		FteCompanyValuationResultDto fteRes;
 		FcfCompanyValuationResultDto fcfRes;
 		
+                //calculate the company's value with stochastic calculation
 		if(isValuationStochastic) {
 			
 			List<Double> companyValues = new ArrayList<Double>();
@@ -194,6 +207,7 @@ public class ScenarioService implements IScenarioService{
 			CompanyValueDistributionDto companyValueDistribution = companyValuationService.getCompanyValueDistribution(companyValues);
 			scenarioDao.setCompanyValueDistributionPoints(CompanyValueDistributionMapper.mapDtoToDao(companyValueDistribution));
 		}
+                //calculate the company's value with deterministic calculation
 		else {	
 			List<Double> liabilities = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.Liabilities);		
 			List<Double> freeCashFlows;
@@ -240,7 +254,8 @@ public class ScenarioService implements IScenarioService{
 					scenarioDto.getInterestOnLiabilitiesRate(), 
 					effectiveTaxRate);
 		}
-
+                
+                //create & save the scenario by mapping it to the DAO
 		scenarioDao.setApvCompanyValuationResultDao(ApvCompanyValuationResultMapper.mapDtoToDao(apvRes));
 		scenarioDao.setFteCompanyValuationResultDao(FteCompanyValuationResultMapper.mapDtoToDao(fteRes));
 		scenarioDao.setFcfCompanyValuationResultDao(FcfCompanyValuationResultMapper.mapDtoToDao(fcfRes));
@@ -250,8 +265,15 @@ public class ScenarioService implements IScenarioService{
 		return scenarioInDbId;
 	}
 
-	@Override
+    /**
+     *
+     * @param scenarioId
+     * @param appUserId
+     */
+    @Override
 	public void delete(Long scenarioId, Long appUserId) {
+            
+            //This deletes an existing scenario
 		
 		ScenarioDao dao = scenarioRepository.get(scenarioId);
 		
@@ -266,8 +288,15 @@ public class ScenarioService implements IScenarioService{
 		scenarioRepository.delete(dao);
 	}
 
-	@Override
+    /**
+     *
+     * @param appUserId
+     * @return
+     */
+    @Override
 	public List<ScenarioResponseDto> getAll(Long appUserId) {
+            
+            //This returns all scenarios for an user
 		
 		List<ScenarioDao> daos = scenarioRepository.getAll(appUserId);
 		List<ScenarioResponseDto> dtos = ScenarioMapper.mapDaoToDto(daos);
@@ -275,8 +304,16 @@ public class ScenarioService implements IScenarioService{
 		return dtos;
 	}
 	
-	@Override
+    /**
+     *
+     * @param scenarioId
+     * @param appUserId
+     * @return
+     */
+    @Override
 	public ScenarioResponseDto get(Long scenarioId, Long appUserId) {
+            
+            //this returns a specific scenario identified by the scenarioId and appUserId
 		
 		ScenarioDao dao = scenarioRepository.get(scenarioId);
 		
@@ -291,8 +328,16 @@ public class ScenarioService implements IScenarioService{
 		return ScenarioMapper.mapDaoToDto(dao);
 	}
 
-	@Override
+    /**
+     *
+     * @param scenarioDto
+     * @param appUserId
+     * @return
+     */
+    @Override
 	public Long update(ScenarioPutRequestDto scenarioDto, Long appUserId) {
+            
+            //this updates an existing scenario by deleting it and creating a new one
 		
 		ScenarioDao dao = scenarioRepository.get(scenarioDto.getId());
 		
@@ -310,6 +355,8 @@ public class ScenarioService implements IScenarioService{
 	}
 	
 	private List<Double> getFreeCashFlows(
+                
+                //this provides free cash flows by using the accouting service
 			HashMap<MultiPeriodAccountingFigureNames, List<Double>> deterministicAccountingFigures,
 			HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures,
 			Integer periods, 

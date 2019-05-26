@@ -14,6 +14,11 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.common.TimeSeriesItemDateFormats;
 //this class aids to be able to request predictions for multiple time series
 
 //question: why does one object of this class is allowed to have multiple timeSeries instead of just one? The user can only supply one time series for each figure?
+
+/**
+ *
+ * @author Fabian Wallisch
+ */
 public class MultiPeriodAccountingFigureRequestDto {
 	
 	@NotNull(message="isHistoric must not be null.")
@@ -25,24 +30,64 @@ public class MultiPeriodAccountingFigureRequestDto {
 	
 	private MultiPeriodAccountingFigureNames figureName;
 	
-	public MultiPeriodAccountingFigureRequestDto() {}
+    /**
+     *
+     */
+    public MultiPeriodAccountingFigureRequestDto() {}
 	
-	public MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames figureName, Boolean isHistoric, List<TimeSeriesItemRequestDto> timeSeries) {
+    /**
+     *
+     * @param figureName
+     * @param isHistoric
+     * @param timeSeries
+     */
+    public MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames figureName, Boolean isHistoric, List<TimeSeriesItemRequestDto> timeSeries) {
 		this.figureName = figureName;
 		this.isHistoric = isHistoric;
 		this.timeSeries = timeSeries;
 	}
 	
-	public Boolean getIsHistoric() { return isHistoric; }
-	public void setIsHistoric(Boolean isHistoric) { this.isHistoric = isHistoric; }
+    /**
+     *
+     * @return
+     */
+    public Boolean getIsHistoric() { return isHistoric; }
 
-	public List<TimeSeriesItemRequestDto> getTimeSeries() { return timeSeries; }
-	public void setTimeSeries(List<TimeSeriesItemRequestDto> timeSeries) { this.timeSeries = timeSeries; }
+    /**
+     *
+     * @param isHistoric
+     */
+    public void setIsHistoric(Boolean isHistoric) { this.isHistoric = isHistoric; }
+
+    /**
+     *
+     * @return
+     */
+    public List<TimeSeriesItemRequestDto> getTimeSeries() { return timeSeries; }
+
+    /**
+     *
+     * @param timeSeries
+     */
+    public void setTimeSeries(List<TimeSeriesItemRequestDto> timeSeries) { this.timeSeries = timeSeries; }
 	
-	public MultiPeriodAccountingFigureNames getFigureName() { return figureName; }
-	public void setFigureName(MultiPeriodAccountingFigureNames figureName) {this.figureName = figureName; }
+    /**
+     *
+     * @return
+     */
+    public MultiPeriodAccountingFigureNames getFigureName() { return figureName; }
+
+    /**
+     *
+     * @param figureName
+     */
+    public void setFigureName(MultiPeriodAccountingFigureNames figureName) {this.figureName = figureName; }
 	
-	public TimeSeriesItemDateRequestDto getMaxDate() {
+    /**
+     *
+     * @return
+     */
+    public TimeSeriesItemDateRequestDto getMaxDate() {
 		if (this.timeSeries == null || this.timeSeries.isEmpty()){
 			return null;
 		}
@@ -61,7 +106,11 @@ public class MultiPeriodAccountingFigureRequestDto {
 		return Collections.max(dates);
 	}
 	
-	public TimeSeriesItemDateRequestDto getMinDate() {
+    /**
+     *
+     * @return
+     */
+    public TimeSeriesItemDateRequestDto getMinDate() {
 		if (this.timeSeries == null || this.timeSeries.isEmpty()){
 			return null;
 		}
@@ -80,7 +129,11 @@ public class MultiPeriodAccountingFigureRequestDto {
 		return Collections.min(dates);
 	}
 	
-	public boolean isTimeSeriesContinuous(){
+    /**
+     *
+     * @return
+     */
+    public boolean isTimeSeriesContinuous(){
 		if(this.timeSeries == null) {
 			throw new UnsupportedOperationException();
 		}
@@ -105,7 +158,11 @@ public class MultiPeriodAccountingFigureRequestDto {
 		return true;
 	}
 	
-	public List<Double> getTimeSeriesAmountsSortedAscByDate() {
+    /**
+     *
+     * @return
+     */
+    public List<Double> getTimeSeriesAmountsSortedAscByDate() {
 		if(this.timeSeries == null) {
 			throw new UnsupportedOperationException();
 		}
