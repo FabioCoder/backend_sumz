@@ -13,9 +13,18 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPostRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPutRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioResponseDto;
 
+/**
+ *
+ * @author Fabian Wallisch
+ */
 public class ScenarioMapper {
 	
-	public static ScenarioPostRequestDto mapPutDtoToPostDto(ScenarioPutRequestDto putDto) {
+    /**
+     *
+     * @param putDto
+     * @return
+     */
+    public static ScenarioPostRequestDto mapPutDtoToPostDto(ScenarioPutRequestDto putDto) {
             //this method is used to update an existing scenario
 		
 		if(putDto == null) {
@@ -46,8 +55,12 @@ public class ScenarioMapper {
 		return postDto;
 	}
 	
-	
-	public static ScenarioDao mapDtoToDao(ScenarioPostRequestDto dto) {
+    /**
+     *
+     * @param dto
+     * @return
+     */
+    public static ScenarioDao mapDtoToDao(ScenarioPostRequestDto dto) {
             
             //this method is used to map a DTO to DAO for saving it in the database?
 		
@@ -78,7 +91,12 @@ public class ScenarioMapper {
 		return dao;
 	}
 	
-	public static List<ScenarioResponseDto> mapDaoToDto(List<ScenarioDao> daos){
+    /**
+     *
+     * @param daos
+     * @return
+     */
+    public static List<ScenarioResponseDto> mapDaoToDto(List<ScenarioDao> daos){
 		
 		if(daos == null) {
 			return null;
@@ -95,7 +113,12 @@ public class ScenarioMapper {
 		return dtos;
 	}
 	
-	public static ScenarioResponseDto mapDaoToDto(ScenarioDao dao) {
+    /**
+     *
+     * @param dao
+     * @return
+     */
+    public static ScenarioResponseDto mapDaoToDto(ScenarioDao dao) {
             
             //this method maps an DAO to a DTO to use it in the application?
 		
