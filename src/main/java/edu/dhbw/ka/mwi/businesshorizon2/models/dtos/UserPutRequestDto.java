@@ -18,6 +18,7 @@ public class UserPutRequestDto {
     //must contain one digit 0..9 
     //must contain 1 uppercase & 1 lowercase character 
     //must contain one special symbol from @#$%
+    //This represents the current password of the user
     @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")
     private String oldPassword;
     
@@ -25,6 +26,7 @@ public class UserPutRequestDto {
     //must contain one digit 0..9 
     //must contain 1 uppercase & 1 lowercase character 
     //must contain one special symbol from @#$%
+    //This is the new password
     @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")
     private String newPassword;
     

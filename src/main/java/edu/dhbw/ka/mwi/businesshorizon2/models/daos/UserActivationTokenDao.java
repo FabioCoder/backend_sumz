@@ -12,22 +12,37 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * DAO for saving and reading Activation-Token
+ */
 @Entity(name = "UserActivationToken")
 @Table(name = "UserActivationToken")
 public class UserActivationTokenDao {
-	
+
+	/**
+	 * Id
+	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="UserActivationTokenId")
     private Long userActivationTokenId;
-	
+
+	/**
+	 * Person owning the token
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AppUserId")
 	private AppUserDao appUser;
-	
+
+	/**
+	 * Expiration Date
+	 */
 	@Column(name = "ExpirationDate")
-	private LocalDateTime expirationDate; 
-	
+	private LocalDateTime expirationDate;
+
+	/**
+	 * {TODO}
+	 */
 	@Column(name = "TokenKey", columnDefinition = "nvarchar")
 	private String tokenKey;
 	

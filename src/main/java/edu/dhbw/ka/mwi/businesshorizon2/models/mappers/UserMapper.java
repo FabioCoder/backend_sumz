@@ -15,13 +15,20 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.UserPasswordResetTokenDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.UserPutRequestDto;
 
 
-
+/**
+ * This is a mapper class. It maps Dtos to Daos or the other way around.
+ */
 public class UserMapper {
 	
 	@Autowired
 	static
 	IAppUserRepository userRepository;
-	
+
+	/**
+	 * Maps UserDTO to UserDAO
+	 * @param userDto
+	 * @return AppUserDao
+	 */
 	public static AppUserDao mapToDao(AppUserDto userDto) {
 		if(userDto == null) {
 			return null;
@@ -29,7 +36,12 @@ public class UserMapper {
 		
 		return new AppUserDao(userDto.getId(), userDto.getEmail(), userDto.getPassword(), userDto.getRoles(), false);
 	}
-	
+
+	/**
+	 * Maps a List of UserDaos to UserDtos
+	 * @param userDao
+	 * @return
+	 */
 	public static List<AppUserDto> mapToDto(List<AppUserDao> userDao){
 		if(userDao == null) {
 			return null;
@@ -41,7 +53,12 @@ public class UserMapper {
 		}
 		return result;
 	}
-	
+
+	/**
+	 * Maps UserDao to UserDTo
+	 * @param uDao
+	 * @return
+	 */
 	public static AppUserDto mapToDto(AppUserDao uDao) {
 		if(uDao == null) {
 			return null;
@@ -49,7 +66,12 @@ public class UserMapper {
 		
 		return new AppUserDto(uDao.getAppUserId(), uDao.getEmail(), uDao.getAppUserPassword(), uDao.getAppRoles(), uDao.getIsActive());
 	}
-	
+
+	/**
+	 * Maps UserPutRequestDto to UserDao. Only sets appUserPassword to uDto.oldPassword().
+	 * @param uDto
+	 * @return
+	 */
 	public static AppUserDao mapPutRequestOldToDao(UserPutRequestDto uDto) {
 		
 		if(uDto == null) {
@@ -60,7 +82,11 @@ public class UserMapper {
 		
 		return dao;
 	}
-	
+	/**
+	 * Maps UserPutRequestDto to UserDao. Only sets appUserPassword to uDto.newPassword().
+	 * @param uDto
+	 * @return
+	 */
 	public static AppUserDao mapPutRequestNewToDao(UserPutRequestDto uDto) {
 		
 		if(uDto == null) {
@@ -71,7 +97,12 @@ public class UserMapper {
 		
 		return dao;
 	}
-	
+
+	/**
+	 * Maps UserActivationTokenDto to UserActivationTokenDao
+	 * @param tDto
+	 * @return
+	 */
 	public static UserActivationTokenDao mapToDao(UserActivationTokenDto tDto) {
 		
 		if(tDto == null) {
@@ -80,14 +111,24 @@ public class UserMapper {
 		
 		return new UserActivationTokenDao(tDto.getUserActivationTokenId(), null, tDto.getExpirationDate(), tDto.getTokenKey());
 	}
-	
+
+	/**
+	 * Maps UserActivationTokenDao to UserActionTokenDto
+	 * @param tDao
+	 * @return
+	 */
 	public static UserActivationTokenDto mapToDto(UserActivationTokenDao tDao) {
 		UserActivationTokenDto userActivationTokenDto = new UserActivationTokenDto(tDao.getUserActivationTokenId(), 
 				tDao.getAppUser().getAppUserId(), tDao.getExpirationDate(), tDao.getTokenKey());
 		
 		return userActivationTokenDto;
 	}
-	
+
+	/**
+	 * Maps UserPassowrdRestTokenDto to UserPasswordResetTokenDao
+	 * @param tDto
+	 * @return
+	 */
 	public static UserPasswordResetTokenDao mapToDao(UserPasswordResetTokenDto tDto) { 
 		
 		if(tDto == null) {
@@ -96,7 +137,12 @@ public class UserMapper {
 		
 		return new UserPasswordResetTokenDao(tDto.getUserPasswordResetTokenId(), null, tDto.getExpirationDate(), tDto.getTokenKey());
 	}
-	
+
+	/**
+	 * Maps UserPasswordResetTokenDao to UserPassowrdResetTokenDto
+	 * @param tDao
+	 * @return
+	 */
 	public static UserPasswordResetTokenDto mapToDto(UserPasswordResetTokenDao tDao) {
 		UserPasswordResetTokenDto userPasswordResetTokenDto = new UserPasswordResetTokenDto(tDao.getUserPasswordResetTokenId(),  
 				tDao.getAppUser().getAppUserId(), tDao.getExpirationDate(), tDao.getTokenKey());

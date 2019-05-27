@@ -17,10 +17,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
+/**
+ * DAO for saving and reading a user
+ */
 @Entity(name = "AppUser")
 @Table(name = "AppUser")
 public class AppUserDao{
-	
+
+	/**
+	 * Id
+	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="AppUserId")

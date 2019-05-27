@@ -13,22 +13,37 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * DAO for saving and reading the PasswortResetToken
+ */
 @Entity(name = "UserPasswordResetToken")
 @Table(name = "UserPasswordResetToken")
 public class UserPasswordResetTokenDao {
-	
+
+	/**
+	 * Id
+	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="UserPasswordResetTokenId")
     private Long userPasswordResetTokenId;
-	
+
+	/**
+	 * The user owning the token
+	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AppUserId")
 	private AppUserDao appUser;
-	
+
+	/**
+	 * Expiration Date
+	 */
 	@Column(name = "ExpirationDate")
-	private LocalDateTime expirationDate; 
-	
+	private LocalDateTime expirationDate;
+
+	/**
+	 * {TODO}
+	 */
 	@Column(name = "TokenKey", columnDefinition = "nvarchar")
 	private String tokenKey;
 	
