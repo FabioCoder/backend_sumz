@@ -36,6 +36,9 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.UserPasswordResetTokenDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.UserPutRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.UserMapper;
 
+/**
+ * This Service handles Operations concerning the User
+ */
 @Service
 public class UserService implements IUserService {
 	
@@ -83,7 +86,8 @@ public class UserService implements IUserService {
 		AppUserDao user = UserMapper.mapToDao(userDto); 
 		
 		AppUserDao userFromDB = userRepository.findByEmail(user.getEmail());
-		
+
+		//No user for given EMail
 		if (userFromDB != null) {
 			String s = user.getEmail();
 			throw new Exception(String.format("Es existiert schon ein Benutzerkonto für die Email-Adresse %s. Bitte wählen Sie eine andere Email-Adresse.", s));
@@ -122,7 +126,8 @@ public class UserService implements IUserService {
 				
 		return userResult;
 	}
-	
+
+
 	@Override 
 	public void activateUser(String tokenStr) throws Exception {
 		byte[] bytes = Base64.getDecoder().decode(tokenStr);
@@ -209,13 +214,15 @@ public class UserService implements IUserService {
 		UserPasswordResetTokenDto tokenDto = objectMapper.readValue(tokenStr, UserPasswordResetTokenDto.class);
 		
 		System.out.println(tokenDto);
-		
+
+		//Maps DTO to DAO
 		UserPasswordResetTokenDao token = UserMapper.mapToDao(tokenDto);
 		token.setAppUser(userRepository.findById(tokenDto.getAppUserId()).get());
 		
 		UserPasswordResetTokenDao tokenFromDB = userPasswordResetTokenRepository.findById(token.getUserPasswordResetTokenId()).get();
 		AppUserDao user = userRepository.findById(token.getAppUser().getAppUserId()).get();
-		
+
+		//Comparing the received token to the corrisponding token contained in the DB
 		Boolean tokenIsValid 		= token.equals(tokenFromDB);
 		Boolean tokenIsUnexpired 	= token.getExpirationDate().isAfter(LocalDateTime.now());
 		Boolean userIsActive 		= user.getIsActive();
@@ -243,7 +250,8 @@ public class UserService implements IUserService {
 		Long userId = token.getAppUser().getAppUserId();
 		
 		Optional<AppUserDao> user = userRepository.findById(userId);	
-		
+
+		//if the given userId is present in the DB
 		if (user != null) {
 			AppUserDao userFromDB = user.get();
 			userFromDB.setPassword(encodePassword(userDto.getPassword()));
@@ -263,22 +271,27 @@ public class UserService implements IUserService {
 	@Override 
 	public void updateUserPassword(UserPutRequestDto user, Long userID) throws Exception {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(securityConfig.getEncodingStrength());
-		
+
+		//Instantiate an AddUserDao only setting appUserPassword using getOldPassword()
 		AppUserDao oldUser = UserMapper.mapPutRequestOldToDao(user);
+		//Instantiate an AppUserDao only setting appUserPassword using getNewPassword()
 		AppUserDao newUser = UserMapper.mapPutRequestNewToDao(user);
-		
+
+		//sets Password
 		oldUser.setPassword(oldUser.getAppUserPassword());
+		//sets Password after encrypting it
 		newUser.setPassword(encodePassword(newUser.getAppUserPassword()));
-		
+		//loading AppUserDao from db using the given id
 		Optional<AppUserDao> userFromDb = userRepository.findById(userID);
 		
 		if (userFromDb.isPresent()){
 			
 			AppUserDao userFromDbObject = userFromDb.get();
+			//checks if appuserpassword in db-user equals olduser.appuserpassword
 			Boolean oldPasswordIsCorrect = passwordEncoder.matches(oldUser.getAppUserPassword(), userFromDbObject.getAppUserPassword());
 			
 			if (oldPasswordIsCorrect){
-				
+				//change password
 				userFromDbObject.setPassword(newUser.getAppUserPassword());
 				userRepository.save(userFromDbObject);
 				
@@ -292,6 +305,7 @@ public class UserService implements IUserService {
 	
 	@Override
 	public void deleteUser(@Valid AppUserDto userDto, Long id) throws Exception {
+    	//Encrypts the password
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(securityConfig.getEncodingStrength());
 		
 		AppUserDao user = UserMapper.mapToDao(userDto);
@@ -301,6 +315,7 @@ public class UserService implements IUserService {
 		if (userFromDb.isPresent()) {
 			
 			AppUserDao userFromDbObject = userFromDb.get();
+			//checks if password in userDto equals password of the user in the DB
 			Boolean passwordIsCorrect = passwordEncoder.matches(user.getAppUserPassword(), userFromDbObject.getAppUserPassword());
 			if (passwordIsCorrect) {
 				userRepository.delete(userFromDbObject);

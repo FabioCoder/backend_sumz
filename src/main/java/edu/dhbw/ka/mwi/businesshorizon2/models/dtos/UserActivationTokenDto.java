@@ -2,10 +2,25 @@ package edu.dhbw.ka.mwi.businesshorizon2.models.dtos;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO for sending and receiving the activation token
+ */
 public class UserActivationTokenDto {
+	/**
+	 * The token's id
+	 */
 	private Long userActivationTokenId;
+	/**
+	 * The id of the user owning the token (The user-profile, which gets activated by the token)
+	 */
 	private Long appUserId;
-	private LocalDateTime expirationDate; 
+	/**
+	 * Expiration date of the token
+	 */
+	private LocalDateTime expirationDate;
+	/**
+	 * {TODO}
+	 */
 	private String tokenKey;
 	
 	public UserActivationTokenDto(Long userActivationTokenId, Long appUserId, LocalDateTime expirationDate,

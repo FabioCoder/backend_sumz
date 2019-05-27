@@ -8,7 +8,9 @@ import javax.validation.constraints.Pattern;
 
 import edu.dhbw.ka.mwi.businesshorizon2.models.daos.AppRoleDao;
 
-
+/**
+ * Transfer-Object for sending and receiving a user
+ */
 public class AppUserDto {
 
     private Long id;
@@ -28,7 +30,15 @@ public class AppUserDto {
     private List<AppRoleDao> roles = new ArrayList<>();
     
     public AppUserDto() { }
-    
+
+	/**
+	 * Datatransfer-Object for Users
+	 * @param id Userid
+	 * @param email
+	 * @param password
+	 * @param roles
+	 * @param isActive
+	 */
     public AppUserDto(Long id, String email, String password, List<AppRoleDao> roles, Boolean isActive) {
     	this.id = id;
     	this.email = email;

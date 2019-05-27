@@ -2,10 +2,25 @@ package edu.dhbw.ka.mwi.businesshorizon2.models.dtos;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO for sending and receiving the PasswordResetToken
+ */
 public class UserPasswordResetTokenDto {
+	/**
+	 * Id
+	 */
 	private Long userPasswordResetTokenId;
+	/**
+	 * Id of the user owning it
+	 */
 	private Long appUserId;
-	private LocalDateTime expirationDate; 
+	/**
+	 * Expiration Date
+	 */
+	private LocalDateTime expirationDate;
+	/**
+	 * {TODO}
+	 */
 	private String tokenKey;
 	
 	public UserPasswordResetTokenDto(Long userPasswordResetTokenId, Long appUserId, LocalDateTime expirationDate,

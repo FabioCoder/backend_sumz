@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import edu.dhbw.ka.mwi.businesshorizon2.models.daos.UserPasswordResetTokenDao;
 
+/**
+ * Executes Crud-Opertaions on the UserPasswordResetTokenDao-DB-Table
+ */
 public interface IUserPasswordResetTokenRepository extends CrudRepository<UserPasswordResetTokenDao, Long>{
 
 }
