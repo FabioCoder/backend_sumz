@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
-
+/**
+ * Konfiguration der Template Engine Thymeleaf 
+ */
 
 @Configuration
 public class ThymeleafConfig {
