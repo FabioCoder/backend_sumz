@@ -1,0 +1,149 @@
+1.       Request URL:
+
+http://sumz1718.dh-karlsruhe.de:8080/scenarios
+
+2.       Request Method:
+
+POST
+
+3.       Status Code:
+
+400
+
+4.       Remote Address:
+
+193.196.7.200:8080
+
+5.       Referrer Policy:
+
+no-referrer-when-downgrade
+
+2.       Response Headers
+
+1.       Access-Control-Allow-Credentials:
+
+true
+
+2.       Access-Control-Allow-Origin:
+
+http://sumz1718.dh-karlsruhe.de
+
+3.       Cache-Control:
+
+no-cache, no-store, max-age=0, must-revalidate
+
+4.       Connection:
+
+close
+
+5.       Content-Type:
+
+application/json;charset=UTF-8
+
+6.       Date:
+
+Mon, 27 May 2019 08:52:29 GMT
+
+7.       Expires:
+
+0
+
+8.       Pragma:
+
+no-cache
+
+9.       Transfer-Encoding:
+
+chunked
+
+10.   Vary:
+
+Origin, Access-Control-Request-Method, Access-Control-Request-Headers
+
+11.   X-Content-Type-Options:
+
+nosniff
+
+12.   X-Frame-Options:
+
+DENY
+
+13.   X-XSS-Protection:
+
+1; mode=block
+
+3.       Request Headers
+
+1.       Provisional headers are shown
+
+2.       _isRetry:
+
+false
+
+3.       Accept:
+
+application/json, text/plain, */*
+
+4.       Authorization:
+
+bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVzdGp3dHJlc291cmNlaWQiXSwidXNlcl9pZCI6NjgsInVzZXJfbmFtZSI6InRvYmlhcy5yb2VobUBob3JuYmFjaC5jb20iLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiLCJ0cnVzdCJdLCJleHAiOjE1NTg5NTE2MzAsImF1dGhvcml0aWVzIjpbIlNUQU5EQVJEX1VTRVIiXSwianRpIjoiOWZmMTE1NzctYTczYi00OGYyLTk4OTEtN2I2YmViYjYzNWY3IiwiY2xpZW50X2lkIjoic3VtejE3MThBbmd1bGFyRnJvbnRlbmQifQ.Yjto_vqArYtyOwliT8wnwpwYXnIEK7tZAhZ5YNUDGsA
+
+5.       Content-Type:
+
+application/json;charset=UTF-8
+
+6.       Origin:
+
+http://sumz1718.dh-karlsruhe.de
+
+7.       Referer:
+
+http://sumz1718.dh-karlsruhe.de/create
+
+8.       User-Agent:
+
+Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36
+
+4.       Request Payloadview source
+
+1.        
+
+1.  {id: null, scenarioName: "test", scenarioDescription: "test2", equityInterestRate: 0.03,…}
+
+1.  additionalCosts: {isHistoric: false,…}
+
+2.  additionalIncome: {isHistoric: false,…}
+
+3.  businessTaxRate: 0.07
+
+4.  corporateTaxRate: 0.15
+
+5.  costOfMaterial: {isHistoric: false,…}
+
+6.  costOfStaff: {isHistoric: false,…}
+
+7.  divestments: {isHistoric: false,…}
+
+8.  equityInterestRate: 0.03
+
+9.  id: null
+
+10.                  interestOnLiabilitiesRate: 0.05
+
+11.                  investments: {isHistoric: false,…}
+
+12.                  liabilities: {isHistoric: false,…}
+
+13.                  periods: 2
+
+14.                  revenue: {isHistoric: false,…}
+
+15.                  scenarioDescription: "test2"
+
+16.                  scenarioName: "test"
+
+17.                  solidaryTaxRate: 0.04
+
+18.                  stochastic: false
+
+Name
