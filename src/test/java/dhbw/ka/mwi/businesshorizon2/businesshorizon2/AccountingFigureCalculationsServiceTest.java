@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.AccountingFigureCalculationsService;
 
+//these tests should be extended to edge cases
+
 public class AccountingFigureCalculationsServiceTest {
 	
 //	public List<Double> calculateFreeCashFlow(List<Double> revenue, List<Double> additionalIncome, List<Double> costOfMaterial, 

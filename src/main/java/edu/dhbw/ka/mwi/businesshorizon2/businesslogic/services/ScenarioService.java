@@ -118,6 +118,7 @@ public class ScenarioService implements IScenarioService{
 		}
 		
                 //if a stochastic valuation has to be done, we need predictions that we request here
+                //TODO: return value not checked for bad response of the python backend?
 		if(isValuationStochastic) {
 			predictionService.MakePredictions(historicAccountingFigures, stochasticAccountingFigures, scenarioDto.getPeriods(), numSamples);	
 		}	
@@ -130,6 +131,7 @@ public class ScenarioService implements IScenarioService{
                 //calculate the company's value with stochastic calculation
 		if(isValuationStochastic) {
 			
+                    //this for loop is to receive a lot of samples of the prediction to determine the distribution later?
 			List<Double> companyValues = new ArrayList<Double>();
 			for (int sampleNum = 1; sampleNum <= numSamples; sampleNum++) {
 					
@@ -141,6 +143,7 @@ public class ScenarioService implements IScenarioService{
 					freeCashFlows = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.FreeCashFlows, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);
 				}
 				else {
+                                    //if free cash flows are not provided, we have to calculate them
 					freeCashFlows = getFreeCashFlows(deterministicAccountingFigures, stochasticAccountingFigures, scenarioDto.getPeriods(), scenarioDto.getBusinessTaxRate(), scenarioDto.getCorporateTaxRate(), scenarioDto.getSolidaryTaxRate(), sampleNum);
 				}
 				
@@ -170,7 +173,7 @@ public class ScenarioService implements IScenarioService{
 				companyValues.add(res.getCompanyValue());
 			}
 			
-			
+			//mean / average values are calculated that are used in the stochastic valuation later
 			List<Double> meanFreeCashFlows = deterministicAccountingFigures.containsKey(MultiPeriodAccountingFigureNames.FreeCashFlows) 
 					? deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.FreeCashFlows)
 					: accountingService.getMeanAccountingFigureValues(stochasticAccountingFigures, MultiPeriodAccountingFigureNames.FreeCashFlows, scenarioDto.getPeriods());
@@ -183,6 +186,7 @@ public class ScenarioService implements IScenarioService{
 					? deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.FlowToEquity)
 					: accountingService.getMeanAccountingFigureValues(stochasticAccountingFigures, MultiPeriodAccountingFigureNames.FlowToEquity, scenarioDto.getPeriods());
 			
+                        //perform valuation calculations with the different company calculation methods, used are averages / means
 			apvRes = companyValuationService.performApvCompanyValuation(
 					meanFreeCashFlows, 
 					meanLiabilities, 
@@ -204,6 +208,7 @@ public class ScenarioService implements IScenarioService{
 					scenarioDto.getInterestOnLiabilitiesRate(), 
 					effectiveTaxRate);
 			
+                        //receive the distribution of the company values
 			CompanyValueDistributionDto companyValueDistribution = companyValuationService.getCompanyValueDistribution(companyValues);
 			scenarioDao.setCompanyValueDistributionPoints(CompanyValueDistributionMapper.mapDtoToDao(companyValueDistribution));
 		}
@@ -211,11 +216,13 @@ public class ScenarioService implements IScenarioService{
 		else {	
 			List<Double> liabilities = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.Liabilities);		
 			List<Double> freeCashFlows;
-
+                        
 			if(freeCashFlowsProvided) {
 				freeCashFlows = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.FreeCashFlows);
 			}
 			else {
+                            
+                            //if free cash flows are not provided, we have to calculate them
 				freeCashFlows = getFreeCashFlows(
 						deterministicAccountingFigures, 
 						scenarioDto.getPeriods(), 
@@ -226,13 +233,14 @@ public class ScenarioService implements IScenarioService{
 			for(int i = 0; i < freeCashFlows.size(); i++) {
 				System.out.println(freeCashFlows.get(i) + ", ");
 			}
-			
+			//calculate the  flow to equity that is needed for the fte method
 			List<Double> ftes = accountingService.calculateFlowToEquity(
 					freeCashFlows, 
 					liabilities, 
 					scenarioDto.getInterestOnLiabilitiesRate(), 
 					effectiveTaxRate);
 			
+                        //perform valuation calculations with the different company calculation methods
 			apvRes = companyValuationService.performApvCompanyValuation(
 					freeCashFlows, 
 					liabilities, 

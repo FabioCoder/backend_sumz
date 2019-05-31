@@ -12,10 +12,27 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.CompanyValueDistributionDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.FcfCompanyValuationResultDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.FteCompanyValuationResultDto;
 
+//this class contains all method for different company valuation techniques
+//input parameters are FCF / flow to equity, Liabilities, Equity interst,  Interest on Liabilities & effective Tax rate
+
+/**
+ *
+ * @author Fabian Wallisch
+ */
+
 @Service
 public class CompanyValuationService implements ICompanyValuationService {
 
-	public ApvCompanyValuationResultDto performApvCompanyValuation(List<Double> freeCashFlow, List<Double> liabilities,
+    /**
+     *
+     * @param freeCashFlow
+     * @param liabilities
+     * @param equityInterest
+     * @param interestOnLiabilities
+     * @param effectiveTaxRate
+     * @return
+     */
+    public ApvCompanyValuationResultDto performApvCompanyValuation(List<Double> freeCashFlow, List<Double> liabilities,
 			double equityInterest, double interestOnLiabilities, double effectiveTaxRate) {
 		double companyValue = 0;
 		double presentValueOfCashflows = 0;
@@ -47,7 +64,16 @@ public class CompanyValuationService implements ICompanyValuationService {
 
 	}
 
-	public FcfCompanyValuationResultDto performFcfCompanyValuationResult(List<Double> freeCashFlow, List<Double> liabilities,
+    /**
+     *
+     * @param freeCashFlow
+     * @param liabilities
+     * @param equityInterest
+     * @param interestOnLiabilities
+     * @param effectiveTaxRate
+     * @return
+     */
+    public FcfCompanyValuationResultDto performFcfCompanyValuationResult(List<Double> freeCashFlow, List<Double> liabilities,
 			 double equityInterest, double interestOnLiabilities, double effectiveTaxRate) {
 		
 		Double duplicateLast = liabilities.get(liabilities.size() - 1); 
@@ -108,7 +134,16 @@ public class CompanyValuationService implements ICompanyValuationService {
 		return new FcfCompanyValuationResultDto(companyValue, marketValueTotalAssets, liabilities.get(0));
 	}
 
-	public FteCompanyValuationResultDto performFteCompanyValuationResult(List<Double> flowToEquity, List<Double> liabilities,
+    /**
+     *
+     * @param flowToEquity
+     * @param liabilities
+     * @param equityInterest
+     * @param interestOnLiabilities
+     * @param effectiveTaxRate
+     * @return
+     */
+    public FteCompanyValuationResultDto performFteCompanyValuationResult(List<Double> flowToEquity, List<Double> liabilities,
 			double equityInterest, double interestOnLiabilities, double effectiveTaxRate) {
 		
 		Double duplicateLast = liabilities.get(liabilities.size() - 1); 
@@ -154,7 +189,12 @@ public class CompanyValuationService implements ICompanyValuationService {
 
 	}
 	
-	public CompanyValueDistributionDto getCompanyValueDistribution(List<Double> companyValues) {
+    /**
+     *
+     * @param companyValues
+     * @return
+     */
+    public CompanyValueDistributionDto getCompanyValueDistribution(List<Double> companyValues) {
 		
 		System.out.println("Company Values: ");
 		for (int i = 0; i < companyValues.size(); i++) {

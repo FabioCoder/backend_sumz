@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  *
- * @author Fabian Wallisch
+ * @author DHBW WWI SUMZ
  */
 public class MultiPeriodAccountingFigureResponseDto {
 	

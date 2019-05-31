@@ -64,6 +64,7 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
 		HttpEntity<PredictionRequestDto> x = new HttpEntity<>(request);
 		
                 //receive the result
+                //TODO: response not checked?
 		PredictionResponseDto result = restTemplate.postForObject(uri, x, PredictionResponseDto.class);
 			
 		System.out.println("-----------------------RESPONSE-----------------------");

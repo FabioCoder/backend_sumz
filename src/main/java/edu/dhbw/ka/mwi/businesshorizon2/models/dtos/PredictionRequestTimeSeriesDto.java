@@ -6,7 +6,7 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigur
 
 /**
  *
- * @author Fabian Wallisch
+ * @author DHBW Karlsruhe WWI
  */
 public class PredictionRequestTimeSeriesDto {
 	private String id;
