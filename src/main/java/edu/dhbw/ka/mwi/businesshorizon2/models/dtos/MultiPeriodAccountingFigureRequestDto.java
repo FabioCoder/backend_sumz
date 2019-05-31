@@ -17,7 +17,7 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.common.TimeSeriesItemDateFormats;
 
 /**
  *
- * @author Fabian Wallisch
+ * @author DHBW KA WWI
  */
 public class MultiPeriodAccountingFigureRequestDto {
 	
