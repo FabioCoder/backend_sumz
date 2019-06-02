@@ -21,12 +21,10 @@ public interface ITimeSeriesPredictionService {
      * @param stochasticAccountingFigures
      * @param periods
      * @param numSamples
-     * @param order
-     * @param seasonalOrder
      */
     public void MakePredictions(
 			List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures, 
 			HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures,
 			Integer periods,
-			Integer numSamples, Integer[] order, Integer[] seasonalOrder);
+			Integer numSamples);
 }

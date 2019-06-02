@@ -24,10 +24,10 @@ public class TimeSeriesPredictionServiceTest {
     
     @Test
     public void performTimeSeriesPrediction() {
+        //TODO: write test for corner cases; write test for brown rozeff case, non brown rozeff case, ...
+        
         int numSamples = 1;
         int predSteps = 5;
-        Integer[] order = {0,1,1};
-        Integer[] seasonalOrder = {1,0,0,4};
         double[] expecteds = {40.2823,42.00513,38.5594,40.2823,40.185};
         
         TimeSeriesPredictionService predictionService = new TimeSeriesPredictionService();
@@ -46,7 +46,7 @@ public class TimeSeriesPredictionServiceTest {
         
         HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures = new HashMap();
         
-        predictionService.MakePredictions(historicAccountingFigures, stochasticAccountingFigures, predSteps, numSamples, order, seasonalOrder);
+        predictionService.MakePredictions(historicAccountingFigures, stochasticAccountingFigures, predSteps, numSamples);
         
         for(int i=0; i<numSamples; i++) {
             List<Double> predictions = stochasticAccountingFigures.get(MultiPeriodAccountingFigureNames.FreeCashFlows).get(1);

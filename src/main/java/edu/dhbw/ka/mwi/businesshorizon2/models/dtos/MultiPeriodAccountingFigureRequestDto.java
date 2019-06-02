@@ -27,6 +27,8 @@ public class MultiPeriodAccountingFigureRequestDto {
 	@NotNull(message="timeSeries must not be null.")
 	@Valid
 	private List<TimeSeriesItemRequestDto> timeSeries;
+        
+        private int frequency;
 	
 	private MultiPeriodAccountingFigureNames figureName;
 	
@@ -41,10 +43,12 @@ public class MultiPeriodAccountingFigureRequestDto {
      * @param isHistoric
      * @param timeSeries
      */
+    //TODO: parameter not list of timeseriesitemrequestdto; instead: own class with start, frequency
     public MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames figureName, Boolean isHistoric, List<TimeSeriesItemRequestDto> timeSeries) {
 		this.figureName = figureName;
 		this.isHistoric = isHistoric;
 		this.timeSeries = timeSeries;
+                this.frequency = this.calcTimeSeriesFrequency();
 	}
 	
     /**
@@ -179,6 +183,16 @@ public class MultiPeriodAccountingFigureRequestDto {
 		
 		return amounts;
 	}
+    
+    public Integer calcTimeSeriesFrequency() {
+        //TODO: if frequency is not consistent throw exception
+        //TODO: complete method
+        throw new TimeSeriesFrequencyNotConsistentException();
+    }
+
+    public int getFrequency() {
+        return frequency;
+    }
 	
 	@Override
 	public String toString() { 
@@ -211,4 +225,9 @@ public class MultiPeriodAccountingFigureRequestDto {
 
 		return sb.toString();
 	}
+        
+        //TODO: put this in own file, check exception type and handling
+        class TimeSeriesFrequencyNotConsistentException extends IllegalArgumentException {
+         
+        }
 }

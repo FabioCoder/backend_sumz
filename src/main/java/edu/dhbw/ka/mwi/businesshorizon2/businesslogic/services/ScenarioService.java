@@ -119,9 +119,8 @@ public class ScenarioService implements IScenarioService{
 		
                 //if a stochastic valuation has to be done, we need predictions that we request here
                 //TODO: return value not checked for bad response of the python backend?
-                //TODO: send brown rozeff order if quarterly and free cash flows; determine order, seasonalOrder with help of TimeSeriesItemDateRequestDto's date and MultiPeriodAccountingFigureRequestDto's figure name
 		if(isValuationStochastic) {
-			predictionService.MakePredictions(historicAccountingFigures, stochasticAccountingFigures, scenarioDto.getPeriods(), numSamples, null, null);	
+			predictionService.MakePredictions(historicAccountingFigures, stochasticAccountingFigures, scenarioDto.getPeriods(), numSamples);	
 		}	
 		
 		ScenarioDao scenarioDao = ScenarioMapper.mapDtoToDao(scenarioDto);

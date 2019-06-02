@@ -34,30 +34,31 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
      * @param stochasticAccountingFigures
      * @param periods
      * @param numSamples
-     * @param order
-     * @param seasonalOrder
      */
     @Override
     public void MakePredictions(
             List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures,
             HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures,
             Integer periods,
-            Integer numSamples, Integer[] order, Integer[] seasonalOrder) {
+            Integer numSamples) {
 
         //create a list of time series
         Double[] amountsArr = new Double[historicAccountingFigures.size()];
 
         //for each time series make an request
         for (MultiPeriodAccountingFigureRequestDto figure : historicAccountingFigures) {
-
+           
             //TODO: remove amountsArr since might not be safe
             PredictionRequestTimeSeriesDto ts = new PredictionRequestTimeSeriesDto(figure.getFigureName(), figure.getTimeSeriesAmountsSortedAscByDate().toArray(amountsArr));
 
             //create a request with  the help of the PredictionRequestDto class
+            //if fcf provided and frequency is quarterly, brown rozeff is applied; otherwise: best possible model
             PredictionRequestDto request;
-            if(order!=null && seasonalOrder!=null)
+            if(figure.getFigureName() == MultiPeriodAccountingFigureNames.FreeCashFlows && figure.getFrequency() == 4) {
+                Integer[] order = {1,0,0};
+                Integer[] seasonalOrder = {0,1,1,4};
                 request = new PredictionRequestDto(ts, periods, numSamples, order, seasonalOrder);
-            else
+            } else 
                 request = new PredictionRequestDto(ts, periods, numSamples);
             
             //TODO: handle possible null pointer on request object?
