@@ -25,6 +25,7 @@ public class TimeSeriesPredictionServiceTest {
     @Test
     public void performTimeSeriesPrediction() {
         //TODO: write test for corner cases; write test for brown rozeff case, non brown rozeff case, ...
+        //TODO: write tests for time series with gaps etc.; are the validators used?
         
         int numSamples = 1;
         int predSteps = 5;
