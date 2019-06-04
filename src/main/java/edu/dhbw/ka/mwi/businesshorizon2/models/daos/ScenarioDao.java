@@ -49,6 +49,9 @@ public class ScenarioDao {
 	@Column(name="InterestOnLiabilitiesRate")
 	private Double interestOnLiabilitiesRate;
 	
+	@Column(name="ScenarioColor", columnDefinition = "nvarchar")
+	private String scenarioColor;
+	
 	@OneToOne(mappedBy="scenario")
 	private ApvCompanyValuationResultDao apvCompanyValuationResultDao;
 	
@@ -67,6 +70,9 @@ public class ScenarioDao {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AppUserId")
 	private AppUserDao appUser;
+
+	public String getScenarioColor() {return scenarioColor;}
+	public void setScenarioColor(String scenarioColor) {this.scenarioColor = scenarioColor;}
 	
 	public Long getScenarioId() { return scenarioId; }
 
