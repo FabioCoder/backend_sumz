@@ -12,6 +12,11 @@ public class PredictionResponseTimeSeriesDto {
     private MultiPeriodAccountingFigureNames id;
     private Double[] preds;
 
+    public PredictionResponseTimeSeriesDto(MultiPeriodAccountingFigureNames id, Double[] preds) {
+        this.id = id;
+        this.preds = preds;
+    }
+
     /**
      *
      * @return

@@ -1,5 +1,6 @@
 package edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,18 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.http.converter.json.JsonbHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 //this service sends a request to the python backend to receive a prediction for one or more time series
 //you could probably get rid of a lot of classes by just allowing predictions for one time series per request
@@ -48,7 +61,7 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
             HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures,
             Integer periods,
             Integer numSamples) {
-        
+
         //create a list of time series
         Double[] amountsArr = new Double[historicAccountingFigures.size()];
 
@@ -69,35 +82,53 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
             } else {
                 request = new PredictionRequestDto(ts, periods, numSamples);
             }
-            
-            RestTemplate restTemplate = new RestTemplate();
-            HttpEntity<PredictionRequestDto> x = new HttpEntity<>(request);
 
-            System.out.println("-----------------------REQUEST-----------------------");
-            System.out.println(request);
+            PredictionResponseDto result = sendPost(request);
 
-            //receive the result
-            //TODO: response not checked?; restrict length of doubles; handle exception when python backend doesn't provide a forecast (error, not available etc.)
-            PredictionResponseDto result = restTemplate.postForObject(uri, x, PredictionResponseDto.class);
+            PredictionResponseTimeSeriesDto responseTs = new PredictionResponseTimeSeriesDto(figure.getFigureName(), result.getValues());
 
-            System.out.println("-----------------------RESPONSE-----------------------");
-            System.out.println(result);
-
-            PredictionResponseTimeSeriesDto responseTs = result.getTimeSeries();
-            result.getTimeSeries().setId(figure.getFigureName());
-
-            stochasticAccountingFigures.put(result.getTimeSeries().getId(), new HashMap<Integer, List<Double>>());
+            stochasticAccountingFigures.put(responseTs.getId(), new HashMap<Integer, List<Double>>());
 
             //put the predictions into the delivered stochasticAccountingFigures object
             //TODO: check numSamples magic, currently putting i times the same timeseries in it
             for (int i = 0; i < numSamples; i++) {
-                stochasticAccountingFigures.get(result.getTimeSeries().getId()).put(i + 1, Arrays.asList(responseTs.getPreds()));
+                stochasticAccountingFigures.get(responseTs.getId()).put(i + 1, Arrays.asList(responseTs.getPreds()));
             }
         }
 
         for (MultiPeriodAccountingFigureNames key : stochasticAccountingFigures.keySet()) {
             System.out.println(stochasticAccountingFigures.get(key));
         }
+    }
+
+    public PredictionResponseDto sendPost(PredictionRequestDto predictionRequestDto) {
+        Gson gson = new Gson();
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(uri);
+        StringEntity postingString;
+        PredictionResponseDto predictionResponseDto;
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            //postingString = new StringEntity(gson.toJson(predictionRequestDto)); -> doesn't work because predictionrequestdto class is not yet reworked
+            postingString = new StringEntity("{"+predictionRequestDto.toString()+"}");
+            post.setEntity(postingString);
+            post.setHeader("Content-type", "application/json");
+            
+            System.out.println("---REQUEST---");
+            System.out.println("{"+predictionRequestDto.toString()+"}");
+            
+            HttpResponse response = httpClient.execute(post);
+
+            predictionResponseDto = mapper.readValue(response.getEntity().getContent(), PredictionResponseDto.class);
+            
+            return predictionResponseDto;
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            throw new RuntimeException("Exception while trying to get a prediction from the python backend");
+        }
+        
     }
 
 }
