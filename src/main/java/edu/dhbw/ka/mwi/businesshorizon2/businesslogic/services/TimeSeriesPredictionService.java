@@ -110,7 +110,7 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            //postingString = new StringEntity(gson.toJson(predictionRequestDto)); -> doesn't work because predictionrequestdto class is not yet reworked
+            //postingString = new StringEntity(gson.toJson(predictionRequestDto)); -> TODO: doesn't work because predictionrequestdto class is not yet reworked
             postingString = new StringEntity("{"+predictionRequestDto.toString()+"}");
             post.setEntity(postingString);
             post.setHeader("Content-type", "application/json");
