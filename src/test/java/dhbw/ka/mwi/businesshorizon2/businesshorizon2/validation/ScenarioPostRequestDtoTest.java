@@ -52,6 +52,7 @@ public class ScenarioPostRequestDtoTest {
 		liabilitiesTimeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2000, 4), 50.0));
 		liabilitiesTimeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2001, 1), 60.0));
 
+                //not needed?:
 		List<TimeSeriesItemRequestDto> interestOnLiabilitiesTimeSeries = new ArrayList<TimeSeriesItemRequestDto>();
 		interestOnLiabilitiesTimeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2000, 4), 50.0));
 		interestOnLiabilitiesTimeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2001, 1), 60.0));

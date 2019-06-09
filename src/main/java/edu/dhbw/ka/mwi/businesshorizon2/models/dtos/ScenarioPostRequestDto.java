@@ -20,6 +20,9 @@ import edu.dhbw.ka.mwi.businesshorizon2.validators.IsDateFormatConsistentPostReq
 import edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidAccountingFigureCombinationPostRequest;
 import edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidTimeSeriesRangesPostRequest;
 
+//This class represents a post request of the frontend for scenario creation
+//several validations need to be done, e.g. if the timeseries are continious / do not have a gap inbetween
+
 @IsValidAccountingFigureCombinationPostRequest()
 @IsDateFormatConsistentPostRequest()
 @IsContinuousTimeSeriesPostRequest()
@@ -63,6 +66,7 @@ public class ScenarioPostRequestDto {
 	@DecimalMax(value="1.0", message="interestOnLiabilitiesRate must be >=0.0 and <=1.0.")
 	private Double interestOnLiabilitiesRate;
 	
+        //each accounting figure is represented by a MultiPeriodAccountingFigureRequestDto that contains a time series
 	@Valid
 	private MultiPeriodAccountingFigureRequestDto depreciation;
 	

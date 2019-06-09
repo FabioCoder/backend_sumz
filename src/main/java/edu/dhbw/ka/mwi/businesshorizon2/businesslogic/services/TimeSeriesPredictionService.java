@@ -15,6 +15,13 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionRequestTimeSeriesDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionResponseDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionResponseTimeSeriesDto;
+import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.http.converter.json.JsonbHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 //this service sends a request to the python backend to receive a prediction for one or more time series
 //you could probably get rid of a lot of classes by just allowing predictions for one time series per request
@@ -25,8 +32,8 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionResponseTimeSeries
 @Service
 public class TimeSeriesPredictionService implements ITimeSeriesPredictionService {
 
-    //TODO: bad style: hardcoded endpoint
-    final String uri = "http://127.0.0.1:5000/predict";
+    @Value("${prediction.backend.host}")
+    private String uri;
 
     /**
      *
@@ -41,27 +48,28 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
             HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures,
             Integer periods,
             Integer numSamples) {
-
+        
         //create a list of time series
         Double[] amountsArr = new Double[historicAccountingFigures.size()];
 
         //for each time series make an request
         for (MultiPeriodAccountingFigureRequestDto figure : historicAccountingFigures) {
-           
+
             //TODO: remove amountsArr since might not be safe
             PredictionRequestTimeSeriesDto ts = new PredictionRequestTimeSeriesDto(figure.getFigureName(), figure.getTimeSeriesAmountsSortedAscByDate().toArray(amountsArr));
 
             //create a request with  the help of the PredictionRequestDto class
             //if fcf provided and frequency is quarterly, brown rozeff is applied; otherwise: best possible model
             PredictionRequestDto request;
-            if(figure.getFigureName() == MultiPeriodAccountingFigureNames.FreeCashFlows && figure.getFrequency() == 4) {
-                Integer[] order = {1,0,0};
-                Integer[] seasonalOrder = {0,1,1,4};
+            if (figure.getFigureName() == MultiPeriodAccountingFigureNames.FreeCashFlows && figure.getFrequency() == 4) {
+                System.out.println("Applying brown rozeff...");
+                Integer[] order = {1, 0, 0};
+                Integer[] seasonalOrder = {0, 1, 1, 4};
                 request = new PredictionRequestDto(ts, periods, numSamples, order, seasonalOrder);
-            } else 
+            } else {
                 request = new PredictionRequestDto(ts, periods, numSamples);
+            }
             
-            //TODO: handle possible null pointer on request object?
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<PredictionRequestDto> x = new HttpEntity<>(request);
 
@@ -91,4 +99,5 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
             System.out.println(stochasticAccountingFigures.get(key));
         }
     }
+
 }
