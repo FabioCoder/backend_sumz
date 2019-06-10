@@ -27,6 +27,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.HttpResponse;
@@ -83,8 +84,10 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
                 request = new PredictionRequestDto(ts, periods, numSamples);
             }
 
-            PredictionResponseDto result = sendPost(request);
+            //contacting the python backend...
+            PredictionResponseDto result = sendPostRequest(request);
 
+            //receiving the predicted time series...
             PredictionResponseTimeSeriesDto responseTs = new PredictionResponseTimeSeriesDto(figure.getFigureName(), result.getValues());
 
             stochasticAccountingFigures.put(responseTs.getId(), new HashMap<Integer, List<Double>>());
@@ -101,7 +104,7 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
         }
     }
 
-    public PredictionResponseDto sendPost(PredictionRequestDto predictionRequestDto) {
+    public PredictionResponseDto sendPostRequest(PredictionRequestDto predictionRequestDto) {
         Gson gson = new Gson();
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(uri);
@@ -111,24 +114,42 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
 
         try {
             //postingString = new StringEntity(gson.toJson(predictionRequestDto)); -> TODO: doesn't work because predictionrequestdto class is not yet reworked
-            postingString = new StringEntity("{"+predictionRequestDto.toString()+"}");
+            postingString = new StringEntity("{" + predictionRequestDto.toString() + "}");
             post.setEntity(postingString);
             post.setHeader("Content-type", "application/json");
-            
+
             System.out.println("---REQUEST---");
-            System.out.println("{"+predictionRequestDto.toString()+"}");
-            
+            System.out.println("{" + predictionRequestDto.toString() + "}");
+
+            //execute the request and receive the httpResponse
             HttpResponse response = httpClient.execute(post);
 
-            predictionResponseDto = mapper.readValue(response.getEntity().getContent(), PredictionResponseDto.class);
+            //handling http error codes
+            switch (response.getStatusLine().getStatusCode()) {
+                default:
+                    break;
+                case 404:
+                    throw new RuntimeException("Bad Request - request is not valid");
+                case 500:
+                    throw new RuntimeException("Internal Server Error from Python Backend durin modeling process - use more observations");
+            }
+
+            //Todo: validate response against schema
             
+            //get the predicted time series out of the response
+            predictionResponseDto = mapper.readValue(response.getEntity().getContent(), PredictionResponseDto.class);
+
+            //return the time series
             return predictionResponseDto;
 
+        } catch (ConnectException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException("Python Backend is not available.");
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            throw new RuntimeException("Exception while trying to get a prediction from the python backend");
+            throw new RuntimeException("Undefined exception while trying to get a prediction from the python backend: " + ex.getMessage());
         }
-        
+
     }
 
 }
