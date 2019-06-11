@@ -26,10 +26,13 @@ import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IUserService;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPostRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPutRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioResponseDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/scenarios")
+@Api(value="scenario", description="Szenario um eine Unternehmensbewertung durchzuführen")
 public class ScenarioController {
 	
 	@Autowired
@@ -38,6 +41,7 @@ public class ScenarioController {
 	@Autowired
 	private IUserService userService;
 	
+	@ApiOperation(value = "Erzeugen eines Scenario Objekts", response = Long.class)
 	@RequestMapping(method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
 	public Long create(@RequestBody @Valid ScenarioPostRequestDto scenario) {
