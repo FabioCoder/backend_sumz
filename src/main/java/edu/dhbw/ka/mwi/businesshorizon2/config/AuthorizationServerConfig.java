@@ -23,6 +23,12 @@ import org.springframework.web.filter.CorsFilter;
 
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.AppUserDetailsService;
 
+/**
+ * 
+ * Konfiguration der Autorisierung an der Anwendung. 
+ *
+ */
+
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -67,6 +73,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public TokenEnhancer customTokenEnhancer() {
         return new CustomTokenEnhancerConfig();
     }
+
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {

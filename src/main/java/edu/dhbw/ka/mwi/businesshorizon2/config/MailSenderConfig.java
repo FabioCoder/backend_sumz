@@ -6,7 +6,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+/**
+ * 
+ * Diese Klasse wird nicht mehr verwendet! Wird von EmailConfig abgelöst...
+ *
+ */
 public class MailSenderConfig {
+	/**
+	 * Diese Methode gibt ein JavaMailSender Objekt zurück, welches das Versenden von Emails über GMX ermöglicht.
+	 * @return GMXMailSender
+	 */
 	@Bean
 	public JavaMailSender getJavaMailSender() {
 	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

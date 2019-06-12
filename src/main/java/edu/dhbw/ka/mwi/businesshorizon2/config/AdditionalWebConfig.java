@@ -8,20 +8,34 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+
 @Configuration
 public class AdditionalWebConfig{
 	
+	//Adresse unter dem das Angular-Frontend erreichbar ist.
 	@Value("${sumz.client.host}")
 	private String clientHost;
 	
+	/**
+	 * Adresse unter dem das Angular-Frontend erreichbar ist.
+	 * @return Adresse des Angular Frontends
+	 */
 	public String getClientHost() {
 		return clientHost;
 	}
-
+	
+	/**
+	 * Setzen der Adresse unter dem das Angular-Frontend erreichbar ist.
+	 * @param Adresse des Angular Frontends
+	 */
 	public void setClientHost(String clientHost) {
 		this.clientHost = clientHost;
 	}
 	
+	/**
+	 * Diese Methode stellt den Cors Filter ein. Cors (Cross-Origin Resource Sharing) ist ein Mechanismus, der Anfragen an eine von der Hauptdomäne abweichende Domäne ermöglicht.
+	 * @return CorsFilter Objekt
+	 */
     @Bean
     public CorsFilter corsFilter() {
     	System.out.println("************************* loading cors");

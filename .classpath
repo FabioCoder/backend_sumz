@@ -27,10 +27,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/XPS 13 - 9350/Documents/Uni/SUMZ/junit_fs.jar"/>
-	<classpathentry kind="lib" path="C:/Users/XPS 13 - 9350/Documents/Uni/SUMZ/spring-core-5.1.7.RELEASE_fs.jar"/>
-	<classpathentry kind="lib" path="C:/Users/XPS 13 - 9350/Documents/Uni/SUMZ/spring-jcl-5.1.7.RELEASE_fs.jar"/>
-	<classpathentry kind="lib" path="C:/Users/XPS 13 - 9350/Documents/Uni/SUMZ/spring-test-5.1.7.RELEASE_fs.jar"/>
-	<classpathentry kind="lib" path="C:/Users/XPS 13 - 9350/Documents/Uni/SUMZ/spring-boot-test-1.4.0.RELEASE_fs.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

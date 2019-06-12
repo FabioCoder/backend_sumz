@@ -1,0 +1,15 @@
+dhbw.ka.mwi.businesshorizon2.businesshorizon2
+dhbw.ka.mwi.businesshorizon2.businesshorizon2.validation
+edu.dhbw.ka.mwi.businesshorizon2
+edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces
+edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services
+edu.dhbw.ka.mwi.businesshorizon2.comparators
+edu.dhbw.ka.mwi.businesshorizon2.config
+edu.dhbw.ka.mwi.businesshorizon2.controllers
+edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces
+edu.dhbw.ka.mwi.businesshorizon2.dataaccess.repositories
+edu.dhbw.ka.mwi.businesshorizon2.models.common
+edu.dhbw.ka.mwi.businesshorizon2.models.daos
+edu.dhbw.ka.mwi.businesshorizon2.models.dtos
+edu.dhbw.ka.mwi.businesshorizon2.models.mappers
+edu.dhbw.ka.mwi.businesshorizon2.validators
