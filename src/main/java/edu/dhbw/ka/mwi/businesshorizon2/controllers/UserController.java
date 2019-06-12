@@ -19,6 +19,8 @@ import edu.dhbw.ka.mwi.businesshorizon2.config.AdditionalWebConfig;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.AppUserDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.UserPutRequestDto;
 
+import java.util.Base64;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/users")
