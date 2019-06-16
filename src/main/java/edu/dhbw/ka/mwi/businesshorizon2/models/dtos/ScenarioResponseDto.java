@@ -8,7 +8,8 @@ public class ScenarioResponseDto {
 	private String scenarioName;
 	private String scenarioDescription;
 	private Integer periods;
-
+	private String scenarioColor;
+	
 	private Double businessTaxRate;
 	private Double corporateTaxRate;
 	private Double solidaryTaxRate;
@@ -102,4 +103,10 @@ public class ScenarioResponseDto {
 	
 	public FcfCompanyValuationResultDto getFcfValuationResult() { return fcfValuationResult; }
 	public void setFcfValuationResult(FcfCompanyValuationResultDto fcfValuationResult) { this.fcfValuationResult = fcfValuationResult; }
+	public String getScenarioColor() {
+		return scenarioColor;
+	}
+	public void setScenarioColor(String scenarioColor) {
+		this.scenarioColor = scenarioColor;
+	}
 }
