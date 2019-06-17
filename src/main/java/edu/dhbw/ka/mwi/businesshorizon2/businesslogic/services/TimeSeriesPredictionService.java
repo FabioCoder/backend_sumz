@@ -104,7 +104,7 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
         }
     }
 
-    public PredictionResponseDto sendPostRequest(PredictionRequestDto predictionRequestDto) {
+    private PredictionResponseDto sendPostRequest(PredictionRequestDto predictionRequestDto) {
         Gson gson = new Gson();
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(uri);
