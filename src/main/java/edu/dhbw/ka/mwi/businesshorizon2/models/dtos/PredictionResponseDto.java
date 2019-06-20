@@ -1,27 +1,25 @@
 package edu.dhbw.ka.mwi.businesshorizon2.models.dtos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PredictionResponseDto {
-	private List<PredictionResponseTimeSeriesDto> timeSeries = new ArrayList<PredictionResponseTimeSeriesDto>();
+    
+    //This class represents a response of the python backend containing a time series with forecasted values
+    
+	private Double[] values;
 
-	public List<PredictionResponseTimeSeriesDto> getTimeSeries() { return timeSeries; }
-	public void setTimeSeries(List<PredictionResponseTimeSeriesDto> timeSeries) { this.timeSeries = timeSeries; }
+	public Double[] getValues() {
+            return values;
+        }
+        
+        public void setValues(Double[] values) {
+            this.values = values;
+        }
 	
 	@Override
 	public String toString() {
 		
-		String newLine = System.getProperty("line.separator");
-		
 		StringBuilder sb = new StringBuilder();
-		if(this.timeSeries != null) {
-			for (PredictionResponseTimeSeriesDto ts : this.timeSeries) {
-				if(ts != null) {
-					sb.append(ts);
-					sb.append(newLine);
-				}
-			}	
+		if(this.values != null) {
+                    sb.append(this.values);
 		}
 				
 		return sb.toString();

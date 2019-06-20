@@ -10,9 +10,14 @@ import org.springframework.stereotype.Service;
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IAccountingFigureCalculationsService;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
 
+//this class provides methods to calculate necessarry paramters for the company valuation, e.g. free cash flow or flow to equity
+
 @Service
 public class AccountingFigureCalculationsService implements IAccountingFigureCalculationsService {
 
+        //this methods calculates the free cash flow by using input variables
+    //why do we need a method with a single return and a method for a list return?
+    
 	/**
 	 * @param revenue
 	 * @param additionalIncome
@@ -66,6 +71,8 @@ public class AccountingFigureCalculationsService implements IAccountingFigureCal
 		
 		return freeCashFlow;
 	}
+        
+        //this method calculates the flow to equity
 	
 	/**
 	 * @param freeCashFlow
@@ -99,6 +106,8 @@ public class AccountingFigureCalculationsService implements IAccountingFigureCal
 		
 		return flowToEquity;
 	}
+        
+        //this methods calculates the effective tax rate
 	
 	/**
 	 * @param businessTaxRate

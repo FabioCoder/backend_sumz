@@ -41,10 +41,6 @@ public class ScenarioPutRequestDto {
 	@Min(value=2, message="periods must be >=2.")
 	private Integer periods;
 	
-	@NotNull(message = "scenarioColor must not be null.")
-	@Size(min=1, max=20,message="scenarioColor must consist of 1-20 characters.")
-	private String scenarioColor;
-	
 	@NotNull(message = "businessTaxRate must not be null.")
 	@DecimalMin(value="0.0", message="businessTaxRate must be >=0 and <=1.0.")
 	@DecimalMax(value="1.0", message="businessTaxRate must be >=0 and <=1.0.")
@@ -69,6 +65,8 @@ public class ScenarioPutRequestDto {
 	@DecimalMin(value="0.0", message="interestOnLiabilitiesRate must be >=0.0 and <=1.0.")
 	@DecimalMax(value="1.0", message="interestOnLiabilitiesRate must be >=0.0 and <=1.0.")
 	private Double interestOnLiabilitiesRate;
+        
+	private String scenarioColor;
 	
 	@Valid
 	private MultiPeriodAccountingFigureRequestDto depreciation;
@@ -108,9 +106,6 @@ public class ScenarioPutRequestDto {
 	
 	public Integer getPeriods() { return periods; }
 	public void setPeriods(Integer periods) { this.periods = periods; }
-	
-	public String getScenarioColor() { return scenarioColor; }
-	public void setScenarioColor(String scenarioColor) { this.scenarioColor = scenarioColor; }
 	
 	public Double getBusinessTaxRate() { return businessTaxRate; }
 	public void setBusinessTaxRate(Double businessTaxRate) { this.businessTaxRate = businessTaxRate; }
@@ -229,6 +224,14 @@ public class ScenarioPutRequestDto {
 		
 		return multiPeriodAccountingFigures;
 	}
+
+    public String getScenarioColor() {
+        return scenarioColor;
+    }
+
+    public void setScenarioColor(String scenarioColor) {
+        this.scenarioColor = scenarioColor;
+    }
 		
 	@Override
 	public String toString() {
@@ -319,7 +322,12 @@ public class ScenarioPutRequestDto {
 		sb.append("Free Cash Flows:  ");
 		sb.append(newLine);
 		sb.append(this.freeCashFlows != null ? this.freeCashFlows : "");
-		sb.append(newLine);
+		sb.append(", ");
+        sb.append(newLine);
+        sb.append("ScenarioColor: ");
+        sb.append(newLine);
+        sb.append(this.scenarioColor != null ? this.scenarioColor : "");
+        sb.append(newLine);
 		sb.append("------------------------------------------------------------------------");
 		
 		return sb.toString();

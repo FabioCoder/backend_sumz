@@ -21,100 +21,178 @@ import org.hibernate.annotations.CascadeType;
 @Table(name = "Scenario")
 public class ScenarioDao {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long scenarioId;
-	
-	@Column(name="ScenarioName", columnDefinition = "nvarchar")
-	private String scenarioName;
-	
-	@Column(name="ScenarioDescription", columnDefinition = "nvarchar")
-	private String scenarioDescription;
-	
-	@Column(name="ForecastPeriods")
-	private Integer forecastPeriods;
-	
-	@Column(name="BusinessTaxRate")
-	private Double businessTaxRate;
-	
-	@Column(name="CorporateTaxRate")
-	private Double corporateTaxRate;
-	
-	@Column(name="SolidaryTaxRate")
-	private Double solidaryTaxRate;
-	
-	@Column(name="EquityInterestRate")
-	private Double equityInterestRate;
-	
-	@Column(name="InterestOnLiabilitiesRate")
-	private Double interestOnLiabilitiesRate;
-	
-	@Column(name="ScenarioColor", columnDefinition = "nvarchar")
-	private String scenarioColor;
-	
-	@OneToOne(mappedBy="scenario")
-	private ApvCompanyValuationResultDao apvCompanyValuationResultDao;
-	
-	@OneToOne(mappedBy="scenario")
-	private FteCompanyValuationResultDao fteCompanyValuationResultDao;
-	
-	@OneToOne(mappedBy="scenario")
-	private FcfCompanyValuationResultDao fcfCompanyValuationResultDao;
-	
-	@OneToMany(mappedBy="scenario")
-	private List<MultiPeriodAccountingFigureDao> multiPeriodAccountingFigures = new ArrayList<>();
-	
-	@OneToMany(mappedBy="scenario")
-	private List<CompanyValueDistributionPointDao> companyValueDistributionPoints = new ArrayList<>();
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "AppUserId")
-	private AppUserDao appUser;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long scenarioId;
 
-	public String getScenarioColor() {return scenarioColor;}
-	public void setScenarioColor(String scenarioColor) {this.scenarioColor = scenarioColor;}
-	
-	public Long getScenarioId() { return scenarioId; }
+    @Column(name = "ScenarioName", columnDefinition = "nvarchar")
+    private String scenarioName;
 
-	public String getScenarioName() { return scenarioName; }
-	public void setScenarioName(String scenarioName) { this.scenarioName = scenarioName; }
+    @Column(name = "ScenarioDescription", columnDefinition = "nvarchar")
+    private String scenarioDescription;
 
-	public String getScenarioDescription() { return scenarioDescription; }
-	public void setScenarioDescription(String scenarioDescription) { this.scenarioDescription = scenarioDescription; }
+    @Column(name = "ForecastPeriods")
+    private Integer forecastPeriods;
 
-	public Integer getForecastPeriods() { return forecastPeriods; }
-	public void setForecastPeriods(Integer forecastPeriods) { this.forecastPeriods = forecastPeriods; }
+    @Column(name = "BusinessTaxRate")
+    private Double businessTaxRate;
 
-	public Double getBusinessTaxRate() { return businessTaxRate; }
-	public void setBusinessTaxRate(Double businessTaxRate) { this.businessTaxRate = businessTaxRate; }
+    @Column(name = "CorporateTaxRate")
+    private Double corporateTaxRate;
 
-	public Double getCorporateTaxRate() { return corporateTaxRate; } 
-	public void setCorporateTaxRate(Double corporateTaxRate) { this.corporateTaxRate = corporateTaxRate; }
+    @Column(name = "SolidaryTaxRate")
+    private Double solidaryTaxRate;
 
-	public Double getSolidaryTaxRate() { return solidaryTaxRate; }
-	public void setSolidaryTaxRate(Double solidaryTaxRate) { this.solidaryTaxRate = solidaryTaxRate; }
+    @Column(name = "EquityInterestRate")
+    private Double equityInterestRate;
 
-	public Double getEquityInterestRate() { return equityInterestRate; }
-	public void setEquityInterestRate(Double equityInterestRate) { this.equityInterestRate = equityInterestRate; }
+    @Column(name = "InterestOnLiabilitiesRate")
+    private Double interestOnLiabilitiesRate;
 
-	public Double getInterestOnLiabilitiesRate() { return interestOnLiabilitiesRate; }
-	public void setInterestOnLiabilitiesRate(Double interestOnLiabilitiesRate) { this.interestOnLiabilitiesRate = interestOnLiabilitiesRate; }
+    @Column(name = "ScenarioColor", columnDefinition = "nvarchar")
+    private String scenarioColor;
 
-	public ApvCompanyValuationResultDao getApvCompanyValuationResultDao() { return apvCompanyValuationResultDao; }
-	public void setApvCompanyValuationResultDao(ApvCompanyValuationResultDao apvCompanyValuationResultDao) { this.apvCompanyValuationResultDao = apvCompanyValuationResultDao; }
+    @OneToOne(mappedBy = "scenario")
+    private ApvCompanyValuationResultDao apvCompanyValuationResultDao;
 
-	public FteCompanyValuationResultDao getFteCompanyValuationResultDao() { return fteCompanyValuationResultDao; }
-	public void setFteCompanyValuationResultDao(FteCompanyValuationResultDao fteCompanyValuationResultDao) { this.fteCompanyValuationResultDao = fteCompanyValuationResultDao; }
+    @OneToOne(mappedBy = "scenario")
+    private FteCompanyValuationResultDao fteCompanyValuationResultDao;
 
-	public FcfCompanyValuationResultDao getFcfCompanyValuationResultDao() { return fcfCompanyValuationResultDao; }
-	public void setFcfCompanyValuationResultDao(FcfCompanyValuationResultDao fcfCompanyValuationResultDao) { this.fcfCompanyValuationResultDao = fcfCompanyValuationResultDao;}
-	
-	public List<CompanyValueDistributionPointDao> getCompanyValueDistributionPoints(){return companyValueDistributionPoints;}
-	public void setCompanyValueDistributionPoints(List<CompanyValueDistributionPointDao> companyValueDistributionPoints) {this.companyValueDistributionPoints = companyValueDistributionPoints;}
+    @OneToOne(mappedBy = "scenario")
+    private FcfCompanyValuationResultDao fcfCompanyValuationResultDao;
 
-	public AppUserDao getAppUser() { return appUser; }
-	public void setAppUser(AppUserDao appUser) { this.appUser = appUser; }
-	
-	public List<MultiPeriodAccountingFigureDao> getMultiPeriodAccountingFigures(){ return multiPeriodAccountingFigures; }
-	public void setMultiPeriodAccountingFigures(List<MultiPeriodAccountingFigureDao> multiPeriodAccountingFigures) { this.multiPeriodAccountingFigures = multiPeriodAccountingFigures; }
+    @OneToMany(mappedBy = "scenario")
+    private List<MultiPeriodAccountingFigureDao> multiPeriodAccountingFigures = new ArrayList<>();
+
+    @OneToMany(mappedBy = "scenario")
+    private List<CompanyValueDistributionPointDao> companyValueDistributionPoints = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "AppUserId")
+    private AppUserDao appUser;
+
+    public Long getScenarioId() {
+        return scenarioId;
+    }
+
+    public String getScenarioName() {
+        return scenarioName;
+    }
+
+    public void setScenarioName(String scenarioName) {
+        this.scenarioName = scenarioName;
+    }
+
+    public String getScenarioDescription() {
+        return scenarioDescription;
+    }
+
+    public void setScenarioDescription(String scenarioDescription) {
+        this.scenarioDescription = scenarioDescription;
+    }
+
+    public Integer getForecastPeriods() {
+        return forecastPeriods;
+    }
+
+    public void setForecastPeriods(Integer forecastPeriods) {
+        this.forecastPeriods = forecastPeriods;
+    }
+
+    public Double getBusinessTaxRate() {
+        return businessTaxRate;
+    }
+
+    public void setBusinessTaxRate(Double businessTaxRate) {
+        this.businessTaxRate = businessTaxRate;
+    }
+
+    public Double getCorporateTaxRate() {
+        return corporateTaxRate;
+    }
+
+    public void setCorporateTaxRate(Double corporateTaxRate) {
+        this.corporateTaxRate = corporateTaxRate;
+    }
+
+    public Double getSolidaryTaxRate() {
+        return solidaryTaxRate;
+    }
+
+    public void setSolidaryTaxRate(Double solidaryTaxRate) {
+        this.solidaryTaxRate = solidaryTaxRate;
+    }
+
+    public Double getEquityInterestRate() {
+        return equityInterestRate;
+    }
+
+    public void setEquityInterestRate(Double equityInterestRate) {
+        this.equityInterestRate = equityInterestRate;
+    }
+
+    public Double getInterestOnLiabilitiesRate() {
+        return interestOnLiabilitiesRate;
+    }
+
+    public void setInterestOnLiabilitiesRate(Double interestOnLiabilitiesRate) {
+        this.interestOnLiabilitiesRate = interestOnLiabilitiesRate;
+    }
+
+    public ApvCompanyValuationResultDao getApvCompanyValuationResultDao() {
+        return apvCompanyValuationResultDao;
+    }
+
+    public void setApvCompanyValuationResultDao(ApvCompanyValuationResultDao apvCompanyValuationResultDao) {
+        this.apvCompanyValuationResultDao = apvCompanyValuationResultDao;
+    }
+
+    public FteCompanyValuationResultDao getFteCompanyValuationResultDao() {
+        return fteCompanyValuationResultDao;
+    }
+
+    public void setFteCompanyValuationResultDao(FteCompanyValuationResultDao fteCompanyValuationResultDao) {
+        this.fteCompanyValuationResultDao = fteCompanyValuationResultDao;
+    }
+
+    public FcfCompanyValuationResultDao getFcfCompanyValuationResultDao() {
+        return fcfCompanyValuationResultDao;
+    }
+
+    public void setFcfCompanyValuationResultDao(FcfCompanyValuationResultDao fcfCompanyValuationResultDao) {
+        this.fcfCompanyValuationResultDao = fcfCompanyValuationResultDao;
+    }
+
+    public List<CompanyValueDistributionPointDao> getCompanyValueDistributionPoints() {
+        return companyValueDistributionPoints;
+    }
+
+    public void setCompanyValueDistributionPoints(List<CompanyValueDistributionPointDao> companyValueDistributionPoints) {
+        this.companyValueDistributionPoints = companyValueDistributionPoints;
+    }
+
+    public AppUserDao getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUserDao appUser) {
+        this.appUser = appUser;
+    }
+
+    public List<MultiPeriodAccountingFigureDao> getMultiPeriodAccountingFigures() {
+        return multiPeriodAccountingFigures;
+    }
+
+    public void setMultiPeriodAccountingFigures(List<MultiPeriodAccountingFigureDao> multiPeriodAccountingFigures) {
+        this.multiPeriodAccountingFigures = multiPeriodAccountingFigures;
+    }
+
+    public String getScenarioColor() {
+        return scenarioColor;
+    }
+
+    public void setScenarioColor(String scenarioColor) {
+        this.scenarioColor = scenarioColor;
+    }
+
 }
