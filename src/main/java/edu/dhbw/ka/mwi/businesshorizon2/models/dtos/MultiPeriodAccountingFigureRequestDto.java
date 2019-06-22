@@ -10,15 +10,18 @@ import javax.validation.constraints.NotNull;
 import edu.dhbw.ka.mwi.businesshorizon2.comparators.TimeSeriesItemByDateComparator;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.TimeSeriesItemDateFormats;
+import io.swagger.annotations.ApiModel;
 
-//this class aids to be able to request predictions for multiple time series
-//question: why does one object of this class is allowed to have multiple timeSeries instead of just one? The user can only supply one time series for each figure?
+
 /**
- *
+ * this class aids to be able to request predictions for multiple time series
  * @author DHBW KA WWI
  */
-public class MultiPeriodAccountingFigureRequestDto {
 
+@ApiModel(description = "this class aids to be able to request predictions for multiple time series")
+//question: why does one object of this class is allowed to have multiple timeSeries instead of just one? The user can only supply one time series for each figure?
+public class MultiPeriodAccountingFigureRequestDto {
+	
     @NotNull(message = "isHistoric must not be null.")
     private Boolean isHistoric;
 

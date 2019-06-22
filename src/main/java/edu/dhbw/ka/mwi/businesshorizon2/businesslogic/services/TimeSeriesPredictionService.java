@@ -133,7 +133,7 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
                 case 404:
                     throw new RuntimeException("Bad Request - request is not valid");
                 case 500:
-                    throw new RuntimeException("Internal Server Error from Python Backend durin modeling process - use more observations");
+                    throw new RuntimeException("Internal Server Error from Python Backend during modeling process - use more observations");
             }
 
             //Todo: validate response against schema
