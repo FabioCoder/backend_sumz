@@ -10,18 +10,15 @@ import javax.validation.constraints.NotNull;
 import edu.dhbw.ka.mwi.businesshorizon2.comparators.TimeSeriesItemByDateComparator;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.TimeSeriesItemDateFormats;
-import io.swagger.annotations.ApiModel;
 
-
+//this class aids to be able to request predictions for multiple time series
+//question: why does one object of this class is allowed to have multiple timeSeries instead of just one? The user can only supply one time series for each figure?
 /**
- * this class aids to be able to request predictions for multiple time series
+ *
  * @author DHBW KA WWI
  */
-
-@ApiModel(description = "this class aids to be able to request predictions for multiple time series")
-//question: why does one object of this class is allowed to have multiple timeSeries instead of just one? The user can only supply one time series for each figure?
 public class MultiPeriodAccountingFigureRequestDto {
-	
+
     @NotNull(message = "isHistoric must not be null.")
     private Boolean isHistoric;
 
@@ -30,6 +27,12 @@ public class MultiPeriodAccountingFigureRequestDto {
     private List<TimeSeriesItemRequestDto> timeSeries;
 
     private MultiPeriodAccountingFigureNames figureName;
+    
+    //Ordnung für die Schätzung der Zeitreihe
+    @Valid
+    private Integer[] order; 
+    @Valid
+    private Integer[] seasonalOrder;
 
     /**
      *
@@ -42,11 +45,46 @@ public class MultiPeriodAccountingFigureRequestDto {
      * @param figureName
      * @param isHistoric
      * @param timeSeries
+     * @param order
      */
-    public MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames figureName, Boolean isHistoric, List<TimeSeriesItemRequestDto> timeSeries) {
+    public MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames figureName, 
+                    Boolean isHistoric, List<TimeSeriesItemRequestDto> timeSeries, Integer[] order, Integer[] seasonalOrder) {
         this.figureName = figureName;
         this.isHistoric = isHistoric;
         this.timeSeries = timeSeries;
+        this.order = order;
+        this.seasonalOrder = seasonalOrder;
+    }
+    
+    public MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames figureName, 
+                    Boolean isHistoric, List<TimeSeriesItemRequestDto> timeSeries) {
+        this.figureName = figureName;
+        this.isHistoric = isHistoric;
+        this.timeSeries = timeSeries;
+    }
+    
+    /**
+     * 
+     * @return order
+     */
+    public Integer[] getOrder() {
+        return order;
+    }
+
+    /**
+     * 
+     * @param order 
+     */
+    public void setOrder(Integer[] order) {
+        this.order = order;
+    }
+    
+    public Integer[] getSeasonalOrder() {
+        return seasonalOrder;
+    }
+    
+    public void setSeasonalOrder(Integer[] seasonalOrder) {
+        this.seasonalOrder = seasonalOrder;
     }
 
     /**

@@ -66,7 +66,7 @@ public class ScenarioPutRequestDto {
 	@DecimalMax(value="1.0", message="interestOnLiabilitiesRate must be >=0.0 and <=1.0.")
 	private Double interestOnLiabilitiesRate;
         
-	private String scenarioColor;
+        private String cardColor;
 	
 	@Valid
 	private MultiPeriodAccountingFigureRequestDto depreciation;
@@ -225,12 +225,12 @@ public class ScenarioPutRequestDto {
 		return multiPeriodAccountingFigures;
 	}
 
-    public String getScenarioColor() {
-        return scenarioColor;
+    public String getCardColor() {
+        return cardColor;
     }
 
-    public void setScenarioColor(String scenarioColor) {
-        this.scenarioColor = scenarioColor;
+    public void setCardColor(String cardColor) {
+        this.cardColor = cardColor;
     }
 		
 	@Override
@@ -324,9 +324,9 @@ public class ScenarioPutRequestDto {
 		sb.append(this.freeCashFlows != null ? this.freeCashFlows : "");
 		sb.append(", ");
         sb.append(newLine);
-        sb.append("ScenarioColor: ");
+        sb.append("CardColor: ");
         sb.append(newLine);
-        sb.append(this.scenarioColor != null ? this.scenarioColor : "");
+        sb.append(this.cardColor != null ? this.cardColor : "");
         sb.append(newLine);
 		sb.append("------------------------------------------------------------------------");
 		

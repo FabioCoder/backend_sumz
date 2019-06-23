@@ -388,7 +388,7 @@ public class ScenarioPostRequestDto {
         sb.append(this.freeCashFlows != null ? this.freeCashFlows : "");
         sb.append(", ");
         sb.append(newLine);
-        sb.append("scenarioColor: ");
+        sb.append("ScenarioColor: ");
         sb.append(newLine);
         sb.append(this.scenarioColor != null ? this.scenarioColor : "");
         sb.append(newLine);

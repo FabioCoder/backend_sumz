@@ -9,7 +9,6 @@ public class PredictionRequestDto {
 
     private PredictionRequestTimeSeriesDto timeSeries;
     private Integer predSteps;
-    private Integer numSamples;
     private Integer[] order;
     private Integer[] seasonalOrder;
 
@@ -23,18 +22,14 @@ public class PredictionRequestDto {
      *
      * @param timeSeries
      * @param predSteps
-     * @param numSamples
      */
-    public PredictionRequestDto(PredictionRequestTimeSeriesDto timeSeries, Integer predSteps, Integer numSamples) {
+    public PredictionRequestDto(PredictionRequestTimeSeriesDto timeSeries, Integer predSteps) {
         this.timeSeries = timeSeries;
-        this.predSteps = predSteps;
-        this.numSamples = numSamples;
-    }
+        this.predSteps = predSteps;    }
 
-    public PredictionRequestDto(PredictionRequestTimeSeriesDto timeSeries, Integer predSteps, Integer numSamples, Integer[] order, Integer[] seasonalOrder) {
+    public PredictionRequestDto(PredictionRequestTimeSeriesDto timeSeries, Integer predSteps, Integer[] order, Integer[] seasonalOrder) {
         this.timeSeries = timeSeries;
         this.predSteps = predSteps;
-        this.numSamples = numSamples;
         this.order = order;
         this.seasonalOrder = seasonalOrder;
     }
@@ -69,22 +64,6 @@ public class PredictionRequestDto {
      */
     public void setPredSteps(Integer predSteps) {
         this.predSteps = predSteps;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Integer getNumSamples() {
-        return numSamples;
-    }
-
-    /**
-     *
-     * @param numSamples
-     */
-    public void setNumSamples(Integer numSamples) {
-        this.numSamples = numSamples;
     }
 
     @Override

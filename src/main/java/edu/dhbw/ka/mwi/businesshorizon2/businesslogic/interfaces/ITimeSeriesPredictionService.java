@@ -1,12 +1,9 @@
 package edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces;
 
-import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
-import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.MultiPeriodAccountingFigureRequestDto;
+import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictedHistoricAccountingFigureDto;
 
 /**
  *
@@ -17,14 +14,10 @@ public interface ITimeSeriesPredictionService {
 
     /**
      *
-     * @param historicAccountingFigures
-     * @param stochasticAccountingFigures
+     * @param figure
      * @param periods
-     * @param numSamples
      */
     public void MakePredictions(
-			List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures, 
-			HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures,
-			Integer periods,
-			Integer numSamples);
+            PredictedHistoricAccountingFigureDto figure,
+            Integer periods);
 }

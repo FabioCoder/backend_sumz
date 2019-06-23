@@ -9,6 +9,7 @@ import edu.dhbw.ka.mwi.businesshorizon2.App;
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.TimeSeriesPredictionService;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.MultiPeriodAccountingFigureRequestDto;
+import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictedHistoricAccountingFigureDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.TimeSeriesItemDateRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.TimeSeriesItemRequestDto;
 import java.util.ArrayList;
@@ -36,15 +37,15 @@ public class TimeSeriesPredictionServiceTest {
     @Test
     public void performTimeSeriesPrediction_BrownRozeff() {
 
-        int numSamples = 1;
         int predSteps = 5;
+        Integer[] order = {0, 1, 1};
+        Integer[] seasonalOrder = {1, 0, 0};
         double[] expecteds = {40.56603766277165,
             41.1400852914352,
             41.72225623454996,
             42.31266544466408,
             42.91142950101249};
 
-        List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures = new ArrayList();
         List<TimeSeriesItemRequestDto> timeSeries = new ArrayList();
         timeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2012, 1), 30.0));
         timeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2012, 2), 40.0));
@@ -54,29 +55,25 @@ public class TimeSeriesPredictionServiceTest {
         timeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2013, 2), 35.0));
         timeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2013, 3), 45.0));
         timeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2013, 4), 40.0));
-        historicAccountingFigures.add(new MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames.FreeCashFlows, true, timeSeries));
 
-        HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures = new HashMap();
+        PredictedHistoricAccountingFigureDto phaf = new PredictedHistoricAccountingFigureDto(new MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames.FreeCashFlows, true, timeSeries, order, seasonalOrder));
 
-        predictionService.MakePredictions(historicAccountingFigures, stochasticAccountingFigures, predSteps, numSamples);
+        predictionService.MakePredictions(phaf, predSteps);
 
-        for (int i = 0; i < numSamples; i++) {
-            List<Double> predictions = stochasticAccountingFigures.get(MultiPeriodAccountingFigureNames.FreeCashFlows).get(1);
+        List<Double> predictions = phaf.getForecasts();
 
-            double[] preds = new double[predictions.size()];
-            for (int j = 0; j < preds.length; j++) {
-                preds[j] = predictions.get(j);
-            }
-
-            Assert.assertArrayEquals(expecteds, preds, 0.1);
+        double[] preds = new double[predictions.size()];
+        for (int j = 0; j < preds.length; j++) {
+            preds[j] = predictions.get(j);
         }
+
+        Assert.assertArrayEquals(expecteds, preds, 0.1);
 
     }
 
     @Test
     public void performTimeSeriesPrediction_NonBrownRozeff() {
 
-        int numSamples = 1;
         int predSteps = 5;
         //TODO: adjust expecteds
         double[] expecteds = {40.56603766277165,
@@ -85,7 +82,6 @@ public class TimeSeriesPredictionServiceTest {
             42.31266544466408,
             42.91142950101249};
 
-        List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures = new ArrayList();
         List<TimeSeriesItemRequestDto> timeSeries = new ArrayList();
         timeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2012), 30.0));
         timeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2013), 40.0));
@@ -95,22 +91,19 @@ public class TimeSeriesPredictionServiceTest {
         timeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2017), 35.0));
         timeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2018), 45.0));
         timeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2019), 40.0));
-        historicAccountingFigures.add(new MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames.FreeCashFlows, true, timeSeries));
 
-        HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures = new HashMap();
+        PredictedHistoricAccountingFigureDto phaf = new PredictedHistoricAccountingFigureDto(new MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames.FreeCashFlows, true, timeSeries));
 
-        predictionService.MakePredictions(historicAccountingFigures, stochasticAccountingFigures, predSteps, numSamples);
+        predictionService.MakePredictions(phaf, predSteps);
 
-        for (int i = 0; i < numSamples; i++) {
-            List<Double> predictions = stochasticAccountingFigures.get(MultiPeriodAccountingFigureNames.FreeCashFlows).get(1);
+        List<Double> predictions = phaf.getForecasts();
 
-            double[] preds = new double[predictions.size()];
-            for (int j = 0; j < preds.length; j++) {
-                preds[j] = predictions.get(j);
-            }
-
-            Assert.assertArrayEquals(expecteds, preds, 0.1);
+        double[] preds = new double[predictions.size()];
+        for (int j = 0; j < preds.length; j++) {
+            preds[j] = predictions.get(j);
         }
+
+        Assert.assertArrayEquals(expecteds, preds, 0.1);
 
     }
 

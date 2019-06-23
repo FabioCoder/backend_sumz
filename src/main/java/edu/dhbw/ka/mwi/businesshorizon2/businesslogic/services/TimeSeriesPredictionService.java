@@ -1,43 +1,25 @@
 package edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services;
 
-import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.ITimeSeriesPredictionService;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
-import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.MultiPeriodAccountingFigureRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionRequestTimeSeriesDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionResponseDto;
-import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionResponseTimeSeriesDto;
-import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.http.converter.json.JsonbHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import com.google.gson.Gson;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictedHistoricAccountingFigureDto;
 import java.net.ConnectException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.AbstractMap.SimpleEntry;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 
 //this service sends a request to the python backend to receive a prediction for one or more time series
 //you could probably get rid of a lot of classes by just allowing predictions for one time series per request
@@ -52,58 +34,53 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
     private String uri;
 
     /**
-     *
-     * @param historicAccountingFigures
-     * @param stochasticAccountingFigures
+     * @param figure
      * @param periods
-     * @param numSamples
      */
+    //TODO: RECEIVE ORDER FROM SCENARIO / USER
     @Override
     public void MakePredictions(
-            List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures,
-            HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures,
-            Integer periods,
-            Integer numSamples) {
+            PredictedHistoricAccountingFigureDto figure,
+            Integer periods) {
 
-        //create a list of time series
-        Double[] amountsArr = new Double[historicAccountingFigures.size()];
+        //TODO: check for is Historic
+        
+        Double[] values = new Double[figure.getMultiPeriodAccountingFigureRequestDto().getTimeSeriesAmountsSortedAscByDate().size()];
+        values = figure.getMultiPeriodAccountingFigureRequestDto().getTimeSeriesAmountsSortedAscByDate().toArray(values);
+        PredictionRequestTimeSeriesDto ts = new PredictionRequestTimeSeriesDto(figure.getMultiPeriodAccountingFigureRequestDto().getFigureName(), values);
 
-        //for each time series make an request
-        for (MultiPeriodAccountingFigureRequestDto figure : historicAccountingFigures) {
-
-            //TODO: remove amountsArr since might not be safe
-            PredictionRequestTimeSeriesDto ts = new PredictionRequestTimeSeriesDto(figure.getFigureName(), figure.getTimeSeriesAmountsSortedAscByDate().toArray(amountsArr));
-
-            //create a request with  the help of the PredictionRequestDto class
-            //if fcf provided and frequency is quarterly, brown rozeff is applied; otherwise: best possible model
-            PredictionRequestDto request;
-            if (figure.getFigureName() == MultiPeriodAccountingFigureNames.FreeCashFlows && figure.getFrequency() == 4) {
-                System.out.println("Applying brown rozeff...");
-                Integer[] order = {1, 0, 0};
-                Integer[] seasonalOrder = {0, 1, 1, 4};
-                request = new PredictionRequestDto(ts, periods, numSamples, order, seasonalOrder);
-            } else {
-                request = new PredictionRequestDto(ts, periods, numSamples);
-            }
-
-            //contacting the python backend...
-            PredictionResponseDto result = sendPostRequest(request);
-
-            //receiving the predicted time series...
-            PredictionResponseTimeSeriesDto responseTs = new PredictionResponseTimeSeriesDto(figure.getFigureName(), result.getValues());
-
-            stochasticAccountingFigures.put(responseTs.getId(), new HashMap<Integer, List<Double>>());
-
-            //put the predictions into the delivered stochasticAccountingFigures object
-            //TODO: check numSamples magic, currently putting i times the same timeseries in it
-            for (int i = 0; i < numSamples; i++) {
-                stochasticAccountingFigures.get(responseTs.getId()).put(i + 1, Arrays.asList(responseTs.getPreds()));
-            }
+        //create a request with  the help of the PredictionRequestDto class
+        PredictionRequestDto request;
+        
+        //Wenn eine Ordnung angegeben ist, dann wird diese direkt an das Python Backend
+        //weitergegeben. Eine Ordnung besteht aus einer normalen und einer saisonalen Ordnung.
+        //Wenn keine Ordnung mitgegeben wurde, dann wird eine Ordnung vom Python-Backend geschätzt
+        
+        if (figure.getMultiPeriodAccountingFigureRequestDto().getOrder() != null && figure.getMultiPeriodAccountingFigureRequestDto().getSeasonalOrder() != null){
+            
+            Integer[] normalOrder = figure.getMultiPeriodAccountingFigureRequestDto().getOrder();
+            Integer[] seasonalOrder = figure.getMultiPeriodAccountingFigureRequestDto().getSeasonalOrder();
+            
+            request = new PredictionRequestDto(ts, periods, normalOrder, seasonalOrder);
         }
-
-        for (MultiPeriodAccountingFigureNames key : stochasticAccountingFigures.keySet()) {
-            System.out.println(stochasticAccountingFigures.get(key));
+        else {
+            request = new PredictionRequestDto(ts, periods); 
         }
+        
+        //contacting the python backend...
+        PredictionResponseDto result = sendPostRequest(request);
+        
+        //writing the applied order into the multiperiodaccuntingfigurerequest object (is identical if given by the user, but has to be done since user might provide an order so the python backend decides which order to apply)
+        figure.getMultiPeriodAccountingFigureRequestDto().setOrder(result.getOrder());
+        figure.getMultiPeriodAccountingFigureRequestDto().setSeasonalOrder(result.getSeasonalOrder());
+
+        //processing the response...
+        for(Double[] prediction : result.getValues()) {
+            SimpleEntry<Double, Double> hm = new SimpleEntry<>(prediction[0], prediction[1]);
+            figure.getFcastWithStdError().add(hm);
+        }
+        figure.setScore(result.getScore());
+
     }
 
     private PredictionResponseDto sendPostRequest(PredictionRequestDto predictionRequestDto) {
@@ -133,11 +110,10 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
                 case 404:
                     throw new RuntimeException("Bad Request - request is not valid");
                 case 500:
-                    throw new RuntimeException("Internal Server Error from Python Backend during modeling process - use more observations");
+                    throw new RuntimeException("Internal Server Error from Python Backend durin modeling process - use more observations");
             }
 
             //Todo: validate response against schema
-            
             //get the predicted time series out of the response
             predictionResponseDto = mapper.readValue(response.getEntity().getContent(), PredictionResponseDto.class);
 

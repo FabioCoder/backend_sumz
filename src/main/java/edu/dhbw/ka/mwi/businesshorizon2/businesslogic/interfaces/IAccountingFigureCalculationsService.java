@@ -3,26 +3,16 @@ package edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
-
+import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.DoubleKeyValueListDto;
 @Service
 public interface IAccountingFigureCalculationsService {
 
-	public List<Double> calculateFreeCashFlow(
-			List<Double> revenue, 
-			List<Double> additionalIncome, 
-			List<Double> costOfMaterial, 
-			List<Double> costOfStaff, 
-			List<Double> additionalCosts, 
-			List<Double> depreciation, 
-			Double businessTaxRate, 
-			Double corporateTaxRate, 
-			Double solidaryTaxRate, 
-			List<Double> investments, 
-			List<Double> divestments);
+	public DoubleKeyValueListDto calculateFreeCashFlow(DoubleKeyValueListDto revenue, DoubleKeyValueListDto additionalIncome, DoubleKeyValueListDto costOfMaterial, 
+			DoubleKeyValueListDto costOfStaff, DoubleKeyValueListDto additionalCosts, DoubleKeyValueListDto depreciation, Double businessTaxRate, 
+			Double corporateTaxRate, Double solidaryTaxRate, DoubleKeyValueListDto investments, DoubleKeyValueListDto divestments);
 	
 	public List<Double> calculateFlowToEquity(
 			List<Double> freeCashFlow, 
