@@ -326,7 +326,7 @@ public class ScenarioPutRequestDto {
         sb.append(newLine);
         sb.append("CardColor: ");
         sb.append(newLine);
-        sb.append(this.cardColor != null ? this.cardColor : "");
+        sb.append(this.scenarioColor != null ? this.scenarioColor : "");
         sb.append(newLine);
 		sb.append("------------------------------------------------------------------------");
 		
