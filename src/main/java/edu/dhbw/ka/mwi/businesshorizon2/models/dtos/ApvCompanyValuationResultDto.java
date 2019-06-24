@@ -9,13 +9,12 @@ public class ApvCompanyValuationResultDto {
     private Double taxShield;
     private Double variance;
 
-    public ApvCompanyValuationResultDto(Double companyValue, Double marketValueTotalAssets, Double totalLiabilities, Double presentValueOfCashflows, Double taxShield, Double variance) {
+    public ApvCompanyValuationResultDto(Double companyValue, Double marketValueTotalAssets, Double totalLiabilities, Double presentValueOfCashflows, Double taxShield) {
         this.companyValue = companyValue;
         this.marketValueTotalAssets = marketValueTotalAssets;
         this.totalLiabilities = totalLiabilities;
         this.presentValueOfCashflows = presentValueOfCashflows;
         this.taxShield = taxShield;
-        this.variance = variance;
     }
 
     public Double getCompanyValue() {

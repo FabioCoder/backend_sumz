@@ -99,7 +99,9 @@ public class CompanyValuationService implements ICompanyValuationService {
 
 	// returns results: Company Value, Balance Sheet Total, total liabilities, discounted Cashflow, discounted taxShield
         ApvCompanyValuationResultDto result = new ApvCompanyValuationResultDto(companyValue, presentValueOfCashflows + capitalStructureEffect,
-                liabilitiesClone.get(0), presentValueOfCashflows, capitalStructureEffect, Math.pow(companyValueSE, 2));
+                liabilitiesClone.get(0), presentValueOfCashflows, capitalStructureEffect);
+        
+        result.setVariance(Math.pow(companyValueSE, 2));
 
         System.out.println("Printing Standard Errors");
         for (Double d : freeCashFlow.getValueList()) {
