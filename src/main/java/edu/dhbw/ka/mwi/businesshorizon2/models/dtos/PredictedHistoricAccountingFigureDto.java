@@ -21,6 +21,7 @@ public class PredictedHistoricAccountingFigureDto {
 
     public PredictedHistoricAccountingFigureDto(MultiPeriodAccountingFigureRequestDto multiPeriodAccountingFigureRequestDto) {
         this.multiPeriodAccountingFigureRequestDto = multiPeriodAccountingFigureRequestDto;
+        this.fcastWithStdError = new DoubleKeyValueListDto();
     }
 
     public MultiPeriodAccountingFigureRequestDto getMultiPeriodAccountingFigureRequestDto() {
