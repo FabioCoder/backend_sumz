@@ -7,14 +7,14 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class TimeSeriesItemDateResponseDto {
-	
-	@NotNull(message="year must not be null.")
-	@DecimalMin(value="1900", message="year must be >=1900 and <=2100.")
-	@DecimalMax(value="2100", message="year must be >=1900 and <=2100.")
+
+	@NotNull(message="Es muss ein Jahr angegeben werden.")
+	@DecimalMin(value="1900", message="Das Jahr muss zwischen 1900 und 2100 liegen.")
+	@DecimalMax(value="2100", message="Das Jahr muss zwischen 1900 und 2100 liegen.")
 	private Integer year;
-	
-	@Min(value=1, message="quarter must be an element of the set {1, 2, 3, 4}.")
-	@Max(value=4, message="quarter must be an element of the set {1, 2, 3, 4}.")
+
+	@Min(value=1, message="Die Angabe des Quartals muss zwischen 1 und 4 liegen.")
+	@Max(value=4, message="Die Angabe des Quartals muss zwischen 1 und 4 liegen.")
 	private Integer quarter;
 	
 	public TimeSeriesItemDateResponseDto() {

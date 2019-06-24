@@ -18,19 +18,19 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.common.TimeSeriesItemDateFormats;
  * @author DHBW KA WWI
  */
 public class MultiPeriodAccountingFigureRequestDto {
-
-    @NotNull(message = "isHistoric must not be null.")
+	
+    @NotNull(message = "Der Wert isHistoric darf nicht Null sein.")
     private Boolean isHistoric;
 
-    @NotNull(message = "timeSeries must not be null.")
+    @NotNull(message = "Der Wert Timeseries darf nicht null sein.")
     @Valid
     private List<TimeSeriesItemRequestDto> timeSeries;
 
     private MultiPeriodAccountingFigureNames figureName;
-    
+
     //Ordnung für die Schätzung der Zeitreihe
     @Valid
-    private Integer[] order; 
+    private Integer[] order;
     @Valid
     private Integer[] seasonalOrder;
 
@@ -47,7 +47,7 @@ public class MultiPeriodAccountingFigureRequestDto {
      * @param timeSeries
      * @param order
      */
-    public MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames figureName, 
+    public MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames figureName,
                     Boolean isHistoric, List<TimeSeriesItemRequestDto> timeSeries, Integer[] order, Integer[] seasonalOrder) {
         this.figureName = figureName;
         this.isHistoric = isHistoric;
@@ -55,16 +55,16 @@ public class MultiPeriodAccountingFigureRequestDto {
         this.order = order;
         this.seasonalOrder = seasonalOrder;
     }
-    
-    public MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames figureName, 
+
+    public MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames figureName,
                     Boolean isHistoric, List<TimeSeriesItemRequestDto> timeSeries) {
         this.figureName = figureName;
         this.isHistoric = isHistoric;
         this.timeSeries = timeSeries;
     }
-    
+
     /**
-     * 
+     *
      * @return order
      */
     public Integer[] getOrder() {
@@ -72,17 +72,17 @@ public class MultiPeriodAccountingFigureRequestDto {
     }
 
     /**
-     * 
-     * @param order 
+     *
+     * @param order
      */
     public void setOrder(Integer[] order) {
         this.order = order;
     }
-    
+
     public Integer[] getSeasonalOrder() {
         return seasonalOrder;
     }
-    
+
     public void setSeasonalOrder(Integer[] seasonalOrder) {
         this.seasonalOrder = seasonalOrder;
     }

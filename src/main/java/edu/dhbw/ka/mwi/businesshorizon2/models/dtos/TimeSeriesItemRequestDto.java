@@ -4,10 +4,10 @@ import javax.validation.constraints.NotNull;
 
 public class TimeSeriesItemRequestDto{
 	
-	@NotNull(message="date must not be null.")
+	@NotNull(message="Es muss ein Datum gesetzt sein.")
 	private TimeSeriesItemDateRequestDto date;
 	
-	@NotNull(message="amount must not be null.")
+	@NotNull(message="Der Betrag muss gesetzt sein.")
 	private Double amount;
 	
 	public TimeSeriesItemRequestDto() {

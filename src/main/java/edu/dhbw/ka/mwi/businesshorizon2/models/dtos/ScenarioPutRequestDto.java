@@ -23,47 +23,47 @@ import edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidTimeSeriesRangesPutReq
 @IsValidTimeSeriesRangesPutRequest()
 public class ScenarioPutRequestDto {
 	
-	@NotNull(message="id must not be null.")
+	@NotNull(message="Die Id des Szenarios muss gesetzt werden.")
 	private Long id;
 	
-	@NotNull(message="stochastic must not be null.")
+	@NotNull(message="Es muss angegeben werden, ob die Bewertung storastisch ist oder nicht")
 	private Boolean stochastic;
 	
-	@NotNull(message = "scenarioName must not be null.")
-	@Size(min=1, max=20, message="scenarioName must consist of 1-20 characters.")
+	@NotNull(message = "Das Szenario muss einen Namen haben.")
+	@Size(min=1, max=20, message="Die Länge des Namen des Szenarios muss zwischen 1 und 20 Zeichen liegen.")
 	private String scenarioName;
-	
-	@NotNull(message = "scenarioDescription must not be null.")
-	@Size(min=1, max=100, message="scenarioDescription must consist of 1-100 characters.")
+
+	@NotNull(message = "Das Szenario muss eine Beschreibung haben.")
+	@Size(min = 1, max = 100, message = "Die Länge der Beschreibung des Szenarios muss zwischen 1 und 100 Zeichen liegen.")
 	private String scenarioDescription;
-	
-	@NotNull(message = "periods must not be null.")
-	@Min(value=2, message="periods must be >=2.")
+
+	@NotNull(message = "Die Perioden müssen gesetzt werden.")
+	@Min(value = 2, message = "Es müssen mindestens zwei PErioden angegeben werden.")
 	private Integer periods;
-	
-	@NotNull(message = "businessTaxRate must not be null.")
-	@DecimalMin(value="0.0", message="businessTaxRate must be >=0 and <=1.0.")
-	@DecimalMax(value="1.0", message="businessTaxRate must be >=0 and <=1.0.")
+
+	@NotNull(message = "Es muss ein Gewerbesteuerhebesatz angegeben werden.")
+	@DecimalMin(value = "0.0", message = "Der Gewerbesteuerhebesatz muss zwischen 0 und 1 liegen.")
+	@DecimalMax(value = "1.0", message = "Der Gewerbesteuerhebesatz muss zwischen 0 und 1 liegen.")
 	private Double businessTaxRate;
-	
-	@NotNull(message = "corporateTaxRate must not be null.")
-	@DecimalMin(value="0.0", message="corporateTaxRate must be >=0 and <=1.0.")
-	@DecimalMax(value="1.0", message="corporateTaxRate must be >=0 and <=1.0.")
+
+	@NotNull(message = "Es muss ein Körperschaftssteuersatz angegeben werden.")
+	@DecimalMin(value = "0.0", message = "Der Körperschaftssteuersatz muss zwischen 0 und 1 liegen.")
+	@DecimalMax(value = "1.0", message = "Der Körperschaftssteuersatz muss zwischen 0 und 1 liegen.")
 	private Double corporateTaxRate;
-	
-	@NotNull(message = "solidaryTaxRate must not be null.")
-	@DecimalMin(value="0.0", message="solidaryTaxRate must be >=0 and <=1.0.")
-	@DecimalMax(value="1.0", message="solidaryTaxRate must be >=0 and <=1.0.")
+
+	@NotNull(message = "Es muss ein Solidaritätssteuersatz angegeben werden.")
+	@DecimalMin(value = "0.0", message = "Der Solidaritätssteuersatz muss zwischen 0 und 1 liegen.")
+	@DecimalMax(value = "1.0", message = "Der Solidaritätssteuersatz muss zwischen 0 und 1 liegen.")
 	private Double solidaryTaxRate;
-	
-	@NotNull(message = "costOfEquity must not be null.")
-	@DecimalMin(value="-0.1", message="costOfEquity must be >=-0.1 and <=1.0.")
-	@DecimalMax(value="1.0", message="costOfEquity must be >=-0.1 and <=1.0.")
+
+	@NotNull(message = "Es müssen Eigenkapitalkosten angegeben werden.")
+	@DecimalMin(value = "-0.1", message = "Die Eigenkapitalkosten müssen zwischen 0 und 1 liegen.")
+	@DecimalMax(value = "1.0", message = "Die Eigenkapitalkosten müssen zwischen 0 und 1 liegen.")
 	private Double equityInterestRate;
-	
-	@NotNull(message = "interestOnLiabilitiesRate must not be null.")
-	@DecimalMin(value="0.0", message="interestOnLiabilitiesRate must be >=0.0 and <=1.0.")
-	@DecimalMax(value="1.0", message="interestOnLiabilitiesRate must be >=0.0 and <=1.0.")
+
+	@NotNull(message = "Es muss ein Zinssatz für Verbindlichkeiten angegeben werden.")
+	@DecimalMin(value = "0.0", message = "Der Zinssatz für Verbindlichkeiten muss zwischen 0 und 1 liegen.")
+	@DecimalMax(value = "1.0", message = "Der Zinssatz für Verbindlichkeiten muss zwischen 0 und 1 liegen.")
 	private Double interestOnLiabilitiesRate;
         
         private String scenarioColor;
