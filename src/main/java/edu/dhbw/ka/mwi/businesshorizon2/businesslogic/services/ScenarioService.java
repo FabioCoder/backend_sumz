@@ -1,12 +1,9 @@
 package edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +11,17 @@ import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IAccountingFigu
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.ICompanyValuationService;
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IScenarioService;
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.ITimeSeriesPredictionService;
-import edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IAppUserRepository;
 import edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IScenarioGraphRepository;
 import edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IScenarioRepository;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
-import edu.dhbw.ka.mwi.businesshorizon2.models.daos.AppUserDao;
-import edu.dhbw.ka.mwi.businesshorizon2.models.daos.MultiPeriodAccountingFigureDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.daos.ScenarioDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ApvCompanyValuationResultDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.CompanyValueDistributionDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.FcfCompanyValuationResultDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.FteCompanyValuationResultDto;
+import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictedHistoricAccountingFigureDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.MultiPeriodAccountingFigureRequestDto;
+import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.DoubleKeyValueListDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPostRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPutRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioResponseDto;
@@ -34,340 +30,293 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.CompanyValueDistributionM
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.FcfCompanyValuationResultMapper;
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.FteCompanyValuationResultMapper;
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.ScenarioMapper;
-import javassist.tools.web.BadHttpRequest;
+import java.util.AbstractMap;
+import java.util.ArrayList;
 
+//this is a key class since it basically initiates the whole scenario creation and calculation
+//the ScenarioRepository / ScenarioGraphRepository (difference?) is the storage to which all scenarios are written to  / deleted from
+/**
+ *
+ * @author WWI DHBW KA
+ */
 @Service
-public class ScenarioService implements IScenarioService{
+public class ScenarioService implements IScenarioService {
 
-	private final Integer numSamples = 500;
-	
-	@Autowired
-	private IAccountingFigureCalculationsService accountingService;
-	
-	@Autowired
-	private ITimeSeriesPredictionService predictionService;
-	
-	@Autowired
-	private ICompanyValuationService companyValuationService;
-	
-	@Autowired
-	private IScenarioRepository scenarioRepository;
-	
-	@Autowired
-	private IScenarioGraphRepository scenarioGraphRepository;
-	
-	@Override
-	public Long create(ScenarioPostRequestDto scenarioDto, Long appUserId) {
-				
-		HashMap<MultiPeriodAccountingFigureNames, List<Double>> deterministicAccountingFigures = 
-				new HashMap<MultiPeriodAccountingFigureNames, List<Double>>();
-		
-		HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures = 
-				new HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>>();
-		
-		List<MultiPeriodAccountingFigureRequestDto> nonHistoricAccountingFigures = scenarioDto.getAllMultiPeriodAccountingFigures();
-		nonHistoricAccountingFigures.removeIf(x -> x == null || x.getTimeSeries() == null || x.getIsHistoric() == null || x.getIsHistoric().equals(true));
-		
-		List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures = scenarioDto.getAllMultiPeriodAccountingFigures();
-		historicAccountingFigures.removeIf(x -> x == null || x.getTimeSeries() == null || x.getIsHistoric() == null || x.getIsHistoric().equals(false));
-		
-		boolean isValuationStochastic = !historicAccountingFigures.isEmpty();
-		boolean freeCashFlowsProvided = false;
-		double effectiveTaxRate = accountingService.calculateEffectiveTaxRate(scenarioDto.getBusinessTaxRate(), scenarioDto.getCorporateTaxRate(), scenarioDto.getSolidaryTaxRate());
-		
-		for (MultiPeriodAccountingFigureRequestDto figure : nonHistoricAccountingFigures) {
-			deterministicAccountingFigures.put(figure.getFigureName(), figure.getTimeSeriesAmountsSortedAscByDate());
-			
-			if(figure.getFigureName() == MultiPeriodAccountingFigureNames.FreeCashFlows) {
-				freeCashFlowsProvided = true;
-			}
-		}
-		if(!freeCashFlowsProvided) {
-			for (MultiPeriodAccountingFigureRequestDto figure : historicAccountingFigures) {
-				if(figure.getFigureName() == MultiPeriodAccountingFigureNames.FreeCashFlows) {
-					freeCashFlowsProvided = true;
-					break;
-				}
-			}
-		}
-		
-		if(isValuationStochastic) {
-			predictionService.MakePredictions(historicAccountingFigures, stochasticAccountingFigures, scenarioDto.getPeriods(), numSamples);	
-		}	
-		
-		ScenarioDao scenarioDao = ScenarioMapper.mapDtoToDao(scenarioDto);
-		ApvCompanyValuationResultDto apvRes;
-		FteCompanyValuationResultDto fteRes;
-		FcfCompanyValuationResultDto fcfRes;
-		
-		if(isValuationStochastic) {
-			
-			List<Double> companyValues = new ArrayList<Double>();
-			for (int sampleNum = 1; sampleNum <= numSamples; sampleNum++) {
-					
-				List<Double> liabilities = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Liabilities, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);
-						
-				List<Double> freeCashFlows;
+    @Autowired
+    private IAccountingFigureCalculationsService accountingService;
 
-				if(freeCashFlowsProvided) {
-					freeCashFlows = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.FreeCashFlows, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);
-				}
-				else {
-					freeCashFlows = getFreeCashFlows(deterministicAccountingFigures, stochasticAccountingFigures, scenarioDto.getPeriods(), scenarioDto.getBusinessTaxRate(), scenarioDto.getCorporateTaxRate(), scenarioDto.getSolidaryTaxRate(), sampleNum);
-				}
-				
-				List<Double> ftes = accountingService.calculateFlowToEquity(
-						freeCashFlows, 
-						liabilities, 
-						scenarioDto.getInterestOnLiabilitiesRate(), 
-						effectiveTaxRate);
-				
-				if(!stochasticAccountingFigures.containsKey(MultiPeriodAccountingFigureNames.FreeCashFlows)) {
-					stochasticAccountingFigures.put(MultiPeriodAccountingFigureNames.FreeCashFlows, new HashMap<Integer, List<Double>>());
-				}
-				stochasticAccountingFigures.get(MultiPeriodAccountingFigureNames.FreeCashFlows).put(sampleNum, freeCashFlows);
-				
-				if(!stochasticAccountingFigures.containsKey(MultiPeriodAccountingFigureNames.FlowToEquity)) {
-					stochasticAccountingFigures.put(MultiPeriodAccountingFigureNames.FlowToEquity, new HashMap<Integer, List<Double>>());
-				}
-				stochasticAccountingFigures.get(MultiPeriodAccountingFigureNames.FlowToEquity).put(sampleNum, ftes);
-				
-				ApvCompanyValuationResultDto res = companyValuationService.performApvCompanyValuation(
-						freeCashFlows, 
-						liabilities, 
-						scenarioDto.getEquityInterestRate(), 
-						scenarioDto.getInterestOnLiabilitiesRate(), 
-						effectiveTaxRate);
-				
-				companyValues.add(res.getCompanyValue());
-			}
-			
-			
-			List<Double> meanFreeCashFlows = deterministicAccountingFigures.containsKey(MultiPeriodAccountingFigureNames.FreeCashFlows) 
-					? deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.FreeCashFlows)
-					: accountingService.getMeanAccountingFigureValues(stochasticAccountingFigures, MultiPeriodAccountingFigureNames.FreeCashFlows, scenarioDto.getPeriods());
-					
-			List<Double> meanLiabilities = deterministicAccountingFigures.containsKey(MultiPeriodAccountingFigureNames.Liabilities) 
-					? deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.Liabilities)
-					: accountingService.getMeanAccountingFigureValues(stochasticAccountingFigures, MultiPeriodAccountingFigureNames.Liabilities, scenarioDto.getPeriods());
-					
-			List<Double> meanFlowToEquity = deterministicAccountingFigures.containsKey(MultiPeriodAccountingFigureNames.FlowToEquity) 
-					? deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.FlowToEquity)
-					: accountingService.getMeanAccountingFigureValues(stochasticAccountingFigures, MultiPeriodAccountingFigureNames.FlowToEquity, scenarioDto.getPeriods());
-			
-			apvRes = companyValuationService.performApvCompanyValuation(
-					meanFreeCashFlows, 
-					meanLiabilities, 
-					scenarioDto.getEquityInterestRate(), 
-					scenarioDto.getInterestOnLiabilitiesRate(), 
-					effectiveTaxRate);
-			
-			fteRes = companyValuationService.performFteCompanyValuationResult(
-					meanFlowToEquity, 
-					meanLiabilities, 
-					scenarioDto.getEquityInterestRate(), 
-					scenarioDto.getInterestOnLiabilitiesRate(), 
-					effectiveTaxRate);
-			
-			fcfRes = companyValuationService.performFcfCompanyValuationResult(
-					meanFreeCashFlows, 
-					meanLiabilities, 
-					scenarioDto.getEquityInterestRate(), 
-					scenarioDto.getInterestOnLiabilitiesRate(), 
-					effectiveTaxRate);
-			
-			CompanyValueDistributionDto companyValueDistribution = companyValuationService.getCompanyValueDistribution(companyValues);
-			scenarioDao.setCompanyValueDistributionPoints(CompanyValueDistributionMapper.mapDtoToDao(companyValueDistribution));
-		}
-		else {	
-			List<Double> liabilities = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.Liabilities);		
-			List<Double> freeCashFlows;
+    @Autowired
+    private ITimeSeriesPredictionService predictionService;
 
-			if(freeCashFlowsProvided) {
-				freeCashFlows = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.FreeCashFlows);
-			}
-			else {
-				freeCashFlows = getFreeCashFlows(
-						deterministicAccountingFigures, 
-						scenarioDto.getPeriods(), 
-						scenarioDto.getBusinessTaxRate(), 
-						scenarioDto.getCorporateTaxRate(), 
-						scenarioDto.getSolidaryTaxRate());
-			}
-			for(int i = 0; i < freeCashFlows.size(); i++) {
-				System.out.println(freeCashFlows.get(i) + ", ");
-			}
-			
-			List<Double> ftes = accountingService.calculateFlowToEquity(
-					freeCashFlows, 
-					liabilities, 
-					scenarioDto.getInterestOnLiabilitiesRate(), 
-					effectiveTaxRate);
-			
-			apvRes = companyValuationService.performApvCompanyValuation(
-					freeCashFlows, 
-					liabilities, 
-					scenarioDto.getEquityInterestRate(), 
-					scenarioDto.getInterestOnLiabilitiesRate(), 
-					effectiveTaxRate);
-			
-			fteRes = companyValuationService.performFteCompanyValuationResult(
-					ftes, 
-					liabilities, 
-					scenarioDto.getEquityInterestRate(), 
-					scenarioDto.getInterestOnLiabilitiesRate(), 
-					effectiveTaxRate);
-			
-			fcfRes = companyValuationService.performFcfCompanyValuationResult(
-					freeCashFlows, 
-					liabilities, 
-					scenarioDto.getEquityInterestRate(), 
-					scenarioDto.getInterestOnLiabilitiesRate(), 
-					effectiveTaxRate);
-		}
+    @Autowired
+    private ICompanyValuationService companyValuationService;
 
-		scenarioDao.setApvCompanyValuationResultDao(ApvCompanyValuationResultMapper.mapDtoToDao(apvRes));
-		scenarioDao.setFteCompanyValuationResultDao(FteCompanyValuationResultMapper.mapDtoToDao(fteRes));
-		scenarioDao.setFcfCompanyValuationResultDao(FcfCompanyValuationResultMapper.mapDtoToDao(fcfRes));
-		
-		Long scenarioInDbId = scenarioGraphRepository.create(scenarioDao, appUserId);
-		
-		return scenarioInDbId;
-	}
+    @Autowired
+    private IScenarioRepository scenarioRepository;
 
-	@Override
-	public void delete(Long scenarioId, Long appUserId) {
-		
-		ScenarioDao dao = scenarioRepository.get(scenarioId);
-		
-		if(dao == null) {
-			throw new IllegalArgumentException("The requested scenario does not exist.");
-		}
-		
-		if(!dao.getAppUser().getAppUserId().equals(appUserId)) {
-			throw new AccessDeniedException("The requested user is not authorized to delete the requested scenario.");
-		}
-		
-		scenarioRepository.delete(dao);
-	}
+    @Autowired
+    private IScenarioGraphRepository scenarioGraphRepository;
 
-	@Override
-	public List<ScenarioResponseDto> getAll(Long appUserId) {
-		
-		List<ScenarioDao> daos = scenarioRepository.getAll(appUserId);
-		List<ScenarioResponseDto> dtos = ScenarioMapper.mapDaoToDto(daos);
-		
-		return dtos;
-	}
-	
-	@Override
-	public ScenarioResponseDto get(Long scenarioId, Long appUserId) {
-		
-		ScenarioDao dao = scenarioRepository.get(scenarioId);
-		
-		if(dao == null) {
-			throw new IllegalArgumentException("The requested scenario does not exist.");
-		}
-		
-		if(!dao.getAppUser().getAppUserId().equals(appUserId)) {
-			throw new AccessDeniedException("The requested user is not authorized to access the requested scenario.");
-		}
+    /**
+     *
+     * @param scenarioDto
+     * @param appUserId
+     * @return
+     */
+    @Override
+    public Long create(ScenarioPostRequestDto scenarioDto, Long appUserId) {
 
-		return ScenarioMapper.mapDaoToDto(dao);
-	}
+        ScenarioDao scenarioDao = ScenarioMapper.mapDtoToDao(scenarioDto);
 
-	@Override
-	public Long update(ScenarioPutRequestDto scenarioDto, Long appUserId) {
-		
-		ScenarioDao dao = scenarioRepository.get(scenarioDto.getId());
-		
-		if(dao == null) {
-			throw new IllegalArgumentException("The requested scenario does not exist.");
-		}
-		
-		if(!dao.getAppUser().getAppUserId().equals(appUserId)) {
-			throw new AccessDeniedException("The requested user is not authorized to update the requested scenario.");
-		}
-		
-		scenarioRepository.delete(dao);
-		
-		return create(ScenarioMapper.mapPutDtoToPostDto(scenarioDto), appUserId);
-	}
-	
-	private List<Double> getFreeCashFlows(
-			HashMap<MultiPeriodAccountingFigureNames, List<Double>> deterministicAccountingFigures,
-			HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures,
-			Integer periods, 
-			Double businessTaxRate, 
-			Double corporateTaxRate, 
-			Double solidaryTaxRate,
-			Integer sampleNum) {
-		
-		List<Double> revenues = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Revenue, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);
-		List<Double> additionalIncomes = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.AdditionalIncome, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);
-		List<Double> costOfMaterials = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.CostOfMaterial, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);
-		List<Double> costOfStaffs = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.CostOfStaff, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);
-		List<Double> additionalCostss = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.AdditionalCosts, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);
-		List<Double> depreciations = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Depreciation, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);
-		List<Double> investments = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Investments, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);				
-		List<Double> divestments = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Divestments, deterministicAccountingFigures, stochasticAccountingFigures, sampleNum);
-		
-		List<Double> freeCashFlows = accountingService.calculateFreeCashFlow(
-				revenues, 
-				additionalIncomes, 
-				costOfMaterials, 
-				costOfStaffs, 
-				additionalCostss, 
-				depreciations, 
-				businessTaxRate, 
-				corporateTaxRate, 
-				solidaryTaxRate, 
-				investments, 
-				divestments);	
-		
-		return freeCashFlows;
-	}
-	
-	private List<Double> getFreeCashFlows(
-			HashMap<MultiPeriodAccountingFigureNames, List<Double>> deterministicAccountingFigures,
-			Integer periods, 
-			Double businessTaxRate, 
-			Double corporateTaxRate, 
-			Double solidaryTaxRate) {
-		
-		List<Double> revenues = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.Revenue);
-		List<Double> additionalIncomes = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.AdditionalIncome);
-		List<Double> costOfMaterials = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.CostOfMaterial);
-		List<Double> costOfStaffs = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.CostOfStaff);
-		List<Double> additionalCostss = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.AdditionalCosts);
-		List<Double> depreciations = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.Depreciation);
-		List<Double> investments = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.Investments);				
-		List<Double> divestments = deterministicAccountingFigures.get(MultiPeriodAccountingFigureNames.Divestments);
-		
-		List<Double> freeCashFlows = accountingService.calculateFreeCashFlow(
-				revenues, 
-				additionalIncomes, 
-				costOfMaterials, 
-				costOfStaffs, 
-				additionalCostss, 
-				depreciations, 
-				businessTaxRate, 
-				corporateTaxRate, 
-				solidaryTaxRate, 
-				investments, 
-				divestments);	
-		
-		return freeCashFlows;
-	}
-	
-	private List<Double> getDeterministicOrStochasticAccountingFigure(
-			MultiPeriodAccountingFigureNames figureName, 
-			HashMap<MultiPeriodAccountingFigureNames, List<Double>> deterministicAccountingFigures,
-			HashMap<MultiPeriodAccountingFigureNames, HashMap<Integer, List<Double>>> stochasticAccountingFigures,
-			Integer sampleNum
-			) {
-		return deterministicAccountingFigures.containsKey(figureName)
-			? deterministicAccountingFigures.get(figureName)
-			: stochasticAccountingFigures.get(figureName).get(sampleNum);
-	}
+        //TODO: give dtos variance???
+        ApvCompanyValuationResultDto apvRes;
+        FteCompanyValuationResultDto fteRes;
+        FcfCompanyValuationResultDto fcfRes;
+
+        //this is a key-value object for all calculation inputs that is filled later?
+        //the list represents the time series values for each Accouting figure
+        HashMap<MultiPeriodAccountingFigureNames, List<Double>> deterministicAccountingFigures = new HashMap<>();
+        //stochastic / predicted time series are represented by historicAccountingFigureDtoList
+        List<PredictedHistoricAccountingFigureDto> historicAccountingFigureDtoList = new ArrayList();
+
+        //contains all of the required variables (including the time series etc.) for company valuation if the user enters future values -> user input
+        List<MultiPeriodAccountingFigureRequestDto> nonHistoricAccountingFigures = scenarioDto.getAllMultiPeriodAccountingFigures();
+        //since the user might not have entered all values, we need to remove the ones with null value
+        nonHistoricAccountingFigures.removeIf(x -> x == null || x.getTimeSeries() == null || x.getIsHistoric() == null || x.getIsHistoric().equals(true));
+
+        //contains all of the required variables for company valuation if the user enters historical values -> user  input
+        List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures = scenarioDto.getAllMultiPeriodAccountingFigures();
+        //since the user might not have entered all values, we need to remove the ones with null value
+        historicAccountingFigures.removeIf(x -> x == null || x.getTimeSeries() == null || x.getIsHistoric() == null || x.getIsHistoric().equals(false));
+
+        //if the historical data is not empty the valuation is stochastic
+        boolean isValuationStochastic = !historicAccountingFigures.isEmpty();
+
+        //freeCashFlowsProvided variable is set later
+        boolean freeCashFlowsProvided = false;
+
+        //calculate the effective Tax rate
+        double effectiveTaxRate = accountingService.calculateEffectiveTaxRate(scenarioDto.getBusinessTaxRate(), scenarioDto.getCorporateTaxRate(), scenarioDto.getSolidaryTaxRate());
+
+        //for each figure/variable entered by the user:
+        //first we only consider nonHistoricAccountingFigures
+        for (MultiPeriodAccountingFigureRequestDto figure : nonHistoricAccountingFigures) {
+            //since nonHistoricAccountingFigures occur if the user enters future values (so no prediction is needed), a deterministic calculation can be done
+            deterministicAccountingFigures.put(figure.getFigureName(), figure.getTimeSeriesAmountsSortedAscByDate());
+
+            //check whether free cash flows are provided, if this is the case the calculation is easy
+            if (figure.getFigureName() == MultiPeriodAccountingFigureNames.FreeCashFlows) {
+                freeCashFlowsProvided = true;
+            }
+        }
+        //if the nonhistoricaccountingfigures do not contain free cash flows, check whether free cash flows are provided for the historic accounting figures
+        if (!freeCashFlowsProvided) {
+            for (MultiPeriodAccountingFigureRequestDto figure : historicAccountingFigures) {
+                if (figure.getFigureName() == MultiPeriodAccountingFigureNames.FreeCashFlows) {
+                    freeCashFlowsProvided = true;
+                    break;
+                }
+            }
+        }
+
+        //if a stochastic valuation has to be done, we need predictions that we request here for all historic accounting figures
+        //TODO: return value not checked for bad response of the python backend?
+        for (MultiPeriodAccountingFigureRequestDto figure : historicAccountingFigures) {
+            PredictedHistoricAccountingFigureDto historicAccountingFigureDto = new PredictedHistoricAccountingFigureDto(figure);
+            predictionService.MakePredictions(historicAccountingFigureDto, scenarioDto.getPeriods());
+            historicAccountingFigureDtoList.add(historicAccountingFigureDto);
+        }
+
+        DoubleKeyValueListDto liabilities = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Liabilities, deterministicAccountingFigures, historicAccountingFigureDtoList);
+        DoubleKeyValueListDto freeCashFlows;
+
+        if (freeCashFlowsProvided) {
+            freeCashFlows = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.FreeCashFlows, deterministicAccountingFigures, historicAccountingFigureDtoList);
+        } else {
+            //if free cash flows are not provided, we have to calculate them
+            //TODO: wenn fcf berechnet werden, sind sie ja unter umständen auch stochastisch -> varianz berechnen über varianz der anderen prognostizierten reihen!!
+            freeCashFlows = getFreeCashFlows(deterministicAccountingFigures, historicAccountingFigureDtoList, scenarioDto.getBusinessTaxRate(), scenarioDto.getCorporateTaxRate(), scenarioDto.getSolidaryTaxRate());
+        }
+
+        //calculate the  flow to equity that is needed for the fte method
+        List<Double> ftes = accountingService.calculateFlowToEquity(freeCashFlows.getKeyList(), liabilities.getKeyList(), scenarioDto.getInterestOnLiabilitiesRate(), effectiveTaxRate);
+
+        //perform valuation calculations with the different company calculation methods
+        //TODO: implement StdErrors calculation for apvRes
+        apvRes = companyValuationService.performApvCompanyValuation(freeCashFlows, liabilities, scenarioDto.getEquityInterestRate(), scenarioDto.getInterestOnLiabilitiesRate(), effectiveTaxRate);
+
+        fteRes = companyValuationService.performFteCompanyValuationResult(ftes, liabilities.getKeyList(), scenarioDto.getEquityInterestRate(), scenarioDto.getInterestOnLiabilitiesRate(), effectiveTaxRate);
+
+        fcfRes = companyValuationService.performFcfCompanyValuationResult(freeCashFlows.getKeyList(), liabilities.getKeyList(), scenarioDto.getEquityInterestRate(), scenarioDto.getInterestOnLiabilitiesRate(), effectiveTaxRate);
+
+        if (isValuationStochastic) {
+            //calculate the distribution of the company values
+            //TODO: distribution nicht nur für apv
+            try {
+                CompanyValueDistributionDto companyValueDistribution = companyValuationService.getCompanyValueDistribution(apvRes.getCompanyValue(), apvRes.getVariance());
+                scenarioDao.setCompanyValueDistributionPoints(CompanyValueDistributionMapper.mapDtoToDao(companyValueDistribution));
+            } catch (NullPointerException npe) {
+                System.out.println("No Distribution can be calculated!");
+            }
+        }
+
+        //create & save the scenario by mapping it to the DAO
+        scenarioDao.setApvCompanyValuationResultDao(ApvCompanyValuationResultMapper.mapDtoToDao(apvRes));
+        scenarioDao.setFteCompanyValuationResultDao(FteCompanyValuationResultMapper.mapDtoToDao(fteRes));
+        scenarioDao.setFcfCompanyValuationResultDao(FcfCompanyValuationResultMapper.mapDtoToDao(fcfRes));
+
+        Long scenarioInDbId = scenarioGraphRepository.create(scenarioDao, appUserId);
+
+        return scenarioInDbId;
+    }
+
+    /**
+     *
+     * @param scenarioId
+     * @param appUserId
+     */
+    @Override
+    public void delete(Long scenarioId, Long appUserId) {
+
+        //This deletes an existing scenario
+        ScenarioDao dao = scenarioRepository.get(scenarioId);
+
+        if (dao == null) {
+            throw new IllegalArgumentException("The requested scenario does not exist.");
+        }
+
+        if (!dao.getAppUser().getAppUserId().equals(appUserId)) {
+            throw new AccessDeniedException("The requested user is not authorized to delete the requested scenario.");
+        }
+
+        scenarioRepository.delete(dao);
+    }
+
+    /**
+     *
+     * @param appUserId
+     * @return
+     */
+    @Override
+    public List<ScenarioResponseDto> getAll(Long appUserId) {
+
+        //This returns all scenarios for an user
+        List<ScenarioDao> daos = scenarioRepository.getAll(appUserId);
+        List<ScenarioResponseDto> dtos = ScenarioMapper.mapDaoToDto(daos);
+
+        return dtos;
+    }
+
+    /**
+     *
+     * @param scenarioId
+     * @param appUserId
+     * @return
+     */
+    @Override
+    public ScenarioResponseDto get(Long scenarioId, Long appUserId) {
+
+        //this returns a specific scenario identified by the scenarioId and appUserId
+        ScenarioDao dao = scenarioRepository.get(scenarioId);
+
+        if (dao == null) {
+            throw new IllegalArgumentException("The requested scenario does not exist.");
+        }
+
+        if (!dao.getAppUser().getAppUserId().equals(appUserId)) {
+            throw new AccessDeniedException("The requested user is not authorized to access the requested scenario.");
+        }
+
+        return ScenarioMapper.mapDaoToDto(dao);
+    }
+
+    /**
+     *
+     * @param scenarioDto
+     * @param appUserId
+     * @return
+     */
+    @Override
+    public Long update(ScenarioPutRequestDto scenarioDto, Long appUserId) {
+
+        //this updates an existing scenario by deleting it and creating a new one
+        ScenarioDao dao = scenarioRepository.get(scenarioDto.getId());
+
+        if (dao == null) {
+            throw new IllegalArgumentException("The requested scenario does not exist.");
+        }
+
+        if (!dao.getAppUser().getAppUserId().equals(appUserId)) {
+            throw new AccessDeniedException("The requested user is not authorized to update the requested scenario.");
+        }
+
+        try {
+            Long newId = create(ScenarioMapper.mapPutDtoToPostDto(scenarioDto), appUserId);
+            scenarioRepository.delete(dao);
+            return newId;
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Exception while trying to update the scenario. Therefore, old one has not been deleted.");
+        }
+
+    }
+
+    //TODO: calculate fcfStdErrors if stochastic pnl figures are used for fcf calculation
+    private DoubleKeyValueListDto getFreeCashFlows(
+            //this provides free cash flows by using the accounting service
+            HashMap<MultiPeriodAccountingFigureNames, List<Double>> deterministicAccountingFigures,
+            List<PredictedHistoricAccountingFigureDto> historicAccountingFigureDtoList,
+            Double businessTaxRate,
+            Double corporateTaxRate,
+            Double solidaryTaxRate) {
+
+        DoubleKeyValueListDto revenues = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Revenue, deterministicAccountingFigures, historicAccountingFigureDtoList);
+        DoubleKeyValueListDto additionalIncomes = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.AdditionalIncome, deterministicAccountingFigures, historicAccountingFigureDtoList);
+        DoubleKeyValueListDto costOfMaterials = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.CostOfMaterial, deterministicAccountingFigures, historicAccountingFigureDtoList);
+        DoubleKeyValueListDto costOfStaffs = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.CostOfStaff, deterministicAccountingFigures, historicAccountingFigureDtoList);
+        DoubleKeyValueListDto additionalCostss = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.AdditionalCosts, deterministicAccountingFigures, historicAccountingFigureDtoList);
+        DoubleKeyValueListDto depreciations = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Depreciation, deterministicAccountingFigures, historicAccountingFigureDtoList);
+        DoubleKeyValueListDto investments = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Investments, deterministicAccountingFigures, historicAccountingFigureDtoList);
+        DoubleKeyValueListDto divestments = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Divestments, deterministicAccountingFigures, historicAccountingFigureDtoList);
+
+        DoubleKeyValueListDto freeCashFlows = accountingService.calculateFreeCashFlow(
+                revenues,
+                additionalIncomes,
+                costOfMaterials,
+                costOfStaffs,
+                additionalCostss,
+                depreciations,
+                businessTaxRate,
+                corporateTaxRate,
+                solidaryTaxRate,
+                investments,
+                divestments);
+
+        return freeCashFlows;
+    }
+
+    private DoubleKeyValueListDto  getDeterministicOrStochasticAccountingFigure(
+            MultiPeriodAccountingFigureNames figureName,
+            HashMap<MultiPeriodAccountingFigureNames, List<Double>> deterministicAccountingFigures,
+            List<PredictedHistoricAccountingFigureDto> historicAccountingFigureDtoList
+    ) {
+
+        if (deterministicAccountingFigures.containsKey(figureName)) {
+            DoubleKeyValueListDto list = new DoubleKeyValueListDto();
+            List<Double> ts = deterministicAccountingFigures.get(figureName);
+            for(Double d :  ts) {
+                list.add(new AbstractMap.SimpleEntry<>(d, 0.0));
+            }
+            return list;
+        } else {
+            DoubleKeyValueListDto ts = null;
+            for (PredictedHistoricAccountingFigureDto phaf : historicAccountingFigureDtoList) {
+                if (phaf.getMultiPeriodAccountingFigureRequestDto().getFigureName() == figureName) {
+                    ts = phaf.getFcastWithStdError();
+                }
+            }
+            return ts;
+        }
+
+    }
 }

@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.AccountingFigureCalculationsService;
 
+//these tests should be extended to edge cases
+
 public class AccountingFigureCalculationsServiceTest {
 	
 //	public List<Double> calculateFreeCashFlow(List<Double> revenue, List<Double> additionalIncome, List<Double> costOfMaterial, 
@@ -42,19 +44,20 @@ public class AccountingFigureCalculationsServiceTest {
 		//Arrange
 		AccountingFigureCalculationsService accountingService = new AccountingFigureCalculationsService();
 		double expectedRes = 220.0;
-
+		
 		double freeCashFlow = 202.52;
 		double liabilities = 1400.00;
 		double previousLiabilities = 1300.00;
-		double interestOnLiabilities = 0.08;
-		double effectiveTaxRate = 0.26325;
-
+		double interestOnLiabilities = 0.08;  
+		double effectiveTaxRate =0.26325;
+		
 		//Act
 		double actualRes = accountingService.calculateFlowToEquity(freeCashFlow, liabilities, previousLiabilities, interestOnLiabilities, effectiveTaxRate);
-
+		
 		//Assert
 		assertEquals(expectedRes, actualRes, 0.01);
 	}
+	
 	@Test
 	public void calculateMultipleFlowToEquity1() {
 		//Arrange

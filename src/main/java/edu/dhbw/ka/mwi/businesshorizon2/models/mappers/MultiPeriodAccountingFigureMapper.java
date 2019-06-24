@@ -21,7 +21,7 @@ public class MultiPeriodAccountingFigureMapper {
 		List<TimeSeriesItemDao> timeSeriesItems = TimeSeriesItemMapper.mapDtoToDao(dto.getTimeSeries());
 		String figureName = dto.getFigureName() != null ? dto.getFigureName().name() : null;
 		
-		MultiPeriodAccountingFigureDao dao = new MultiPeriodAccountingFigureDao(figureName, dto.getIsHistoric(), timeSeriesItems);
+		MultiPeriodAccountingFigureDao dao = new MultiPeriodAccountingFigureDao(figureName, dto.getIsHistoric(), timeSeriesItems, dto.getOrder(), dto.getSeasonalOrder());
 		
 		return dao;
 	}
@@ -33,7 +33,7 @@ public class MultiPeriodAccountingFigureMapper {
 		}
 		
 		List<TimeSeriesItemResponseDto> timeSeriesItems = TimeSeriesItemMapper.mapDaoToDto(dao.getTimeSeriesItems());
-		MultiPeriodAccountingFigureResponseDto dto = new MultiPeriodAccountingFigureResponseDto(dao.getIsHistoric(), timeSeriesItems);
+		MultiPeriodAccountingFigureResponseDto dto = new MultiPeriodAccountingFigureResponseDto(dao.getIsHistoric(), timeSeriesItems, dao.getOrder(), dao.getSeasonalOrder());
 		
 		return dto;
 	}

@@ -19,43 +19,89 @@ import javax.persistence.Table;
 @Table(name = "MultiPeriodAccountingFigure")
 public class MultiPeriodAccountingFigureDao {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="MultiPeriodAccountingFigureId")
-	private Long multiPeriodAccountingFigureId;
-	
-	@Column(name="FigureName", columnDefinition = "nvarchar")
-	private String figureName;
-	
-	@Column(name="IsHistoric")
-	private Boolean isHistoric;
-	
-	@OneToMany(mappedBy="accountingFigure")
-	private List<TimeSeriesItemDao> timeSeriesItems = new ArrayList<TimeSeriesItemDao>();
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ScenarioId")
-	private ScenarioDao scenario;
-	
-	public MultiPeriodAccountingFigureDao() {}
-	
-	public MultiPeriodAccountingFigureDao(String figureName, Boolean isHistoric, List<TimeSeriesItemDao> timeSeriesItems) {
-		this.figureName = figureName;
-		this.isHistoric = isHistoric;
-		this.timeSeriesItems = timeSeriesItems;
-	}
-	
-	public Long getMultiPeriodAccountingFigureId() { return multiPeriodAccountingFigureId; }
-	
-	public String getFigureName() {return figureName;}
-	public void setFigureName(String figureName) { this.figureName = figureName; }
-	
-	public Boolean getIsHistoric() {return isHistoric;}
-	public void setIsHistoric(Boolean isHistoric) { this.isHistoric = isHistoric; }
-	
-	public List<TimeSeriesItemDao> getTimeSeriesItems(){ return timeSeriesItems; }
-	public void setTimeSeriesItems(List<TimeSeriesItemDao> timeSeriesItems) { this.timeSeriesItems = timeSeriesItems; }
-	
-	public ScenarioDao getScenario() { return scenario; }
-	public void setScenario(ScenarioDao scenario) { this.scenario = scenario; }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MultiPeriodAccountingFigureId")
+    private Long multiPeriodAccountingFigureId;
+
+    @Column(name = "FigureName", columnDefinition = "nvarchar")
+    private String figureName;
+
+    @Column(name = "IsHistoric")
+    private Boolean isHistoric;
+
+    @OneToMany(mappedBy = "accountingFigure")
+    private List<TimeSeriesItemDao> timeSeriesItems = new ArrayList<TimeSeriesItemDao>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ScenarioId")
+    private ScenarioDao scenario;
+
+    private Integer[] normalOrder;
+
+    private Integer[] seasonalOrder;
+
+    public MultiPeriodAccountingFigureDao() {
+    }
+
+    public MultiPeriodAccountingFigureDao(String figureName, Boolean isHistoric, List<TimeSeriesItemDao> timeSeriesItems, Integer[] normalOrder, Integer[] seasonalOrder) {
+        this.figureName = figureName;
+        this.isHistoric = isHistoric;
+        this.timeSeriesItems = timeSeriesItems;
+        this.normalOrder = normalOrder;
+        this.seasonalOrder = seasonalOrder;
+    }
+
+    public Long getMultiPeriodAccountingFigureId() {
+        return multiPeriodAccountingFigureId;
+    }
+
+    public String getFigureName() {
+        return figureName;
+    }
+
+    public void setFigureName(String figureName) {
+        this.figureName = figureName;
+    }
+
+    public Boolean getIsHistoric() {
+        return isHistoric;
+    }
+
+    public void setIsHistoric(Boolean isHistoric) {
+        this.isHistoric = isHistoric;
+    }
+
+    public List<TimeSeriesItemDao> getTimeSeriesItems() {
+        return timeSeriesItems;
+    }
+
+    public void setTimeSeriesItems(List<TimeSeriesItemDao> timeSeriesItems) {
+        this.timeSeriesItems = timeSeriesItems;
+    }
+
+    public ScenarioDao getScenario() {
+        return scenario;
+    }
+
+    public void setScenario(ScenarioDao scenario) {
+        this.scenario = scenario;
+    }
+
+    public Integer[] getOrder() {
+        return normalOrder;
+    }
+
+    public void setOrder(Integer[] order) {
+        this.normalOrder = order;
+    }
+
+    public Integer[] getSeasonalOrder() {
+        return seasonalOrder;
+    }
+
+    public void setSeasonalOrder(Integer[] seasonalOrder) {
+        this.seasonalOrder = seasonalOrder;
+    }
+
 }

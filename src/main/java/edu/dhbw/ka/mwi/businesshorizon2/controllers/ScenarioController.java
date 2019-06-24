@@ -18,10 +18,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 
-import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IAccountingFigureCalculationsService;
-import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.ICompanyValuationService;
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IScenarioService;
-import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.ITimeSeriesPredictionService;
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IUserService;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPostRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPutRequestDto;
@@ -32,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin
 @RestController
 @RequestMapping("/scenarios")
-@Api(value="scenario", description="Szenario um eine Unternehmensbewertung durchzuführen")
+@Api(value="/scenario", description="Szenario um eine Unternehmensbewertung durchzuführen")
 public class ScenarioController {
 	
 	@Autowired
@@ -58,6 +55,8 @@ public class ScenarioController {
 		return scenarioIdInDb;
 	}
 	
+	@ApiOperation(value = "Ändern eines Scenario Objekts", response = Long.class,
+			responseContainer = "ResponseEntity")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	@PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
 	public ResponseEntity<Long> update(@PathVariable("id") Long scenarioId, @RequestBody @Valid ScenarioPutRequestDto scenario) {
@@ -82,6 +81,8 @@ public class ScenarioController {
 		return new ResponseEntity<>(scenarioIdInDb, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Liefert alle Szenario Objekte des angemeldeten Users", 
+				response = ScenarioResponseDto.class, responseContainer = "List")
 	@RequestMapping(method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
 	public List<ScenarioResponseDto> getAll () {
@@ -94,6 +95,8 @@ public class ScenarioController {
 		return scenarios;
 	}
 	
+	@ApiOperation(value = "Liefert ein bestimmtes Szenario Objekt", response = ScenarioResponseDto.class,
+			responseContainer = "ResponseEntity")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
 	public ResponseEntity<ScenarioResponseDto> get (@PathVariable("id") Long scenarioId) {
@@ -115,6 +118,7 @@ public class ScenarioController {
 		return new ResponseEntity<ScenarioResponseDto>(scenario, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Löscht ein bestimmtes Scenario Objekt", response = ResponseEntity.class)
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
 	public ResponseEntity delete(@PathVariable("id") Long scenarioId) {
