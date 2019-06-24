@@ -25,6 +25,8 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.DoubleKeyValueListDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPostRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPutRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioResponseDto;
+import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.TimeSeriesItemDateRequestDto;
+import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.TimeSeriesItemRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.ApvCompanyValuationResultMapper;
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.CompanyValueDistributionMapper;
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.FcfCompanyValuationResultMapper;
@@ -67,7 +69,7 @@ public class ScenarioService implements IScenarioService {
     public Long create(ScenarioPostRequestDto scenarioDto, Long appUserId) {
 
         ScenarioDao scenarioDao = ScenarioMapper.mapDtoToDao(scenarioDto);
-
+        boolean brownRozeff = false;
         //TODO: give dtos variance???
         ApvCompanyValuationResultDto apvRes;
         FteCompanyValuationResultDto fteRes;
@@ -119,6 +121,55 @@ public class ScenarioService implements IScenarioService {
             }
         }
 
+        //this passage enables us to apply brown rozeff even though pnl values are provided (historic fcf is calculated and then forecasted)
+        //if there are no fcfs directly provided and brown rozeff should be applied:
+        if (!freeCashFlowsProvided && brownRozeff) {
+            Integer[] brOrder = {1, 0, 0};
+            Integer[] brSeasonalOrder = {0, 1, 1, 4};
+
+            List<TimeSeriesItemRequestDto> l = new ArrayList<>();
+
+            //TODO: check for frequency: must be 4
+            //TODO: adapt DTOs and DAOs
+            
+            try {
+                for (TimeSeriesItemRequestDto revTsir : this.findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.Revenue).getTimeSeries()) {
+                    TimeSeriesItemRequestDto addITsir = this.findTSIRByDate(historicAccountingFigures, MultiPeriodAccountingFigureNames.AdditionalIncome, revTsir.getDate());
+                    TimeSeriesItemRequestDto coMTsir = this.findTSIRByDate(historicAccountingFigures, MultiPeriodAccountingFigureNames.CostOfMaterial, revTsir.getDate());
+                    TimeSeriesItemRequestDto coSTsir = this.findTSIRByDate(historicAccountingFigures, MultiPeriodAccountingFigureNames.CostOfStaff, revTsir.getDate());
+                    TimeSeriesItemRequestDto addCTsir = this.findTSIRByDate(historicAccountingFigures, MultiPeriodAccountingFigureNames.AdditionalCosts, revTsir.getDate());
+                    TimeSeriesItemRequestDto depTsir = this.findTSIRByDate(historicAccountingFigures, MultiPeriodAccountingFigureNames.Depreciation, revTsir.getDate());
+                    TimeSeriesItemRequestDto invTsir = this.findTSIRByDate(historicAccountingFigures, MultiPeriodAccountingFigureNames.Investments, revTsir.getDate());
+                    TimeSeriesItemRequestDto divTsir = this.findTSIRByDate(historicAccountingFigures, MultiPeriodAccountingFigureNames.Divestments, revTsir.getDate());
+
+                    if (revTsir == null || addITsir == null || coMTsir == null || coSTsir == null || addCTsir == null || depTsir == null || invTsir == null || divTsir == null) {
+                        throw new RuntimeException("Brown Rozeff not applicable due to missing data");
+                    }
+
+                    TimeSeriesItemRequestDto fcfTsir = new TimeSeriesItemRequestDto();
+                    fcfTsir.setAmount(accountingService.calculateFreeCashFlow(revTsir.getAmount(), addITsir.getAmount(), coMTsir.getAmount(), coSTsir.getAmount(), addCTsir.getAmount(), depTsir.getAmount(),
+                            effectiveTaxRate, effectiveTaxRate, effectiveTaxRate, invTsir.getAmount(), divTsir.getAmount()));
+                    fcfTsir.setDate(revTsir.getDate());
+                    l.add(fcfTsir);
+                }
+
+                MultiPeriodAccountingFigureRequestDto mpafr = new MultiPeriodAccountingFigureRequestDto(MultiPeriodAccountingFigureNames.FreeCashFlows, true, l, brOrder, brSeasonalOrder);
+                historicAccountingFigures.add(mpafr);
+                
+                //remove since we dont want to predict them even though we don't need them anymore
+                historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.Revenue));
+                historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.AdditionalIncome));
+                historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.CostOfMaterial));
+                historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.CostOfStaff));
+                historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.AdditionalCosts));
+                historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.Depreciation));
+                historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.Investments));
+                historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.Divestments));
+            } catch (RuntimeException e) {
+                throw new RuntimeException("Brown Rozeff not applicable due to missing data");
+            }
+        }
+
         //if a stochastic valuation has to be done, we need predictions that we request here for all historic accounting figures
         //TODO: return value not checked for bad response of the python backend?
         for (MultiPeriodAccountingFigureRequestDto figure : historicAccountingFigures) {
@@ -134,7 +185,6 @@ public class ScenarioService implements IScenarioService {
             freeCashFlows = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.FreeCashFlows, deterministicAccountingFigures, historicAccountingFigureDtoList);
         } else {
             //if free cash flows are not provided, we have to calculate them
-            //TODO: wenn fcf berechnet werden, sind sie ja unter umständen auch stochastisch -> varianz berechnen über varianz der anderen prognostizierten reihen!!
             freeCashFlows = getFreeCashFlows(deterministicAccountingFigures, historicAccountingFigureDtoList, scenarioDto.getBusinessTaxRate(), scenarioDto.getCorporateTaxRate(), scenarioDto.getSolidaryTaxRate());
         }
 
@@ -142,7 +192,6 @@ public class ScenarioService implements IScenarioService {
         List<Double> ftes = accountingService.calculateFlowToEquity(freeCashFlows.getKeyList(), liabilities.getKeyList(), scenarioDto.getInterestOnLiabilitiesRate(), effectiveTaxRate);
 
         //perform valuation calculations with the different company calculation methods
-        //TODO: implement StdErrors calculation for apvRes
         apvRes = companyValuationService.performApvCompanyValuation(freeCashFlows, liabilities, scenarioDto.getEquityInterestRate(), scenarioDto.getInterestOnLiabilitiesRate(), effectiveTaxRate);
 
         fteRes = companyValuationService.performFteCompanyValuationResult(ftes, liabilities.getKeyList(), scenarioDto.getEquityInterestRate(), scenarioDto.getInterestOnLiabilitiesRate(), effectiveTaxRate);
@@ -295,7 +344,7 @@ public class ScenarioService implements IScenarioService {
         return freeCashFlows;
     }
 
-    private DoubleKeyValueListDto  getDeterministicOrStochasticAccountingFigure(
+    private DoubleKeyValueListDto getDeterministicOrStochasticAccountingFigure(
             MultiPeriodAccountingFigureNames figureName,
             HashMap<MultiPeriodAccountingFigureNames, List<Double>> deterministicAccountingFigures,
             List<PredictedHistoricAccountingFigureDto> historicAccountingFigureDtoList
@@ -304,7 +353,7 @@ public class ScenarioService implements IScenarioService {
         if (deterministicAccountingFigures.containsKey(figureName)) {
             DoubleKeyValueListDto list = new DoubleKeyValueListDto();
             List<Double> ts = deterministicAccountingFigures.get(figureName);
-            for(Double d :  ts) {
+            for (Double d : ts) {
                 list.add(new AbstractMap.SimpleEntry<>(d, 0.0));
             }
             return list;
@@ -318,5 +367,31 @@ public class ScenarioService implements IScenarioService {
             return ts;
         }
 
+    }
+
+    public MultiPeriodAccountingFigureRequestDto findHistoricAccountingFigure(List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures, MultiPeriodAccountingFigureNames figureName) {
+        
+        MultiPeriodAccountingFigureRequestDto mpacfr = null;
+        
+        for(MultiPeriodAccountingFigureRequestDto historicAccountingFigure : historicAccountingFigures) {
+            if(historicAccountingFigure.getFigureName() == figureName)
+                mpacfr = historicAccountingFigure;
+        }
+        
+        return mpacfr;
+    }
+
+    public TimeSeriesItemRequestDto findTSIRByDate(List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures, MultiPeriodAccountingFigureNames figureName, TimeSeriesItemDateRequestDto tsird) {
+        
+        MultiPeriodAccountingFigureRequestDto mpacfr = this.findHistoricAccountingFigure(historicAccountingFigures, figureName);
+        
+        TimeSeriesItemRequestDto found = null;
+        
+        for(TimeSeriesItemRequestDto tsir : mpacfr.getTimeSeries()) {
+            if(tsir.getDate() == tsird)
+                found = tsir;
+        }
+        
+        return found;
     }
 }

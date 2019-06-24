@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.ITimeSeriesPredictionService;
-import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionRequestTimeSeriesDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.PredictionResponseDto;
@@ -102,15 +101,17 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
 
             //execute the request and receive the httpResponse
             HttpResponse response = httpClient.execute(post);
-
+            
             //handling http error codes
             switch (response.getStatusLine().getStatusCode()) {
                 default:
                     break;
+                case 400:
+                    throw new RuntimeException("Bad Request - request is not valid");
                 case 404:
                     throw new RuntimeException("Bad Request - request is not valid");
                 case 500:
-                    throw new RuntimeException("Internal Server Error from Python Backend durin modeling process - use more observations");
+                    throw new RuntimeException("Internal Server Error from Python Backend during modeling process - use more observations");
             }
 
             //Todo: validate response against schema
@@ -124,7 +125,8 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
             System.out.println(e.getMessage());
             throw new RuntimeException("Python Backend is not available.");
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("----------------EXCEPTION---------------");
+            ex.printStackTrace();
             throw new RuntimeException("Undefined exception while trying to get a prediction from the python backend: " + ex.getMessage());
         }
 

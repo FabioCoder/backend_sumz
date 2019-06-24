@@ -10,6 +10,7 @@ import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IAccountingFigu
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IStandardErrorCalculationService;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.DoubleKeyValueListDto;
+import java.util.AbstractMap.SimpleEntry;
 
 //this class provides methods to calculate necessarry paramters for the company valuation, e.g. free cash flow or flow to equity
 @Service
@@ -80,9 +81,8 @@ public class AccountingFigureCalculationsService implements IAccountingFigureCal
             double operatingCashFlow = cashFlow - absoluteTaxes;
             double operatingCashFlowSE = secs.subtraction(cashFlowSE, absoluteTaxesSE);
 
-            freeCashFlow.getKeyList().add(operatingCashFlow - (investments.getKeyList().get(i) - divestments.getKeyList().get(i)));
-            freeCashFlow.getValueList().add(secs.subtraction(operatingCashFlowSE, secs.subtraction(investments.getValueList().get(i), divestments.getValueList().get(i))));
-
+            freeCashFlow.add(new SimpleEntry<>(operatingCashFlow - (investments.getKeyList().get(i) - divestments.getKeyList().get(i)), secs.subtraction(operatingCashFlowSE, secs.subtraction(investments.getValueList().get(i), divestments.getValueList().get(i)))));
+            
         }
 
         return freeCashFlow;
