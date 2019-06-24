@@ -11,16 +11,24 @@ import java.util.List;
 
 /**
  *
- * @author Fabian Wallisch
+ * @author DHBW WWI KA
  */
 public class DoubleKeyValueListDto extends ArrayList<SimpleEntry<Double, Double>> {
 
     public List<Double> getKeyList() {
-        return null;
+        List<Double> keyList = new ArrayList<>();
+        for (int i = 0; i < this.size(); i++) {
+            keyList.add(this.get(i).getKey());
+        }
+        return keyList;
     }
 
     public List<Double> getValueList() {
-        return null;
+        List<Double> valueList = new ArrayList<>();
+        for (int i = 0; i < this.size(); i++) {
+            valueList.add(this.get(i).getValue());
+        }
+        return valueList;
     }
 
 }
