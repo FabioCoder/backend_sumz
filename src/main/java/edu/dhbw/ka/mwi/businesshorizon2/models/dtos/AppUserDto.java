@@ -22,7 +22,7 @@ public class AppUserDto {
     //must contain one digit 0..9 
     //must contain 1 uppercase & 1 lowercase character 
     //must contain one special symbol from @#$%
-    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")
+    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})", message = "Die Anforderungen an das Passwort wurden nicht erfüllt")
     private String password;
         
     private Boolean isActive;

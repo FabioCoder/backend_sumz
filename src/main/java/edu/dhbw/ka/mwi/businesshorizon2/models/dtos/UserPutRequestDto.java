@@ -19,7 +19,7 @@ public class UserPutRequestDto {
     //must contain 1 uppercase & 1 lowercase character 
     //must contain one special symbol from @#$%
     //This represents the current password of the user
-    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")
+    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})", message = "Das Anforderungen an das Passwort sind nicht erfüllt")
     private String oldPassword;
     
     //at least 6 characters, maximum 20 
@@ -27,7 +27,7 @@ public class UserPutRequestDto {
     //must contain 1 uppercase & 1 lowercase character 
     //must contain one special symbol from @#$%
     //This is the new password
-    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})")
+    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})", message = "Das Anforderungen an das Passwort sind nicht erfüllt")
     private String newPassword;
     
     private List<AppRoleDao> roles;
