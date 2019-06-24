@@ -33,9 +33,9 @@ public class MultiPeriodAccountingFigureMapper {
                 dto.getOrder()[0], dto.getOrder()[1], dto.getOrder()[2],
                 dto.getSeasonalOrder()[0], dto.getSeasonalOrder()[1], dto.getSeasonalOrder()[2], dto.getSeasonalOrder()[3]);
         
-       /* if (dto.getScore() != null) {
+        if (dto.getScore() != null) {
             dao.setScore(dto.getScore());
-        }*/
+        }
         
         return dao;
     }
@@ -81,9 +81,9 @@ public class MultiPeriodAccountingFigureMapper {
         
         MultiPeriodAccountingFigureResponseDto dto = new MultiPeriodAccountingFigureResponseDto(dao.getIsHistoric(), timeSeriesItems, order, seasonalOrder);
         
-       /* if (dao.getScore() != null) {
+        if (dao.getScore() != null) {
             dto.setScore(dao.getScore());
-        }*/
+        }
         
         return dto;
     }

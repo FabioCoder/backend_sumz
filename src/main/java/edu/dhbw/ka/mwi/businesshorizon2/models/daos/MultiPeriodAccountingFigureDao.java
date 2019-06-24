@@ -59,8 +59,8 @@ public class MultiPeriodAccountingFigureDao {
     @Column(name = "sfOrder")
     private Integer sF;
 
- //   @Column(name = "Score")
-//    private Double score;
+    @Column(name = "Score")
+ 	private Double score;
 
     public MultiPeriodAccountingFigureDao() {
     }
@@ -173,12 +173,12 @@ public class MultiPeriodAccountingFigureDao {
         this.sF = sF;
     }
 
-   /* public Double getScore() {
+    public Double getScore() {
         return score;
     }
 
     public void setScore(Double score) {
         this.score = score;
-    }*/
+    }
 
 }
