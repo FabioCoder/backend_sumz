@@ -79,7 +79,7 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
             SimpleEntry<Double, Double> hm = new SimpleEntry<>(prediction[0], prediction[1]);
             figure.getFcastWithStdError().add(hm);
         }
-        figure.setScore(result.getScore());
+        figure.getMultiPeriodAccountingFigureRequestDto().setScore(result.getScore());
 
     }
 

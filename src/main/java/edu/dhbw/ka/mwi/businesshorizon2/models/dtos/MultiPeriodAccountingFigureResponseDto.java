@@ -13,6 +13,7 @@ public class MultiPeriodAccountingFigureResponseDto {
     private List<TimeSeriesItemResponseDto> timeSeries = new ArrayList<>();
     private Integer[] order;
     private Integer[] seasonalOrder;
+    private Double score;
 
     /**
      *
@@ -24,6 +25,8 @@ public class MultiPeriodAccountingFigureResponseDto {
      *
      * @param isHistoric
      * @param timeSeries
+     * @param order
+     * @param seasonalOrder
      */
     public MultiPeriodAccountingFigureResponseDto(Boolean isHistoric, List<TimeSeriesItemResponseDto> timeSeries, Integer[] order, Integer[] seasonalOrder) {
         this.isHistoric = isHistoric;
@@ -78,6 +81,14 @@ public class MultiPeriodAccountingFigureResponseDto {
 
     public void setSeasonalOrder(Integer[] seasonalOrder) {
         this.seasonalOrder = seasonalOrder;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
     }
 
 }

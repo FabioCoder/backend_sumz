@@ -18,7 +18,6 @@ public class PredictedHistoricAccountingFigureDto {
     //this includes the historic time series
     private MultiPeriodAccountingFigureRequestDto multiPeriodAccountingFigureRequestDto;
     private DoubleKeyValueListDto fcastWithStdError;
-    private Double score;
 
     public PredictedHistoricAccountingFigureDto(MultiPeriodAccountingFigureRequestDto multiPeriodAccountingFigureRequestDto) {
         this.multiPeriodAccountingFigureRequestDto = multiPeriodAccountingFigureRequestDto;
@@ -38,14 +37,6 @@ public class PredictedHistoricAccountingFigureDto {
 
     public void setFcastWithStdError(DoubleKeyValueListDto fcastWithStdError) {
         this.fcastWithStdError = fcastWithStdError;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-
-    public void setScore(Double score) {
-        this.score = score;
     }
     
     public List<Double> getForecasts() {
