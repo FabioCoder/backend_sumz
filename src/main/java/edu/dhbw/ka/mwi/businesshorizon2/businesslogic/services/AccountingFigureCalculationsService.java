@@ -75,7 +75,7 @@ public class AccountingFigureCalculationsService implements IAccountingFigureCal
             double cashFlowSE = secs.subtraction(proceedsSE, paymentsSE);
 
             double absoluteTaxes = (cashFlow - depreciation.getKeyList().get(i)) * (businessTaxRate + (corporateTaxRate * (1 + solidaryTaxRate)));
-            double absoluteTaxesSE = secs.multiplication(secs.subtraction(cashFlowSE, depreciation.getValueList().get(i)), businessTaxRate + (corporateTaxRate * (1 + solidaryTaxRate)));
+            double absoluteTaxesSE = secs.subtraction(cashFlowSE, depreciation.getValueList().get(i)) * (businessTaxRate + (corporateTaxRate * (1 + solidaryTaxRate)));
 
             double operatingCashFlow = cashFlow - absoluteTaxes;
             double operatingCashFlowSE = secs.subtraction(cashFlowSE, absoluteTaxesSE);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services;
 
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IStandardErrorCalculationService;
@@ -15,24 +10,25 @@ public class StandardErrorCalculationService implements IStandardErrorCalculatio
 
     @Override
     public Double addition(Double a, Double b) {
-        return a+b;
+        double aVariance = Math.pow(a, 2);
+        double bVariance = Math.pow(b, 2);
+        double totalVariance = aVariance + bVariance;
+        return Math.sqrt(totalVariance);
     }
 
     @Override
     public Double subtraction(Double a, Double b) {
-        return a-b;
+        double aVariance = Math.pow(a, 2);
+        double bVariance = Math.pow(b, 2);
+        double totalVariance = aVariance - bVariance;
+        return Math.sqrt(totalVariance);
     }
 
     @Override
-    public Double multiplication(Double a, Double b) {
-        //TODO: INSERT MATH
-        return a*b;
+    public Double multiplication(Double varX, Double varY, Double x, Double y) {
+        //Attention: this refers to addition for two standard errors of random variables, not a constant! (this would just be the simple product)
+        //For maths, see: https://en.wikipedia.org/wiki/Variance
+        return Math.pow(x, 2) * varY + Math.pow(y, 2) * varX + varX * varY;
     }
 
-    @Override
-    public Double division(Double a, Double b) {
-        //TODO: INSERT MATH
-        return a/b;
-    }
-    
 }
