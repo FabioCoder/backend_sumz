@@ -116,13 +116,18 @@ public class UserService implements IUserService {
 		map.put("email", user.getEmail());
 		map.put("link", link);
 		map.put("imageResourceName", "logo.png");
-		
-		emailService.sendEmail(
-				emailConfig.getUsername(), 
-				user.getEmail(), 
-				"Ihre Registrierung bei business horizon", 
-				"activation",
-				map);
+
+		try {
+			emailService.sendEmail(
+					emailConfig.getUsername(),
+					user.getEmail(),
+					"Ihre Registrierung bei business horizon",
+					"activation",
+					map);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 				
 		return userResult;
 	}
@@ -192,14 +197,15 @@ public class UserService implements IUserService {
 		map.put("email", user.getEmail());
 		map.put("link", link);
 		map.put("imageResourceName", "logo.png");
-		
-		emailService.sendEmail(
-				emailConfig.getUsername(), 
-				user.getEmail(), 
-				"Zurücksetzen Ihres Passworts bei business horizon", 
-				"password-reset",
-				map);
-		
+
+		try {
+			emailService.sendEmail(
+					emailConfig.getUsername(),
+					user.getEmail(),
+					"Zurücksetzen Ihres Passworts bei business horizon",
+					"password-reset",
+					map);
+		}catch(Exception e) {e.printStackTrace();}
 		return token;
 	}
 	

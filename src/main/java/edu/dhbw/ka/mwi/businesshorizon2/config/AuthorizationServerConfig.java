@@ -51,6 +51,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Value("${security.jwt.resource-ids}")
 	private String resourceIds;
 
+	@Value("${security.jwt.access-token.validity}")
+	private String accessTokenDuration;
+
+	@Value("${security.jwt.refresh-token.validity}")
+	private String refreshTokenDuration;
+
 	@Autowired
 	private TokenStore tokenStore;
 
@@ -76,8 +82,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	        .withClient(clientId)
 	        .secret(clientSecret)
 	        .authorizedGrantTypes(grantType, "refresh_token")
-	        .accessTokenValiditySeconds(5000)
-	        .refreshTokenValiditySeconds(50000)
+	        .accessTokenValiditySeconds(Integer.parseInt(accessTokenDuration))
+	        .refreshTokenValiditySeconds(Integer.parseInt(refreshTokenDuration))
 	        .scopes(scopeRead, scopeWrite, "trust")
 	        .resourceIds(resourceIds);
 	}
