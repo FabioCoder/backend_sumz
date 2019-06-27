@@ -81,6 +81,17 @@ public class MultiPeriodAccountingFigureDao {
         this.sF = sF;
     }
 
+    public MultiPeriodAccountingFigureDao(String figureName,
+            Boolean isHistoric, List<TimeSeriesItemDao> timeSeriesItems, Integer p, Integer d, Integer q) {
+        this.figureName = figureName;
+        this.isHistoric = isHistoric;
+        this.timeSeriesItems = timeSeriesItems;
+
+        this.p = p;
+        this.d = d;
+        this.q = q;
+    }
+    
     public Long getMultiPeriodAccountingFigureId() {
         return multiPeriodAccountingFigureId;
     }

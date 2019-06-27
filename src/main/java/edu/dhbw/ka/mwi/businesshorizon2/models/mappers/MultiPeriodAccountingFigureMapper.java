@@ -19,19 +19,23 @@ public class MultiPeriodAccountingFigureMapper {
         List<TimeSeriesItemDao> timeSeriesItems = TimeSeriesItemMapper.mapDtoToDao(dto.getTimeSeries());
         String figureName = dto.getFigureName() != null ? dto.getFigureName().name() : null;
         
-        if (dto.getSeasonalOrder() == null) {
-            Integer[] seasonalOrder = {0, 0, 0};            
-            dto.setSeasonalOrder(seasonalOrder);
+        
+        Integer [] seasonalOrder = {null, null, null, null};
+        Integer [] order = {null, null, null};
+        
+        
+        if (dto.getSeasonalOrder() != null) {
+        	seasonalOrder = dto.getSeasonalOrder();
         }
         
-        if (dto.getOrder() == null) {
-            Integer[] order = {0, 0, 0};            
-            dto.setOrder(order);
-        }        
+        if (dto.getOrder() != null) {
+        	order = dto.getOrder();
+        }
         
         MultiPeriodAccountingFigureDao dao = new MultiPeriodAccountingFigureDao(figureName, dto.getIsHistoric(), timeSeriesItems,
-                dto.getOrder()[0], dto.getOrder()[1], dto.getOrder()[2],
-                dto.getSeasonalOrder()[0], dto.getSeasonalOrder()[1], dto.getSeasonalOrder()[2], dto.getSeasonalOrder()[3]);
+        		order[0], order[1], order[2],
+                seasonalOrder[0], seasonalOrder[1], seasonalOrder[2], seasonalOrder[3]);
+        
         
         if (dto.getScore() != null) {
             dao.setScore(dto.getScore());
