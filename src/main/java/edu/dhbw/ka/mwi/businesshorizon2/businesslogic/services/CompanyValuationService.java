@@ -11,8 +11,6 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.CompanyValueDistributionDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.FcfCompanyValuationResultDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.FteCompanyValuationResultDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.DoubleKeyValueListDto;
-import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
 
 //this class contains all method for different company valuation techniques
 //input parameters are FCF / flow to equity, Liabilities, Equity interst,  Interest on Liabilities & effective Tax rate
@@ -34,26 +32,15 @@ import java.util.AbstractMap.SimpleEntry;
 @Service
 public class CompanyValuationService implements ICompanyValuationService {
 
-	/**
+    /**
      * The APV Method assumes that the company has no debts, since the capitalstructure has no impact on the Company Value.
      * Only taxes have influence.
      * The Free Cash Flows will be discounted. Afterwards the present value of the Tax Shields will be calculated and added (CompanyValue).
      * The Tax Shield is the value of debts which raise the company value. Since debts offer Tax advantages. 
-     * 
-     * 
-     * @param freeCashFlow = Used by the Company to pay the dividend or buy shares back
-     * @param liabilities = obligation of the debtor to the creditor 
-     * @param equityInterest = equity a single person holds in a business
-     * @param interestOnLiabilities = amount of interest on the debt
-     * @param effectiveTaxRate = average tax rate paid by a corporation. Total Tax Expense / Earnings Before Taxes
-     */
 
-    /**
      *
      * @param freeCashFlow
-     * @param freeCashFlowStdErrors
      * @param liabilities
-     * @param liabilitiesStdErrors
      * @param equityInterest
      * @param interestOnLiabilities
      * @param effectiveTaxRate
@@ -63,47 +50,63 @@ public class CompanyValuationService implements ICompanyValuationService {
     public ApvCompanyValuationResultDto performApvCompanyValuation(DoubleKeyValueListDto freeCashFlow, DoubleKeyValueListDto liabilities, double equityInterest, double interestOnLiabilities, double effectiveTaxRate) {
 
         double companyValue = 0;
+        double companyValueSE = 0.0;
         double presentValueOfCashflows = 0;
+        double presentValueOfCashflowsSE = 0.0;
         double capitalStructureEffect = 0;
+        double capitalStructureEffectSE = 0.0;
 
         Double duplicateLast = liabilities.getKeyList().get(liabilities.size() - 1);
+        Double duplicateLastSE = liabilities.getValueList().get(liabilities.size() - 1);
 
         List<Double> liabilitiesClone = new ArrayList<>(liabilities.getKeyList());
+        List<Double> liabilitiesCloneSE = new ArrayList<>(liabilities.getValueList());
         liabilitiesClone.add(duplicateLast);
-		
-		// present Values of the Cash Flow list are calculated and added up.
-        //  Values of the Tax Shield are calculated and added up to calculate the capitalStructureEffect
+        liabilitiesCloneSE.add(duplicateLastSE);
+        	
+	//present Values of the Cash Flow list are calculated and added up.
+        //Values of the Tax Shield are calculated and added up to calculate the capitalStructureEffect
 
         for (int i = 0; i < freeCashFlow.size() - 1; i++) {
             presentValueOfCashflows += (freeCashFlow.getKeyList().get(i) / Math.pow((1 + equityInterest), i + 1));
+            presentValueOfCashflowsSE += (freeCashFlow.getValueList().get(i) / Math.pow((1 + equityInterest), i + 1));
 
             double taxShield = effectiveTaxRate * interestOnLiabilities * liabilitiesClone.get(i);
+            double taxShieldSE = effectiveTaxRate * interestOnLiabilities * liabilitiesCloneSE.get(i);
+            
             capitalStructureEffect += (taxShield / Math.pow((1 + interestOnLiabilities), i + 1));
+            capitalStructureEffectSE += (taxShieldSE / Math.pow((1 + interestOnLiabilities), i + 1));
         }
 
-		// presentValueOfCashflows is added with the last value of the list dicounted
+	//presentValueOfCashflows is added with the last value of the list discounted
 		
         presentValueOfCashflows += (freeCashFlow.getKeyList().get(freeCashFlow.size() - 1)
                 / (equityInterest * Math.pow((1 + equityInterest), freeCashFlow.size() - 1)));
+        presentValueOfCashflowsSE += (freeCashFlow.getValueList().get(freeCashFlow.size() - 1)
+                / (equityInterest * Math.pow((1 + equityInterest), freeCashFlow.size() - 1)));
 
         double taxShield = effectiveTaxRate * interestOnLiabilities * liabilitiesClone.get(freeCashFlow.size() - 1);
+        double taxShieldSE = effectiveTaxRate * interestOnLiabilities * liabilitiesCloneSE.get(freeCashFlow.size() - 1);
+        
         capitalStructureEffect += (taxShield
                 / (interestOnLiabilities * Math.pow((1 + interestOnLiabilities), freeCashFlow.size() - 1)));
+        capitalStructureEffectSE += (taxShieldSE
+                / (interestOnLiabilities * Math.pow((1 + interestOnLiabilities), freeCashFlow.size() - 1)));
 
-				//The Free Cash Flows and the present value of the Tax Shields are added up, liabilities are subtracted. 
+	//The Free Cash Flows and the present value of the Tax Shields are added up, liabilities are subtracted. 
         companyValue = presentValueOfCashflows + capitalStructureEffect - liabilitiesClone.get(0);
+        companyValueSE = presentValueOfCashflowsSE + capitalStructureEffectSE - liabilitiesCloneSE.get(0);
 
-		// returns results: Company Value, Balance Sheet Total, total liabilities, discounted Cashflow, discounted taxShield
+	// returns results: Company Value, Balance Sheet Total, total liabilities, discounted Cashflow, discounted taxShield
         ApvCompanyValuationResultDto result = new ApvCompanyValuationResultDto(companyValue, presentValueOfCashflows + capitalStructureEffect,
                 liabilitiesClone.get(0), presentValueOfCashflows, capitalStructureEffect);
+        
+        result.setVariance(Math.pow(companyValueSE, 2));
 
         System.out.println("Printing Standard Errors");
         for (Double d : freeCashFlow.getValueList()) {
             System.out.print(" " + d);
         }
-
-        //TODO: calculate variance from stderrors of list fcf and liabilities (is empty if not stochastic)
-        result.setVariance(0.0);
 
         return result;
 
@@ -187,17 +190,17 @@ public class CompanyValuationService implements ICompanyValuationService {
     }
 
     /**
-     *
-	 * Free cash flow to equity is a measure of how much cash is available to the equity shareholders of a company 
-     * after all expenses, reinvestment, and debt are paid. 
-     * 
-     * @param flowToEquity
-     * @param liabilities
-     * @param equityInterest
-     * @param interestOnLiabilities
-     * @param effectiveTaxRate
-     * @return
-     */
+    *
+    * Free cash flow to equity is a measure of how much cash is available to the equity shareholders of a company 
+    * after all expenses, reinvestment, and debt are paid. 
+    * 
+    * @param flowToEquity
+    * @param liabilities
+    * @param equityInterest
+    * @param interestOnLiabilities
+    * @param effectiveTaxRate
+    * @return
+    */
     @Override
     public FteCompanyValuationResultDto performFteCompanyValuationResult(List<Double> flowToEquity, List<Double> liabilities,
             double equityInterest, double interestOnLiabilities, double effectiveTaxRate) {

@@ -63,7 +63,7 @@ public class ScenarioMapper {
      */
     public static ScenarioDao mapDtoToDao(ScenarioPostRequestDto dto) {
             
-            //this method is used to map a DTO to DAO for saving it in the database?
+            //this method is used to map a DTO to DAO for saving it in the database
 		
 		if(dto == null) {
 			return null;

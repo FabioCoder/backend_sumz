@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity(name = "MultiPeriodAccountingFigure")
@@ -37,19 +36,49 @@ public class MultiPeriodAccountingFigureDao {
     @JoinColumn(name = "ScenarioId")
     private ScenarioDao scenario;
 
-    private Integer[] normalOrder;
+    //normalOrder
+    @Column(name = "pOrder")
+    private Integer p;
 
-    private Integer[] seasonalOrder;
+    @Column(name = "dOrder")
+    private Integer d;
+
+    @Column(name = "qOrder")
+    private Integer q;
+
+    //seasonalOrder
+    @Column(name = "spOrder")
+    private Integer sP;
+
+    @Column(name = "sdOrder")
+    private Integer sD;
+
+    @Column(name = "sqOrder")
+    private Integer sQ;
+
+    @Column(name = "sfOrder")
+    private Integer sF;
+
+    @Column(name = "Score")
+ 	private Double score;
 
     public MultiPeriodAccountingFigureDao() {
     }
 
-    public MultiPeriodAccountingFigureDao(String figureName, Boolean isHistoric, List<TimeSeriesItemDao> timeSeriesItems, Integer[] normalOrder, Integer[] seasonalOrder) {
+    public MultiPeriodAccountingFigureDao(String figureName,
+            Boolean isHistoric, List<TimeSeriesItemDao> timeSeriesItems, Integer p, Integer d, Integer q,
+            Integer sP, Integer sD, Integer sQ, Integer sF) {
         this.figureName = figureName;
         this.isHistoric = isHistoric;
         this.timeSeriesItems = timeSeriesItems;
-        this.normalOrder = normalOrder;
-        this.seasonalOrder = seasonalOrder;
+
+        this.p = p;
+        this.d = d;
+        this.q = q;
+        this.sP = sP;
+        this.sD = sD;
+        this.sQ = sQ;
+        this.sF = sF;
     }
 
     public Long getMultiPeriodAccountingFigureId() {
@@ -88,20 +117,68 @@ public class MultiPeriodAccountingFigureDao {
         this.scenario = scenario;
     }
 
-    public Integer[] getOrder() {
-        return normalOrder;
+    public Integer getP() {
+        return p;
     }
 
-    public void setOrder(Integer[] order) {
-        this.normalOrder = order;
+    public void setP(Integer p) {
+        this.p = p;
     }
 
-    public Integer[] getSeasonalOrder() {
-        return seasonalOrder;
+    public Integer getD() {
+        return d;
     }
 
-    public void setSeasonalOrder(Integer[] seasonalOrder) {
-        this.seasonalOrder = seasonalOrder;
+    public void setD(Integer d) {
+        this.d = d;
+    }
+
+    public Integer getQ() {
+        return q;
+    }
+
+    public void setQ(Integer q) {
+        this.q = q;
+    }
+
+    public Integer getsP() {
+        return sP;
+    }
+
+    public void setsP(Integer sP) {
+        this.sP = sP;
+    }
+
+    public Integer getsD() {
+        return sD;
+    }
+
+    public void setsD(Integer sD) {
+        this.sD = sD;
+    }
+
+    public Integer getsQ() {
+        return sQ;
+    }
+
+    public void setsQ(Integer sQ) {
+        this.sQ = sQ;
+    }
+
+    public Integer getsF() {
+        return sF;
+    }
+
+    public void setsF(Integer sF) {
+        this.sF = sF;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
     }
 
 }

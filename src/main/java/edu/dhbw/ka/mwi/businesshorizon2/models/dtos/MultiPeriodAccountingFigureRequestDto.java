@@ -33,6 +33,8 @@ public class MultiPeriodAccountingFigureRequestDto {
     private Integer[] order;
     @Valid
     private Integer[] seasonalOrder;
+    
+    private Double score;
 
     /**
      *
@@ -61,6 +63,14 @@ public class MultiPeriodAccountingFigureRequestDto {
         this.figureName = figureName;
         this.isHistoric = isHistoric;
         this.timeSeries = timeSeries;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
     }
 
     /**
