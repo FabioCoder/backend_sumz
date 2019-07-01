@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dhbw.ka.mwi.businesshorizon2.businesshorizon2;
+package dhbw.ka.mwi.businesshorizon2.businesshorizon2.computations;
 
 import edu.dhbw.ka.mwi.businesshorizon2.App;
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.TimeSeriesPredictionService;

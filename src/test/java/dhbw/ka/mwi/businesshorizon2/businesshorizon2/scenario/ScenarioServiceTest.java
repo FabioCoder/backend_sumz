@@ -3,27 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dhbw.ka.mwi.businesshorizon2.businesshorizon2;
+package dhbw.ka.mwi.businesshorizon2.businesshorizon2.scenario;
 
 import edu.dhbw.ka.mwi.businesshorizon2.App;
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.ScenarioService;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
-import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.MultiPeriodAccountingFigureRequestDto;
-import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPostRequestDto;
-import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPutRequestDto;
-import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioResponseDto;
-import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.TimeSeriesItemDateRequestDto;
-import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.TimeSeriesItemRequestDto;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import org.junit.Assert;
+import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.*;
+
+import java.util.*;
+
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 /**
  *
@@ -33,6 +31,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = App.class)
 public class ScenarioServiceTest {
+
+    @Autowired
+    private Validator validator;
 
     @Autowired
     ScenarioService scenarioService;
@@ -271,9 +272,9 @@ public class ScenarioServiceTest {
         ScenarioResponseDto response = scenarioService.get(comb1Id, appUserId);
 
         //calculation methods are tested in other tests, therefore it is enough if response is not null / no exception occurs
-        Assert.assertNotNull(response.getApvValuationResult());
-        Assert.assertNotNull(response.getFteValuationResult());
-        Assert.assertNotNull(response.getFcfValuationResult());
+        assertNotNull(response.getApvValuationResult());
+        assertNotNull(response.getFteValuationResult());
+        assertNotNull(response.getFcfValuationResult());
     }
 
     @Test
@@ -312,9 +313,9 @@ public class ScenarioServiceTest {
         Long comb1Id = scenarioService.create(postRequestComb1, appUserId);
         ScenarioResponseDto response = scenarioService.get(comb1Id, appUserId);
 
-        Assert.assertNotNull(response.getApvValuationResult());
-        Assert.assertNotNull(response.getFteValuationResult());
-        Assert.assertNotNull(response.getFcfValuationResult());
+        assertNotNull(response.getApvValuationResult());
+        assertNotNull(response.getFteValuationResult());
+        assertNotNull(response.getFcfValuationResult());
     }
     
     @Test
@@ -353,9 +354,9 @@ public class ScenarioServiceTest {
         Long comb1Id = scenarioService.create(postRequestComb1, appUserId);
         ScenarioResponseDto response = scenarioService.get(comb1Id, appUserId);
 
-        Assert.assertNotNull(response.getApvValuationResult());
-        Assert.assertNotNull(response.getFteValuationResult());
-        Assert.assertNotNull(response.getFcfValuationResult());
+        assertNotNull(response.getApvValuationResult());
+        assertNotNull(response.getFteValuationResult());
+        assertNotNull(response.getFcfValuationResult());
     }
 
     @Test
@@ -387,9 +388,9 @@ public class ScenarioServiceTest {
         Long comb2Id = scenarioService.create(postRequestComb2, appUserId);
         ScenarioResponseDto response = scenarioService.get(comb2Id, appUserId);
 
-        Assert.assertNotNull(response.getApvValuationResult());
-        Assert.assertNotNull(response.getFteValuationResult());
-        Assert.assertNotNull(response.getFcfValuationResult());
+        assertNotNull(response.getApvValuationResult());
+        assertNotNull(response.getFteValuationResult());
+        assertNotNull(response.getFcfValuationResult());
     }
 
     @Test
@@ -421,9 +422,9 @@ public class ScenarioServiceTest {
         Long comb2Id = scenarioService.create(postRequestComb2, appUserId);
         ScenarioResponseDto response = scenarioService.get(comb2Id, appUserId);
 
-        Assert.assertNotNull(response.getApvValuationResult());
-        Assert.assertNotNull(response.getFteValuationResult());
-        Assert.assertNotNull(response.getFcfValuationResult());
+        assertNotNull(response.getApvValuationResult());
+        assertNotNull(response.getFteValuationResult());
+        assertNotNull(response.getFcfValuationResult());
     }
 
     @Test

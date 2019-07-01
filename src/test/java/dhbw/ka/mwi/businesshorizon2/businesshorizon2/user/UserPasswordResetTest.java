@@ -6,6 +6,8 @@ import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.UserPasswordReset
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.UserService;
 import edu.dhbw.ka.mwi.businesshorizon2.config.SecurityConfig;
 import edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IAppUserRepository;
+import edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IUserPasswordResetTokenRepository;
+import edu.dhbw.ka.mwi.businesshorizon2.models.daos.AppRoleDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.daos.AppUserDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.daos.UserPasswordResetTokenDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.AppUserDto;
@@ -21,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 
 @RunWith(SpringRunner.class)
@@ -39,10 +42,19 @@ public class UserPasswordResetTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private IUserPasswordResetTokenRepository userPasswordResetTokenRepository;
+
     @Test(expected = Exception.class)
     public void testRequestResetTokenNotRegisteredEmail() throws Exception {
 
         userService.requestUserPasswordReset("aeggegpsdghsadpgu@gegwegd.gwegwegsds", "localhost");
+    }
+
+    @Test(expected = Exception.class)
+    public void testPasswordResetTokenInvalid() throws Exception {
+        userService.resetUserPassword(new AppUserDto(1123L, "54235@te.de", "erwr23523@3R", new ArrayList<AppRoleDao>(), true), "gasg23tq34g34g3q4gt3q4g3q4g§$&$%/%&(");
+
     }
 
     @Test
@@ -80,6 +92,5 @@ public class UserPasswordResetTest {
         Assert.assertTrue(oldPasswordIsCorrect);
         //Assert.assertEquals(userService.encodePassword(dto.getPassword()), newUser.getAppUserPassword());
     }
-
 
 }

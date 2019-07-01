@@ -37,7 +37,7 @@ public class ScenarioPostRequestDto {
     private String scenarioDescription;
 
     @NotNull(message = "Die Perioden müssen gesetzt werden.")
-    @Min(value = 2, message = "Es müssen mindestens zwei PErioden angegeben werden.")
+    @Min(value = 2, message = "Es müssen mindestens zwei Perioden angegeben werden.")
     private Integer periods;
 
     @NotNull(message = "Es muss ein Gewerbesteuerhebesatz angegeben werden.")

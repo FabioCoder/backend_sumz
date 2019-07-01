@@ -11,13 +11,15 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.daos.AppUserDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.daos.UserActivationTokenDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.UserActivationTokenDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.UserMapper;
-import org.junit.Assert;
+import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.validation.constraints.AssertFalse;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
@@ -42,19 +44,50 @@ public class UserActivationTest {
     @Autowired
     private IUserActivationTokenRepository activationTokenRepository;
 
-    @Test(expected = Exception.class)
-    public void testActivateUserWithExpiredToken() throws Exception {
-        //Create new USer
-        AppUserDao user = new AppUserDao();
+    private AppUserDao user;
+
+    @Before
+    public void init() {
+        user = new AppUserDao();
         user.setPassword("Abc123@");
         user.setIsActive(false);
         user.setEmail("test123@test.de");
+    }
+
+    @Test(expected = Exception.class)
+    public void testActivateUserWhoIsActive() throws Exception
+    {
+        AppUserDao daouser = new AppUserDao();
+        daouser.setPassword("Abc123@");
+        daouser.setIsActive(true);
+        daouser.setEmail("test123@test.de");
         //Check if user still exists from last tests
         if(userRepository.findByEmail(user.getEmail()) != null) userRepository.deleteById(userRepository.findByEmail(user.getEmail()).getAppUserId());
         //Save new user
         userRepository.save(user);
         //Check that user is inactive
-        Assert.assertFalse(user.getIsActive());
+        assertTrue(user.getIsActive());
+        //get Activationtoken for given User
+        UserActivationTokenDao token = activationService.createUserActivationToken(user);
+        //Set Token to be expired
+        activationTokenRepository.save(token);
+
+        //Translate token to the required Format
+        String link = translateTokenFormat(token);
+
+        //Activate User
+        userService.activateUser(link);
+    }
+
+    @Test(expected = Exception.class)
+    public void testActivateUserWithExpiredToken() throws Exception {
+        user.setIsActive(false);
+        //Check if user still exists from last tests
+        if(userRepository.findByEmail(user.getEmail()) != null) userRepository.deleteById(userRepository.findByEmail(user.getEmail()).getAppUserId());
+        //Save new user
+        userRepository.save(user);
+        //Check that user is inactive
+        assertFalse(user.getIsActive());
         //get Activationtoken for given User
         UserActivationTokenDao token = activationService.createUserActivationToken(user);
         //Set Token to be expired
@@ -62,44 +95,73 @@ public class UserActivationTest {
         activationTokenRepository.save(token);
 
         //Translate token to the required Format
-        UserActivationTokenDto userTokenDto = UserMapper.mapToDto(token);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
-        String link = objectMapper.writeValueAsString(userTokenDto);
-        link = Base64.getEncoder().encodeToString(link.getBytes(StandardCharsets.UTF_8));
+        String link = translateTokenFormat(token);
 
         //Activate User
         userService.activateUser(link);
     }
 
-    @Test
-    public void testActivateUser() throws Exception {
-        //Create new USer
-        AppUserDao user = new AppUserDao();
-        user.setPassword("Abc123@");
+    @Test(expected = Exception.class)
+    public void testActivateUserWithRandomString() throws Exception{
         user.setIsActive(false);
-        user.setEmail("test123@test.de");
+        //Activate User
+        userService.activateUser("sdgfsadg34r2903rgw0e9vqwvbg89f3ßb2$§45/\n3f9ß23f");
+
+        assertFalse(user.getIsActive());
+    }
+
+    @Test(expected = Exception.class)
+    public void testActivateUserWithInvalidId() throws Exception{
+        user.setIsActive(false);
         //Check if user still exists from last tests
         if(userRepository.findByEmail(user.getEmail()) != null) userRepository.deleteById(userRepository.findByEmail(user.getEmail()).getAppUserId());
         //Save new user
         userRepository.save(user);
         //Check that user is inactive
-        Assert.assertFalse(user.getIsActive());
+        assertFalse(user.getIsActive());
+        //get Activationtoken for given User
+        UserActivationTokenDao token = activationService.createUserActivationToken(user);
+        activationTokenRepository.save(token);
+        //set Token to invalid AppUser
+        token.setAppUser(new AppUserDao(-123L, "test@test.test", "Abc123@", new ArrayList<>(), false));
+
+        //Translate token to the required Format
+        String link = translateTokenFormat(token);
+
+        //Activate User
+        userService.activateUser(link);
+
+        assertFalse(user.getIsActive());
+    }
+
+    @Test
+    public void testActivateUser() throws Exception {
+        user.setIsActive(false);
+        //Check if user still exists from last tests
+        if(userRepository.findByEmail(user.getEmail()) != null) userRepository.deleteById(userRepository.findByEmail(user.getEmail()).getAppUserId());
+        //Save new user
+        userRepository.save(user);
+        //Check that user is inactive
+        assertFalse(user.getIsActive());
         //get Activationtoken for given User
         UserActivationTokenDao token = activationService.createUserActivationToken(user);
 
         //Translate token to the required Format
-        UserActivationTokenDto userTokenDto = UserMapper.mapToDto(token);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
-        String link = objectMapper.writeValueAsString(userTokenDto);
-        link = Base64.getEncoder().encodeToString(link.getBytes(StandardCharsets.UTF_8));
+        String link = translateTokenFormat(token);
 
         //Activate User
         userService.activateUser(link);
 
         AppUserDao newUser = userRepository.findById(user.getAppUserId()).get();
         //Assert that User is active
-        Assert.assertTrue(newUser.getIsActive());
+        assertTrue(newUser.getIsActive());
+    }
+
+    public String translateTokenFormat(UserActivationTokenDao token) throws JsonProcessingException {
+        UserActivationTokenDto userTokenDto = UserMapper.mapToDto(token);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
+        String link = objectMapper.writeValueAsString(userTokenDto);
+        return Base64.getEncoder().encodeToString(link.getBytes(StandardCharsets.UTF_8));
     }
 }

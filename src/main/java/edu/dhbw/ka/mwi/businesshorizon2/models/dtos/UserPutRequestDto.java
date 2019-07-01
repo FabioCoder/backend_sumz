@@ -8,8 +8,6 @@ import javax.validation.constraints.Pattern;
 import edu.dhbw.ka.mwi.businesshorizon2.models.daos.AppRoleDao;
 
 public class UserPutRequestDto {
-
-    private Long id;
     
     @Email
     private String email;
@@ -34,8 +32,8 @@ public class UserPutRequestDto {
     
     private Boolean isActive;
     
-    public UserPutRequestDto(Long id, String email, String passwordOld, String passwordNew, List<AppRoleDao> roles, Boolean isActive) {
-    	this.id = id;
+    public UserPutRequestDto(String email, String passwordOld, String passwordNew, List<AppRoleDao> roles, Boolean isActive) {
+
     	this.email = email;
     	this.oldPassword = passwordOld;
     	this.newPassword = passwordNew;
@@ -45,14 +43,6 @@ public class UserPutRequestDto {
 
 	public UserPutRequestDto() {
     	
-    }
-
-  	public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getEmail() {
