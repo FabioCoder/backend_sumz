@@ -69,7 +69,7 @@ public class ScenarioService implements IScenarioService {
     public Long create(ScenarioPostRequestDto scenarioDto, Long appUserId) {
 
         ScenarioDao scenarioDao = ScenarioMapper.mapDtoToDao(scenarioDto);
-        boolean brownRozeff = false;
+        
         //TODO: give dtos variance???
         ApvCompanyValuationResultDto apvRes;
         FteCompanyValuationResultDto fteRes;
@@ -123,14 +123,13 @@ public class ScenarioService implements IScenarioService {
 
         //this passage enables us to apply brown rozeff even though pnl values are provided (historic fcf is calculated and then forecasted)
         //if there are no fcfs directly provided and brown rozeff should be applied:
-        if (!freeCashFlowsProvided && brownRozeff) {
+        if (!freeCashFlowsProvided && scenarioDto.getBrownRozeff()) {
             Integer[] brOrder = {1, 0, 0};
             Integer[] brSeasonalOrder = {0, 1, 1, 4};
 
             List<TimeSeriesItemRequestDto> l = new ArrayList<>();
 
             //TODO: check for frequency: must be 4
-            //TODO: adapt DTOs and DAOs
             
             try {
                 for (TimeSeriesItemRequestDto revTsir : this.findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.Revenue).getTimeSeries()) {
@@ -165,6 +164,8 @@ public class ScenarioService implements IScenarioService {
                 historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.Depreciation));
                 historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.Investments));
                 historicAccountingFigures.remove(findHistoricAccountingFigure(historicAccountingFigures, MultiPeriodAccountingFigureNames.Divestments));
+
+                freeCashFlowsProvided = true;
             } catch (RuntimeException e) {
                 throw new RuntimeException("Brown Rozeff not applicable due to missing data");
             }
@@ -176,6 +177,11 @@ public class ScenarioService implements IScenarioService {
             PredictedHistoricAccountingFigureDto historicAccountingFigureDto = new PredictedHistoricAccountingFigureDto(figure);
             predictionService.MakePredictions(historicAccountingFigureDto, scenarioDto.getPeriods());
             historicAccountingFigureDtoList.add(historicAccountingFigureDto);
+            
+            //if brown rozeff was applied the brownRozeffScore is set
+            if (scenarioDto.getBrownRozeff() && figure.getFigureName() == MultiPeriodAccountingFigureNames.FreeCashFlows) {
+                scenarioDao.setBrownRozeffScore(figure.getScore());
+            }
         }
 
         DoubleKeyValueListDto liabilities = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Liabilities, deterministicAccountingFigures, historicAccountingFigureDtoList);
@@ -369,7 +375,7 @@ public class ScenarioService implements IScenarioService {
 
     }
 
-    public MultiPeriodAccountingFigureRequestDto findHistoricAccountingFigure(List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures, MultiPeriodAccountingFigureNames figureName) {
+    private MultiPeriodAccountingFigureRequestDto findHistoricAccountingFigure(List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures, MultiPeriodAccountingFigureNames figureName) {
         
         MultiPeriodAccountingFigureRequestDto mpacfr = null;
         
@@ -381,7 +387,7 @@ public class ScenarioService implements IScenarioService {
         return mpacfr;
     }
 
-    public TimeSeriesItemRequestDto findTSIRByDate(List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures, MultiPeriodAccountingFigureNames figureName, TimeSeriesItemDateRequestDto tsird) {
+    private TimeSeriesItemRequestDto findTSIRByDate(List<MultiPeriodAccountingFigureRequestDto> historicAccountingFigures, MultiPeriodAccountingFigureNames figureName, TimeSeriesItemDateRequestDto tsird) {
         
         MultiPeriodAccountingFigureRequestDto mpacfr = this.findHistoricAccountingFigure(historicAccountingFigures, figureName);
         

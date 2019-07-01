@@ -51,6 +51,14 @@ public class ScenarioDao {
 
     @Column(name = "ScenarioColor", columnDefinition = "nvarchar")
     private String scenarioColor;
+    
+    @Column(name= "BrownRozeff")
+    private boolean brownRozeff;
+    
+    //this field is to return the AIC Value of the via Brown Rozeff calculated and predicted cash flows; if the fcf was directly provided by the user this is redudant to the returned score of the FCF multiperiodaccountingfigureRequestDto of the scenarioDto
+    //since this field is not provided by the ScenarioRequestDto / PutDto, it is not mapped by the mapper
+    @Column(name= "BrownRozeffScore")
+    private Double brownRozeffScore;
 
     @OneToOne(mappedBy = "scenario")
     private ApvCompanyValuationResultDao apvCompanyValuationResultDao;
@@ -193,6 +201,22 @@ public class ScenarioDao {
 
     public void setScenarioColor(String scenarioColor) {
         this.scenarioColor = scenarioColor;
+    }
+
+    public Boolean getBrownRozeff() {
+        return brownRozeff;
+    }
+
+    public void setBrownRozeff(Boolean brownRozeff) {
+        this.brownRozeff = brownRozeff;
+    }
+
+    public Double getBrownRozeffScore() {
+        return brownRozeffScore;
+    }
+
+    public void setBrownRozeffScore(Double brownRozeffScore) {
+        this.brownRozeffScore = brownRozeffScore;
     }
 
 }

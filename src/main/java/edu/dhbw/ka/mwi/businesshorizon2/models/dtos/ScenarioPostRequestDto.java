@@ -66,6 +66,9 @@ public class ScenarioPostRequestDto {
     private Double interestOnLiabilitiesRate;
 
     private String scenarioColor;
+    
+    @NotNull
+    private Boolean brownRozeff;
 
     //each accounting figure is represented by a MultiPeriodAccountingFigureRequestDto that contains a time series
     @Valid
@@ -295,6 +298,14 @@ public class ScenarioPostRequestDto {
 
     public void setScenarioColor(String scenarioColor) {
         this.scenarioColor = scenarioColor;
+    }
+
+    public Boolean getBrownRozeff() {
+        return brownRozeff;
+    }
+
+    public void setBrownRozeff(Boolean brownRozeff) {
+        this.brownRozeff = brownRozeff;
     }
 
     @Override

@@ -70,6 +70,8 @@ public class CompanyValuationService implements ICompanyValuationService {
         for (int i = 0; i < freeCashFlow.size() - 1; i++) {
             presentValueOfCashflows += (freeCashFlow.getKeyList().get(i) / Math.pow((1 + equityInterest), i + 1));
             presentValueOfCashflowsSE += (freeCashFlow.getValueList().get(i) / Math.pow((1 + equityInterest), i + 1));
+            
+            System.out.println("PresentValueOfCashflowSE: " + presentValueOfCashflowsSE + "-------------------------------------");
 
             double taxShield = effectiveTaxRate * interestOnLiabilities * liabilitiesClone.get(i);
             double taxShieldSE = effectiveTaxRate * interestOnLiabilities * liabilitiesCloneSE.get(i);

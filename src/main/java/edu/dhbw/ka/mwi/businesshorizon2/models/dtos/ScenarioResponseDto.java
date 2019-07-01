@@ -15,6 +15,9 @@ public class ScenarioResponseDto {
     private Double interestOnLiabilitiesRate;
 
     private String scenarioColor;
+    
+    private Boolean brownRozeff;
+    private Double brownRozeffScore;
 
     private MultiPeriodAccountingFigureResponseDto depreciation;
     private MultiPeriodAccountingFigureResponseDto additionalIncome;
@@ -230,6 +233,22 @@ public class ScenarioResponseDto {
 
     public void setScenarioColor(String scenarioColor) {
         this.scenarioColor = scenarioColor;
+    }
+
+    public Boolean getBrownRozeff() {
+        return brownRozeff;
+    }
+
+    public void setBrownRozeff(Boolean brownRozeff) {
+        this.brownRozeff = brownRozeff;
+    }
+
+    public Double getBrownRozeffScore() {
+        return brownRozeffScore;
+    }
+
+    public void setBrownRozeffScore(Double brownRozeffScore) {
+        this.brownRozeffScore = brownRozeffScore;
     }
 
 }

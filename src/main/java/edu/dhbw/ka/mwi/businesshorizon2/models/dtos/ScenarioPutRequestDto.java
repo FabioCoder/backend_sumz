@@ -67,6 +67,9 @@ public class ScenarioPutRequestDto {
 	private Double interestOnLiabilitiesRate;
         
         private String scenarioColor;
+        
+        @NotNull
+        private Boolean brownRozeff;
 	
 	@Valid
 	private MultiPeriodAccountingFigureRequestDto depreciation;
@@ -231,6 +234,14 @@ public class ScenarioPutRequestDto {
 
     public void setScenarioColor(String scenarioColor) {
         this.scenarioColor = scenarioColor;
+    }
+
+    public Boolean getBrownRozeff() {
+        return brownRozeff;
+    }
+
+    public void setBrownRozeff(Boolean brownRozeff) {
+        this.brownRozeff = brownRozeff;
     }
 		
 	@Override

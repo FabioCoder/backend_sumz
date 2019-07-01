@@ -11,8 +11,6 @@ import edu.dhbw.ka.mwi.businesshorizon2.comparators.TimeSeriesItemByDateComparat
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.TimeSeriesItemDateFormats;
 
-//this class aids to be able to request predictions for multiple time series
-//question: why does one object of this class is allowed to have multiple timeSeries instead of just one? The user can only supply one time series for each figure?
 /**
  *
  * @author DHBW KA WWI

@@ -52,6 +52,7 @@ public class ScenarioMapper {
 		postDto.setScenarioName(putDto.getScenarioName());
 		postDto.setSolidaryTaxRate(putDto.getSolidaryTaxRate());
         postDto.setScenarioColor(putDto.getScenarioColor());
+        postDto.setBrownRozeff(putDto.getBrownRozeff());
 		
 		return postDto;
 	}
@@ -88,6 +89,7 @@ public class ScenarioMapper {
 		dao.setSolidaryTaxRate(dto.getSolidaryTaxRate());        
         dao.setScenarioColor(dto.getScenarioColor());
 		dao.setMultiPeriodAccountingFigures(multiPeriodAccountingFigures);
+                dao.setBrownRozeff(dto.getBrownRozeff());
 		
 		return dao;
 	}
@@ -150,6 +152,7 @@ public class ScenarioMapper {
 		dto.setInterestOnLiabilitiesRate(dao.getInterestOnLiabilitiesRate());
                 
         dto.setScenarioColor(dao.getScenarioColor());
+        dto.setBrownRozeff(dao.getBrownRozeff());
 		
 		dto.setApvValuationResult(ApvCompanyValuationResultMapper.mapDaoToDto(dao.getApvCompanyValuationResultDao()));
 		dto.setFteValuationResult(FteCompanyValuationResultMapper.mapDaoToDto(dao.getFteCompanyValuationResultDao()));
