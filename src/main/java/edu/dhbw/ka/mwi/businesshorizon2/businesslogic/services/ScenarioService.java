@@ -67,8 +67,6 @@ public class ScenarioService implements IScenarioService {
      */
     @Override
     public Long create(ScenarioPostRequestDto scenarioDto, Long appUserId) {
-
-        ScenarioDao scenarioDao = ScenarioMapper.mapDtoToDao(scenarioDto);
         
         //TODO: give dtos variance???
         ApvCompanyValuationResultDto apvRes;
@@ -180,10 +178,12 @@ public class ScenarioService implements IScenarioService {
             
             //if brown rozeff was applied the brownRozeffScore is set
             if (scenarioDto.getBrownRozeff() && figure.getFigureName() == MultiPeriodAccountingFigureNames.FreeCashFlows) {
-                scenarioDao.setBrownRozeffScore(figure.getScore());
+                scenarioDto.setBrownRozeffScore(figure.getScore());
             }
         }
 
+        ScenarioDao scenarioDao = ScenarioMapper.mapDtoToDao(scenarioDto);
+        
         DoubleKeyValueListDto liabilities = getDeterministicOrStochasticAccountingFigure(MultiPeriodAccountingFigureNames.Liabilities, deterministicAccountingFigures, historicAccountingFigureDtoList);
         DoubleKeyValueListDto freeCashFlows;
 

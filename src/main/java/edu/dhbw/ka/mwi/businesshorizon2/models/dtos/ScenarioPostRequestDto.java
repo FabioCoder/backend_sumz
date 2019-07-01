@@ -69,8 +69,10 @@ public class ScenarioPostRequestDto {
     
     @NotNull
     private Boolean brownRozeff;
-
-    //each accounting figure is represented by a MultiPeriodAccountingFigureRequestDto that contains a time series
+    
+    private Double brownRozeffScore;
+    
+	//each accounting figure is represented by a MultiPeriodAccountingFigureRequestDto that contains a time series
     @Valid
     private MultiPeriodAccountingFigureRequestDto depreciation;
 
@@ -308,6 +310,13 @@ public class ScenarioPostRequestDto {
         this.brownRozeff = brownRozeff;
     }
 
+    public Double getBrownRozeffScore() {
+		return brownRozeffScore;
+	}
+
+	public void setBrownRozeffScore(Double brownRozeffScore) {
+		this.brownRozeffScore = brownRozeffScore;
+	}
     @Override
     public String toString() {
 

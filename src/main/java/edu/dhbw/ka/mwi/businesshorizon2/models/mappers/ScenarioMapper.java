@@ -90,6 +90,7 @@ public class ScenarioMapper {
         dao.setScenarioColor(dto.getScenarioColor());
 		dao.setMultiPeriodAccountingFigures(multiPeriodAccountingFigures);
                 dao.setBrownRozeff(dto.getBrownRozeff());
+        dao.setBrownRozeffScore(dto.getBrownRozeffScore());
 		
 		return dao;
 	}
@@ -153,6 +154,7 @@ public class ScenarioMapper {
                 
         dto.setScenarioColor(dao.getScenarioColor());
         dto.setBrownRozeff(dao.getBrownRozeff());
+        dto.setBrownRozeffScore(dao.getBrownRozeffScore());
 		
 		dto.setApvValuationResult(ApvCompanyValuationResultMapper.mapDaoToDto(dao.getApvCompanyValuationResultDao()));
 		dto.setFteValuationResult(FteCompanyValuationResultMapper.mapDaoToDto(dao.getFteCompanyValuationResultDao()));
