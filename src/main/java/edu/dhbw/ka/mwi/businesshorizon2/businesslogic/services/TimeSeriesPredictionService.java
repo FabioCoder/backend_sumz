@@ -127,7 +127,7 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
         } catch (Exception ex) {
             System.out.println("----------------EXCEPTION---------------");
             ex.printStackTrace();
-            throw new RuntimeException("Undefined exception while trying to get a prediction from the python backend: " + ex.getMessage());
+            throw new RuntimeException(ex.getMessage());
         }
 
     }
