@@ -69,7 +69,9 @@ public class MultiPeriodAccountingFigureRequestDto {
 
     @ApiModelProperty(value = "Score der Prognose (wird bei einer Anfrage nicht berücksichtigt)", allowableValues = "null")
     public Double getScore() {
-    	return round(score,2);
+        if(this.score != null)
+            return round(score,2);
+        else return null;
     }
     
     private double round(double value, int decimalPoints) {
