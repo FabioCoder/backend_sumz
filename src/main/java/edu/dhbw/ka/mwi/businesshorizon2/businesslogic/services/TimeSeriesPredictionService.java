@@ -117,7 +117,10 @@ public class TimeSeriesPredictionService implements ITimeSeriesPredictionService
             //Todo: validate response against schema
             //get the predicted time series out of the response
             predictionResponseDto = mapper.readValue(response.getEntity().getContent(), PredictionResponseDto.class);
-
+            
+            System.out.println("----RESPONSE------");
+            System.out.println(predictionResponseDto.toString());
+            
             //return the time series
             return predictionResponseDto;
 

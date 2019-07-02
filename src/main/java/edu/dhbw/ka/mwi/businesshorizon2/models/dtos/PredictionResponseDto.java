@@ -65,6 +65,30 @@ public class PredictionResponseDto {
             sb.append("score: ");
             sb.append(this.score);
         }
+        
+        if (this.order != null) {
+            sb.append(", ");
+            sb.append(newLine);
+            sb.append("\"order\": [");
+            for (int i = 0; i < this.order.length; i++) {
+                sb.append(this.order[i]);
+                if(this.order.length-i > 1)
+                    sb.append(", ");
+            }
+            sb.append("]");
+        }
+
+        if (this.seasonalOrder != null) {
+            sb.append(", ");
+            sb.append(newLine);
+            sb.append("\"seasonalOrder\": [");
+            for (int i = 0; i < this.seasonalOrder.length; i++) {
+                sb.append(this.seasonalOrder[i]);
+                if(this.seasonalOrder.length-i > 1)
+                    sb.append(", ");
+            }
+            sb.append("]");
+        }
 
         return sb.toString();
     }
