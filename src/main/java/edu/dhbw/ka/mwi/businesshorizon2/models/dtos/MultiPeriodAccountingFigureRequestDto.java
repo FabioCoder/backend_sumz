@@ -10,11 +10,15 @@ import javax.validation.constraints.NotNull;
 import edu.dhbw.ka.mwi.businesshorizon2.comparators.TimeSeriesItemByDateComparator;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.TimeSeriesItemDateFormats;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  *
  * @author DHBW KA WWI
  */
+
+@ApiModel(value="Multiperiod accounting figure: Request", description="Das Model repräsentiert eine Zahlenreihe eines Szenarios.")
 public class MultiPeriodAccountingFigureRequestDto {
 	
     @NotNull(message = "Der Wert isHistoric darf nicht Null sein.")
@@ -63,9 +67,15 @@ public class MultiPeriodAccountingFigureRequestDto {
         this.timeSeries = timeSeries;
     }
 
+    @ApiModelProperty(value = "Score der Prognose (wird bei einer Anfrage nicht berücksichtigt)", allowableValues = "null")
     public Double getScore() {
-        return score;
+    	return round(score,2);
     }
+    
+    private double round(double value, int decimalPoints) {
+        double d = Math.pow(10, decimalPoints);
+        return Math.round(value * d) / d;
+     }
 
     public void setScore(Double score) {
         this.score = score;
@@ -75,6 +85,7 @@ public class MultiPeriodAccountingFigureRequestDto {
      *
      * @return order
      */
+    @ApiModelProperty(value = "Order mit der die Prognose durchgeführt werden soll, Werte: [p,d,q], null")
     public Integer[] getOrder() {
         return order;
     }
@@ -87,6 +98,7 @@ public class MultiPeriodAccountingFigureRequestDto {
         this.order = order;
     }
 
+    @ApiModelProperty(value = "Saisonale Order mit der die Prognose durchgeführt werden soll, Werte: [p,d,q,f], null")
     public Integer[] getSeasonalOrder() {
         return seasonalOrder;
     }
@@ -99,6 +111,7 @@ public class MultiPeriodAccountingFigureRequestDto {
      *
      * @return
      */
+    @ApiModelProperty(value = "Wurden Vergangenheitswerte (-> Prognose) oder Zukunftswerte eingegeben?", allowableValues = "true, false")
     public Boolean getIsHistoric() {
         return isHistoric;
     }
@@ -115,6 +128,7 @@ public class MultiPeriodAccountingFigureRequestDto {
      *
      * @return
      */
+    @ApiModelProperty(value = "Zahlenreihe")
     public List<TimeSeriesItemRequestDto> getTimeSeries() {
         return timeSeries;
     }
@@ -131,6 +145,7 @@ public class MultiPeriodAccountingFigureRequestDto {
      *
      * @return
      */
+    @ApiModelProperty(value = "Name der Zahlungsreihe")
     public MultiPeriodAccountingFigureNames getFigureName() {
         return figureName;
     }
@@ -242,6 +257,7 @@ public class MultiPeriodAccountingFigureRequestDto {
         return amounts;
     }
 
+    @ApiModelProperty(value = "Frequenz der Zahlenreihe (vierteljährlich: 4, jährlich: 1)")
     public Integer getFrequency() {
         switch (this.timeSeries.get(0).getDate().getDateFormat()) {
             case Year:

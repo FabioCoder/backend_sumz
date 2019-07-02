@@ -2,6 +2,9 @@ package edu.dhbw.ka.mwi.businesshorizon2.models.dtos;
 
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value="Time series item: Request ", description="Item einer Zahlenreihe")
 public class TimeSeriesItemRequestDto{
 	
 	@NotNull(message="Es muss ein Datum gesetzt sein.")

@@ -1,6 +1,8 @@
 package edu.dhbw.ka.mwi.businesshorizon2.models.dtos;
 
+import io.swagger.annotations.ApiModel;
 
+@ApiModel(value="Time series item: Response ", description="Item einer Zahlenreihe")
 public class TimeSeriesItemResponseDto {
 	private TimeSeriesItemDateResponseDto date;
 	private Double amount;

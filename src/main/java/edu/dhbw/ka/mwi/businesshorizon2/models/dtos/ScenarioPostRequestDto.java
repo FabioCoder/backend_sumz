@@ -19,6 +19,8 @@ import edu.dhbw.ka.mwi.businesshorizon2.validators.IsContinuousTimeSeriesPostReq
 import edu.dhbw.ka.mwi.businesshorizon2.validators.IsDateFormatConsistentPostRequest;
 import edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidAccountingFigureCombinationPostRequest;
 import edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidTimeSeriesRangesPostRequest;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 //This class represents a post request of the frontend for scenario creation
 //several validations need to be done, e.g. if the timeseries are continious / do not have a gap inbetween
@@ -26,6 +28,8 @@ import edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidTimeSeriesRangesPostRe
 @IsDateFormatConsistentPostRequest()
 @IsContinuousTimeSeriesPostRequest()
 @IsValidTimeSeriesRangesPostRequest()
+
+@ApiModel(value="Scenario Post: Request ", description="Respräsentiert eine Post-Anfrage für die Erstellung eines Szenarios")
 public class ScenarioPostRequestDto {
 
     @NotNull(message = "Das Szenario muss einen Namen haben.")
@@ -302,6 +306,7 @@ public class ScenarioPostRequestDto {
         this.scenarioColor = scenarioColor;
     }
 
+    @ApiModelProperty(value = "Unternehmensbewertung erfolgt auf Basis von Brown-Rozeff (wird für eine Anfrage nicht benötigt)")
     public Boolean getBrownRozeff() {
         return brownRozeff;
     }
@@ -310,6 +315,7 @@ public class ScenarioPostRequestDto {
         this.brownRozeff = brownRozeff;
     }
 
+    @ApiModelProperty(value = "Score der Prognose auf Basis von Brown-Rozeff (wird für eine Anfrage nicht benötigt)")
     public Double getBrownRozeffScore() {
 		return brownRozeffScore;
 	}

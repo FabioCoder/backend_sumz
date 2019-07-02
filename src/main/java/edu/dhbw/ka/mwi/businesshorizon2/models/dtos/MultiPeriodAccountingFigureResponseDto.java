@@ -3,10 +3,14 @@ package edu.dhbw.ka.mwi.businesshorizon2.models.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  *
  * @author DHBW WWI SUMZ
  */
+@ApiModel(value="Multiperiod accounting figure: Response", description="Das Model repräsentiert eine Zahlenreihe eines Szenarios.")
 public class MultiPeriodAccountingFigureResponseDto {
 
     private Boolean isHistoric;
@@ -39,6 +43,7 @@ public class MultiPeriodAccountingFigureResponseDto {
      *
      * @return
      */
+    @ApiModelProperty(value = "Wurden Vergangenheitswerte (-> Prognose) oder Zukunftswerte eingegeben?", allowableValues = "true, false")
     public Boolean getIsHistoric() {
         return isHistoric;
     }
@@ -55,6 +60,7 @@ public class MultiPeriodAccountingFigureResponseDto {
      *
      * @return
      */
+    @ApiModelProperty(value = "Zahlenreihe")
     public List<TimeSeriesItemResponseDto> getTimeSeries() {
         return timeSeries;
     }
@@ -66,7 +72,8 @@ public class MultiPeriodAccountingFigureResponseDto {
     public void setTimeSeries(List<TimeSeriesItemResponseDto> timeSeries) {
         this.timeSeries = timeSeries;
     }
-
+    
+    @ApiModelProperty(value = "Order mit der die Prognose durchgeführt wurde", allowableValues = "[p,d,q], null")
     public Integer[] getOrder() {
         return order;
     }
@@ -75,6 +82,7 @@ public class MultiPeriodAccountingFigureResponseDto {
         this.order = order;
     }
 
+    @ApiModelProperty(value = "Saisonale Order mit der die Prognose durchgeführt wurde", allowableValues = "[p,d,q], null")
     public Integer[] getSeasonalOrder() {
         return seasonalOrder;
     }
@@ -83,6 +91,7 @@ public class MultiPeriodAccountingFigureResponseDto {
         this.seasonalOrder = seasonalOrder;
     }
 
+    @ApiModelProperty(value = "Score der Prognose")
     public Double getScore() {
         return score;
     }

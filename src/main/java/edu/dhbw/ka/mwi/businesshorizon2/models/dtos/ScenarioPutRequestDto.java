@@ -16,11 +16,15 @@ import edu.dhbw.ka.mwi.businesshorizon2.validators.IsContinuousTimeSeriesPutRequ
 import edu.dhbw.ka.mwi.businesshorizon2.validators.IsDateFormatConsistentPutRequest;
 import edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidAccountingFigureCombinationPutRequest;
 import edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidTimeSeriesRangesPutRequest;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @IsValidAccountingFigureCombinationPutRequest()
 @IsDateFormatConsistentPutRequest()
 @IsContinuousTimeSeriesPutRequest()
 @IsValidTimeSeriesRangesPutRequest()
+
+@ApiModel(value="Scenario Put: Request ", description="Respräsentiert eine Put-Anfrage für die Änderung an einem Szenario")
 public class ScenarioPutRequestDto {
 	
 	@NotNull(message="Die Id des Szenarios muss gesetzt werden.")
@@ -236,10 +240,12 @@ public class ScenarioPutRequestDto {
         this.scenarioColor = scenarioColor;
     }
 
+    @ApiModelProperty(value = "Unternehmensbewertung erfolgt auf Basis von Brown-Rozeff (wird für eine Anfrage nicht benötigt)")
     public Boolean getBrownRozeff() {
         return brownRozeff;
     }
 
+    @ApiModelProperty(value = "Score der Prognose auf Basis von Brown-Rozeff (wird für eine Anfrage nicht benötigt)")
     public void setBrownRozeff(Boolean brownRozeff) {
         this.brownRozeff = brownRozeff;
     }

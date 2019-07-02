@@ -1,5 +1,9 @@
 package edu.dhbw.ka.mwi.businesshorizon2.models.dtos;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value="Scenario: Response ", description="Repräsentiert ein Scenario für die Antwort")
 public class ScenarioResponseDto {
 
     private Long id;
@@ -235,6 +239,7 @@ public class ScenarioResponseDto {
         this.scenarioColor = scenarioColor;
     }
 
+    @ApiModelProperty(value = "Unternehmensbewertung erfolgte auf Basis von Brown-Rozeff")
     public Boolean getBrownRozeff() {
         return brownRozeff;
     }
@@ -243,6 +248,7 @@ public class ScenarioResponseDto {
         this.brownRozeff = brownRozeff;
     }
 
+    @ApiModelProperty(value = "Score der Prognose auf Basis von Brown-Rozeff")
     public Double getBrownRozeffScore() {
         return brownRozeffScore;
     }
