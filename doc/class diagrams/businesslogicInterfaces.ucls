@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.3" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <interface id="1" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.EmailService" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/businesslogic/interfaces/EmailService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="194" y="62"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="2" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IEmailService" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/businesslogic/interfaces/IEmailService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="193" y="161"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="3" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IUserService" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/businesslogic/interfaces/IUserService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="529" y="164"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="4" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IAccountingFigureCalculationsService" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/businesslogic/interfaces/IAccountingFigureCalculationsService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="150" width="792" x="115" y="306"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="5" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IUserActivationService" project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/businesslogic/interfaces/IUserActivationService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="834" y="180"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="6" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IUserPasswordResetService" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/businesslogic/interfaces/IUserPasswordResetService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="832" y="260"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="7" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.ICompanyValuationService" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/businesslogic/interfaces/ICompanyValuationService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="666" y="534"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="8" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IScenarioService" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/businesslogic/interfaces/IScenarioService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1102" y="386"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="9" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IStandardErrorCalculationService" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/businesslogic/interfaces/IStandardErrorCalculationService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1125" y="238"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="10" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.ITimeSeriesPredictionService" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/businesslogic/interfaces/ITimeSeriesPredictionService.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="878" y="102"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

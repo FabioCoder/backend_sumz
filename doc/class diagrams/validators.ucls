@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.3" icons="true" always-add-relationships="true" generalizations="true" realizations="true" 
+  associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <enumeration id="1" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsDateFormatConsistentPutRequestValidator.DateFormats" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsDateFormatConsistentPutRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="197" y="889"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <annotation id="2" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidAccountingFigureCombinationPostRequest" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidAccountingFigureCombinationPostRequest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="731" y="563"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <class id="3" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidOrderPostRequestValidator" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidOrderPostRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-56" y="70"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <annotation id="4" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidOrderPutRequest" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidOrderPutRequest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1044" y="590"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <annotation id="5" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsContinuousTimeSeriesPostRequest" project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsContinuousTimeSeriesPostRequest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-93" y="532"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <annotation id="6" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsDateFormatConsistentPostRequest" project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsDateFormatConsistentPostRequest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="138" y="233"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <class id="7" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsDateFormatConsistentPostRequestValidator" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsDateFormatConsistentPostRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="333" y="70"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsContinuousTimeSeriesPostRequestValidator" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsContinuousTimeSeriesPostRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-38" y="387"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <annotation id="9" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsContinuousTimeSeriesPutRequest" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsContinuousTimeSeriesPutRequest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1056" y="235"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <annotation id="10" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidTimeSeriesRangesPostRequest" project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidTimeSeriesRangesPostRequest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="307" y="545"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <annotation id="11" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidAccountingFigureCombinationPutRequest" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidAccountingFigureCombinationPutRequest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-97" y="898"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <class id="12" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidTimeSeriesRangesPostRequestValidator" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidTimeSeriesRangesPostRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="360" y="400"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidAccountingFigureCombinationPostRequestValidator" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidAccountingFigureCombinationPostRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="757" y="400"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidTimeSeriesRangesPutRequestValidator" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidTimeSeriesRangesPutRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="728" y="90"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <annotation id="15" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidOrderPostRequest" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidOrderPostRequest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-130" y="215"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <class id="16" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsContinuousTimeSeriesPutRequestValidator" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsContinuousTimeSeriesPutRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1111" y="90"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidAccountingFigureCombinationPutRequestValidator" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidAccountingFigureCombinationPutRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="-18" y="735"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="18" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsDateFormatConsistentPostRequestValidator.DateFormats" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsDateFormatConsistentPostRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="396" y="224"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <annotation id="19" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsDateFormatConsistentPutRequest" project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsDateFormatConsistentPutRequest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="452" y="898"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <class id="20" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsDateFormatConsistentPutRequestValidator" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsDateFormatConsistentPutRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="372" y="735"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidOrderPutRequestValidator" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidOrderPutRequestValidator.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1133" y="398"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <annotation id="22" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.validators.IsValidTimeSeriesRangesPutRequest" project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/validators/IsValidTimeSeriesRangesPutRequest.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="675" y="235"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <dependency id="23">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="24">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="25">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="26">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="27">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <nesting id="28">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="1"/>  
+  </nesting>  
+  <dependency id="29">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <nesting id="30">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="18"/>  
+  </nesting>  
+  <dependency id="31">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="32">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <dependency id="33">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="19"/>  
+  </dependency>  
+  <dependency id="34">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="15"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.3" icons="true" always-add-relationships="true" generalizations="true" realizations="true" 
+  associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.config.AdditionalWebConfig" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/config/AdditionalWebConfig.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="120" y="-104"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.config.ResourceServerConfig" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/config/ResourceServerConfig.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="514" y="-102"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.config.AuthorizationServerConfig" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/config/AuthorizationServerConfig.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="190" y="360"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.config.EmailConfig" project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/config/EmailConfig.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="966" y="66"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.config.ThymeleafConfig" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/config/ThymeleafConfig.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="969" y="387"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.config.CustomTokenEnhancerConfig" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/config/CustomTokenEnhancerConfig.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="598" y="175"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.config.CustomUserDetailsConfig" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/config/CustomUserDetailsConfig.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="591" y="352"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.config.SecurityConfig" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/config/SecurityConfig.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1226" y="-5"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.config.Swagger2Config" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/config/Swagger2Config.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1269" y="334"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.config.MailSenderConfig" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/config/MailSenderConfig.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="733" y="50"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <dependency id="11">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="12">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

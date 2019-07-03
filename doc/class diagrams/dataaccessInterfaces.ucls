@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.3" icons="true" always-add-relationships="true" generalizations="true" realizations="true" 
+  associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <interface id="1" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IUserActivationTokenRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/IUserActivationTokenRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="148" y="87"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="2" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.ICompanyValueDistributionPointRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/ICompanyValueDistributionPointRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="157" y="160"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="3" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IMultiPeriodAccountingFigureRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/IMultiPeriodAccountingFigureRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="151" y="245"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="4" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.ITimeSeriesItemDateRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/ITimeSeriesItemDateRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="147" y="320"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="5" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IUserPasswordResetTokenRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/IUserPasswordResetTokenRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="480" y="82"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="6" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IAppUserRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/IAppUserRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="476" y="168"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="7" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IScenarioGraphRepository" project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/IScenarioGraphRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="470" y="270"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="8" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IScenarioRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/IScenarioRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="159" y="421"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="9" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.ITimeSeriesItemRepository" project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/ITimeSeriesItemRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="476" y="366"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="10" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IFteCompanyValuationResultRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/IFteCompanyValuationResultRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="474" y="459"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="11" language="java" name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IAppRoleRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/IAppRoleRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="175" y="517"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="12" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IFcfCompanyValuationResultRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/IFcfCompanyValuationResultRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="168" y="614"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="13" language="java" 
+    name="edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IApvCompanyValuationResultRepository" 
+    project="SUMZ-2018-Backend" 
+    file="/SUMZ-2018-Backend/src/main/java/edu/dhbw/ka/mwi/businesshorizon2/dataaccess/interfaces/IApvCompanyValuationResultRepository.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="469" y="547"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
