@@ -122,6 +122,8 @@ public class ScenarioService implements IScenarioService {
         //this passage enables us to apply brown rozeff even though pnl values are provided (historic fcf is calculated and then forecasted)
         //if there are no fcfs directly provided and brown rozeff should be applied:
         if (!freeCashFlowsProvided && scenarioDto.getBrownRozeff()) {
+            
+            System.out.println("BR has to be applied");
             Integer[] brOrder = {1, 0, 0};
             Integer[] brSeasonalOrder = {0, 1, 1, 4};
 

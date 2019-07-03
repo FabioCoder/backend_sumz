@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.ICompanyValuationService;
+import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.interfaces.IStandardErrorCalculationService;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ApvCompanyValuationResultDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.CompanyValueDistributionDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.FcfCompanyValuationResultDto;
@@ -31,6 +32,12 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.DoubleKeyValueListDto;
  
 @Service
 public class CompanyValuationService implements ICompanyValuationService {
+    
+    IStandardErrorCalculationService secs;
+    
+    public CompanyValuationService() {
+        this.secs = new StandardErrorCalculationService();
+    }
 
     /**
      * The APV Method assumes that the company has no debts, since the capitalstructure has no impact on the Company Value.
@@ -69,7 +76,7 @@ public class CompanyValuationService implements ICompanyValuationService {
 
         for (int i = 0; i < freeCashFlow.size() - 1; i++) {
             presentValueOfCashflows += (freeCashFlow.getKeyList().get(i) / Math.pow((1 + equityInterest), i + 1));
-            presentValueOfCashflowsSE += (freeCashFlow.getValueList().get(i) / Math.pow((1 + equityInterest), i + 1));
+            presentValueOfCashflowsSE = secs.addition(presentValueOfCashflowsSE, (freeCashFlow.getValueList().get(i) / Math.pow((1 + equityInterest), i + 1)));
             
             System.out.println("PresentValueOfCashflowSE: " + presentValueOfCashflowsSE + "-------------------------------------");
 
@@ -77,27 +84,27 @@ public class CompanyValuationService implements ICompanyValuationService {
             double taxShieldSE = effectiveTaxRate * interestOnLiabilities * liabilitiesCloneSE.get(i);
             
             capitalStructureEffect += (taxShield / Math.pow((1 + interestOnLiabilities), i + 1));
-            capitalStructureEffectSE += (taxShieldSE / Math.pow((1 + interestOnLiabilities), i + 1));
+            capitalStructureEffectSE = secs.addition(capitalStructureEffectSE, (taxShieldSE / Math.pow((1 + interestOnLiabilities), i + 1)));
         }
 
 	//presentValueOfCashflows is added with the last value of the list discounted
 		
         presentValueOfCashflows += (freeCashFlow.getKeyList().get(freeCashFlow.size() - 1)
                 / (equityInterest * Math.pow((1 + equityInterest), freeCashFlow.size() - 1)));
-        presentValueOfCashflowsSE += (freeCashFlow.getValueList().get(freeCashFlow.size() - 1)
-                / (equityInterest * Math.pow((1 + equityInterest), freeCashFlow.size() - 1)));
+        presentValueOfCashflowsSE = secs.addition(presentValueOfCashflowsSE, (freeCashFlow.getValueList().get(freeCashFlow.size() - 1)
+                / (equityInterest * Math.pow((1 + equityInterest), freeCashFlow.size() - 1))));
 
         double taxShield = effectiveTaxRate * interestOnLiabilities * liabilitiesClone.get(freeCashFlow.size() - 1);
         double taxShieldSE = effectiveTaxRate * interestOnLiabilities * liabilitiesCloneSE.get(freeCashFlow.size() - 1);
         
         capitalStructureEffect += (taxShield
                 / (interestOnLiabilities * Math.pow((1 + interestOnLiabilities), freeCashFlow.size() - 1)));
-        capitalStructureEffectSE += (taxShieldSE
-                / (interestOnLiabilities * Math.pow((1 + interestOnLiabilities), freeCashFlow.size() - 1)));
+        capitalStructureEffectSE = secs.addition(capitalStructureEffectSE,(taxShieldSE
+                / (interestOnLiabilities * Math.pow((1 + interestOnLiabilities), freeCashFlow.size() - 1))));
 
 	//The Free Cash Flows and the present value of the Tax Shields are added up, liabilities are subtracted. 
         companyValue = presentValueOfCashflows + capitalStructureEffect - liabilitiesClone.get(0);
-        companyValueSE = presentValueOfCashflowsSE + capitalStructureEffectSE - liabilitiesCloneSE.get(0);
+        companyValueSE = secs.subtraction(secs.addition(presentValueOfCashflowsSE, capitalStructureEffectSE), liabilitiesCloneSE.get(0));
 
 	// returns results: Company Value, Balance Sheet Total, total liabilities, discounted Cashflow, discounted taxShield
         ApvCompanyValuationResultDto result = new ApvCompanyValuationResultDto(companyValue, presentValueOfCashflows + capitalStructureEffect,
