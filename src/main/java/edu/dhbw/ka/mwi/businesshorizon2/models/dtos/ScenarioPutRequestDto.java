@@ -46,17 +46,17 @@ public class ScenarioPutRequestDto {
 	private Integer periods;
 
 	@NotNull(message = "Es muss ein Gewerbesteuerhebesatz angegeben werden.")
-	@DecimalMin(value = "0.0", message = "Der Gewerbesteuerhebesatz muss zwischen 0 und 1 liegen.")
+	@DecimalMin(value = "0.000000001", message = "Der Gewerbesteuerhebesatz muss größer als 0 sein und darf maximal 100% betragen.")
 	@DecimalMax(value = "1.0", message = "Der Gewerbesteuerhebesatz muss zwischen 0 und 1 liegen.")
 	private Double businessTaxRate;
 
 	@NotNull(message = "Es muss ein Körperschaftssteuersatz angegeben werden.")
-	@DecimalMin(value = "0.0", message = "Der Körperschaftssteuersatz muss zwischen 0 und 1 liegen.")
+	@DecimalMin(value = "0.000000001", message = "Der Körperschaftssteuersatz größer als 0 sein und darf maximal 100% betragen.")
 	@DecimalMax(value = "1.0", message = "Der Körperschaftssteuersatz muss zwischen 0 und 1 liegen.")
 	private Double corporateTaxRate;
 
 	@NotNull(message = "Es muss ein Solidaritätssteuersatz angegeben werden.")
-	@DecimalMin(value = "0.0", message = "Der Solidaritätssteuersatz muss zwischen 0 und 1 liegen.")
+	@DecimalMin(value = "0.000000001", message = "Der Solidaritätssteuersatz größer als 0 sein und darf maximal 100% betragen.")
 	@DecimalMax(value = "1.0", message = "Der Solidaritätssteuersatz muss zwischen 0 und 1 liegen.")
 	private Double solidaryTaxRate;
 
@@ -66,10 +66,11 @@ public class ScenarioPutRequestDto {
 	private Double equityInterestRate;
 
 	@NotNull(message = "Es muss ein Zinssatz für Verbindlichkeiten angegeben werden.")
-	@DecimalMin(value = "0.0", message = "Der Zinssatz für Verbindlichkeiten muss zwischen 0 und 1 liegen.")
+	@DecimalMin(value = "0.000000001", message = "Der Zinssatz für Verbindlichkeiten muss größer als 0 sein und darf maximal 100% betragen.")
 	@DecimalMax(value = "1.0", message = "Der Zinssatz für Verbindlichkeiten muss zwischen 0 und 1 liegen.")
 	private Double interestOnLiabilitiesRate;
-        
+
+	@NotNull
         private String scenarioColor;
         
         @NotNull

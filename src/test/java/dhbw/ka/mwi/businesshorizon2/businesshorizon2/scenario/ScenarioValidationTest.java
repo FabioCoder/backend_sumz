@@ -5,6 +5,7 @@ import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.ScenarioService;
 import edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IAppUserRepository;
 import edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IScenarioRepository;
 import edu.dhbw.ka.mwi.businesshorizon2.models.daos.AppUserDao;
+import edu.dhbw.ka.mwi.businesshorizon2.models.daos.MultiPeriodAccountingFigureDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.daos.ScenarioDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.*;
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.ScenarioMapper;

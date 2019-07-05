@@ -1,4 +1,4 @@
-package dhbw.ka.mwi.businesshorizon2.businesshorizon2.validation;
+package dhbw.ka.mwi.businesshorizon2.businesshorizon2.scenario;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
