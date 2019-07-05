@@ -5,6 +5,7 @@ import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.ScenarioService;
 import edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IAppUserRepository;
 import edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IScenarioRepository;
 import edu.dhbw.ka.mwi.businesshorizon2.models.daos.AppUserDao;
+import edu.dhbw.ka.mwi.businesshorizon2.models.daos.ScenarioDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.*;
 import edu.dhbw.ka.mwi.businesshorizon2.models.mappers.ScenarioMapper;
 import org.junit.Before;
@@ -59,6 +60,7 @@ public class ScenarioValidationTest {
         appUser = new AppUserDao();
         appUser.setEmail("testmail");
         appUser.setPassword("123Abc@");
+        appUser.setIsActive(true);
         if(userRepository.findByEmail(appUser.getEmail()) != null) userRepository.deleteById(userRepository.findByEmail(appUser.getEmail()).getAppUserId());
         userRepository.save(appUser);
 
@@ -237,6 +239,7 @@ public class ScenarioValidationTest {
 
         scenariodto.setScenarioName("PostTestComb1");
         scenariodto.setScenarioDescription("xyz");
+        scenariodto.setScenarioColor("Green");
         //prediction steps
         scenariodto.setPeriods(2);
         scenariodto.setBusinessTaxRate(0.5);
@@ -244,6 +247,7 @@ public class ScenarioValidationTest {
         scenariodto.setSolidaryTaxRate(0.5);
         scenariodto.setEquityInterestRate(0.5);
         scenariodto.setInterestOnLiabilitiesRate(0.5);
+        scenariodto.setBrownRozeff(false);
 
         scenariodto.setAdditionalIncome(additionalIncomeMPAFR);
         scenariodto.setDepreciation(depreciationMPAFR);
@@ -403,9 +407,10 @@ public class ScenarioValidationTest {
 
     }
 
-    @Test(expected = Exception.class)
+    @Test()
     public void testScenarioGetAll_InvalidID() {
-        scenarioService.getAll(-123L);
+        List<ScenarioResponseDto> list = scenarioService.getAll(-123L);
+        assertTrue(list.size() == 0);
     }
 
     @Test
@@ -495,8 +500,9 @@ public class ScenarioValidationTest {
         Set<ConstraintViolation<ScenarioPostRequestDto>> violationSet = validator.validate(source);
         Iterator<ConstraintViolation<ScenarioPostRequestDto>> iterator = violationSet.iterator();
         String errors = "All Errors: ";
-        for(ConstraintViolation<ScenarioPostRequestDto> constraint = iterator.next(); iterator.hasNext();) {
-            errors = errors + " ";
+        for(ConstraintViolation<ScenarioPostRequestDto> constraint = iterator.next();;) {
+            errors = errors + " " + constraint.getMessage();
+            if(!iterator.hasNext()) break;
         }
         assertTrue(errors, violationSet.size() == expectErrors);
     }

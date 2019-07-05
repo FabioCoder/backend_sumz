@@ -246,6 +246,8 @@ public class ScenarioServiceTest {
         postRequestComb1.setSolidaryTaxRate(0.5);
         postRequestComb1.setEquityInterestRate(0.5);
         postRequestComb1.setInterestOnLiabilitiesRate(0.5);
+        postRequestComb1.setBrownRozeff(false);
+        postRequestComb1.setScenarioColor("Green");
 
         additionalIncomeMPAFR.setIsHistoric(false);
         depreciationMPAFR.setIsHistoric(false);
@@ -329,6 +331,7 @@ public class ScenarioServiceTest {
         postRequestComb1.setSolidaryTaxRate(0.5);
         postRequestComb1.setEquityInterestRate(0.5);
         postRequestComb1.setInterestOnLiabilitiesRate(0.5);
+        postRequestComb1.setBrownRozeff(false);
 
         additionalIncomeMPAFR.setIsHistoric(true);
         depreciationMPAFR.setIsHistoric(true);
@@ -370,6 +373,7 @@ public class ScenarioServiceTest {
         postRequestComb2.setSolidaryTaxRate(0.5);
         postRequestComb2.setEquityInterestRate(0.5);
         postRequestComb2.setInterestOnLiabilitiesRate(0.5);
+        postRequestComb2.setBrownRozeff(false);
 
         additionalIncomeMPAFR.setIsHistoric(false);
         depreciationMPAFR.setIsHistoric(false);
@@ -404,6 +408,7 @@ public class ScenarioServiceTest {
         postRequestComb2.setSolidaryTaxRate(0.5);
         postRequestComb2.setEquityInterestRate(0.5);
         postRequestComb2.setInterestOnLiabilitiesRate(0.5);
+        postRequestComb2.setBrownRozeff(false);
 
         additionalIncomeMPAFR.setIsHistoric(true);
         depreciationMPAFR.setIsHistoric(true);
@@ -453,6 +458,7 @@ public class ScenarioServiceTest {
             putRequestComb1.setSolidaryTaxRate(0.5);
             putRequestComb1.setEquityInterestRate(0.5);
             putRequestComb1.setInterestOnLiabilitiesRate(0.5);
+            putRequestComb1.setBrownRozeff(false);
 
             additionalIncomeMPAFR.setIsHistoric(false);
             depreciationMPAFR.setIsHistoric(false);

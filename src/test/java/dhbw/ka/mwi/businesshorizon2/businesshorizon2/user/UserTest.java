@@ -141,7 +141,7 @@ public class UserTest {
         user.setIsActive(true);
         if(userRepository.findByEmail(user.getEmail()) != null) userRepository.delete(userRepository.findByEmail(user.getEmail()));
         userService.addUser(user, "localhost:8080");
-        Assert.assertFalse(userRepository.findByEmail("Abc123@").getIsActive());
+        Assert.assertFalse(userRepository.findByEmail("testmail@noavailable.de").getIsActive());
     }
 
     @Test
@@ -321,11 +321,15 @@ public class UserTest {
 
     @Test
     public void testUpdateUserTestTestActive() throws Exception {
+
         AppUserDto user = new AppUserDto();
         user.setEmail("testmail@noavailable.de");
-        user.setPassword("Abc123@");
+        user.setPassword(userService.encodePassword("Abc123@"));
+
         if(userRepository.findByEmail(user.getEmail()) != null) userRepository.delete(userRepository.findByEmail(user.getEmail()));
         AppUserDao dbusr = userRepository.save(UserMapper.mapToDao(user));
+
+        Assert.assertFalse(dbusr.getIsActive());
 
         UserPutRequestDto usr = new UserPutRequestDto();
         usr.setEmail("testmail@test.de");
@@ -333,19 +337,20 @@ public class UserTest {
         usr.setNewPassword("Abc1234@");
         usr.setIsActive(true);
         userService.updateUserPassword(usr, dbusr.getAppUserId());
+        dbusr = userRepository.findById(dbusr.getAppUserId()).get();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(securityConfig.getEncodingStrength());
-        Boolean passwordMatch = passwordEncoder.matches("Abcd1234@", dbusr.getAppUserPassword());
+        Boolean passwordMatch = passwordEncoder.matches("Abc1234@", dbusr.getAppUserPassword());
 
 
         Assert.assertTrue(passwordMatch);
-        Assert.assertFalse(userRepository.findByEmail("Abc123@").getIsActive());
+        Assert.assertFalse(userRepository.findByEmail("testmail@test.de").getIsActive());
     }
 
     @Test
     public void testUpdateUserTestAddAdminRole() throws Exception {
         AppUserDto user = new AppUserDto();
         user.setEmail("testmail@noavailable.de");
-        user.setPassword("Abc123@");
+        user.setPassword(userService.encodePassword("Abc123@"));
 
         UserPutRequestDto usr = new UserPutRequestDto();
         usr.setEmail("testmail@test.de");
@@ -360,12 +365,13 @@ public class UserTest {
         AppUserDao dbusr = userRepository.save(UserMapper.mapToDao(user));
 
         userService.updateUserPassword(usr, dbusr.getAppUserId());
+        dbusr = userRepository.findById(dbusr.getAppUserId()).get();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(securityConfig.getEncodingStrength());
         Boolean passwordMatch = passwordEncoder.matches("Abc1234@", dbusr.getAppUserPassword());
 
 
         Assert.assertTrue(passwordMatch);
-        Assert.assertTrue(userRepository.findByEmail("testmail@noavailable.de").getAppRoles().size() == 1);
+        Assert.assertTrue(dbusr.getAppRoles().size() == 1);
     }
 
 }

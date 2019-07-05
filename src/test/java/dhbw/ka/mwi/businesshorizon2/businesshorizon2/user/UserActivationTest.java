@@ -62,13 +62,13 @@ public class UserActivationTest {
         daouser.setIsActive(true);
         daouser.setEmail("test123@test.de");
         //Check if user still exists from last tests
-        if(userRepository.findByEmail(user.getEmail()) != null) userRepository.deleteById(userRepository.findByEmail(user.getEmail()).getAppUserId());
+        if(userRepository.findByEmail(daouser.getEmail()) != null) userRepository.deleteById(userRepository.findByEmail(daouser.getEmail()).getAppUserId());
         //Save new user
-        userRepository.save(user);
+        userRepository.save(daouser);
         //Check that user is inactive
-        assertTrue(user.getIsActive());
+        assertTrue(daouser.getIsActive());
         //get Activationtoken for given User
-        UserActivationTokenDao token = activationService.createUserActivationToken(user);
+        UserActivationTokenDao token = activationService.createUserActivationToken(daouser);
         //Set Token to be expired
         activationTokenRepository.save(token);
 

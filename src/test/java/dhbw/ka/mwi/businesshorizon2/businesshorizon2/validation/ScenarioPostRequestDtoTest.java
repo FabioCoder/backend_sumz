@@ -70,7 +70,15 @@ public class ScenarioPostRequestDtoTest {
 		
 		this.validRequest = request;
 	}
-	
+
+	@Test
+	public void testSenarioNameBounds() {
+		ScenarioPostRequestDto request = this.validRequest;
+		assertTrue(validator.validate(request).size() == 0);
+		request.setScenarioName("a");
+
+	}
+
 	@Test
 	public void validation_allValid_noViolations() throws Exception {
 		//Arrange
