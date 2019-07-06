@@ -289,15 +289,11 @@ public class ScenarioValidationTest {
         long id = scenarioService.create(scenariodto, appUser.getAppUserId());
         scenarioService.delete(id, appUser.getAppUserId());
 
-        addInc.setOrder(new Integer []{0, 1, 1, 1000, 124124, 44444444, 1, 1, 1});
+        addInc.setOrder(new Integer []{0, 1, 1});
         id = scenarioService.create(scenariodto, appUser.getAppUserId());
         scenarioService.delete(id, appUser.getAppUserId());
 
-        addInc.setOrder(new Integer []{0});
-        id = scenarioService.create(scenariodto, appUser.getAppUserId());
-        scenarioService.delete(id, appUser.getAppUserId());
-
-        addInc.setOrder(new Integer []{-54325, -3});
+        addInc.setOrder(new Integer []{-54325, -3, 14});
         id = scenarioService.create(scenariodto, appUser.getAppUserId());
         scenarioService.delete(id, appUser.getAppUserId());
 
@@ -306,55 +302,18 @@ public class ScenarioValidationTest {
         id = scenarioService.create(scenariodto, appUser.getAppUserId());
         scenarioService.delete(id, appUser.getAppUserId());
 
-        addInc.setSeasonalOrder(new Integer []{0, 1, 1, 1000, 124124, 44444444, 1, 1, 1});
+        addInc.setSeasonalOrder(new Integer []{0, 1, 1, 1000});
         id = scenarioService.create(scenariodto, appUser.getAppUserId());
         scenarioService.delete(id, appUser.getAppUserId());
 
-        addInc.setSeasonalOrder(new Integer []{0});
+        addInc.setSeasonalOrder(new Integer []{0, 213, -12, 24});
         id = scenarioService.create(scenariodto, appUser.getAppUserId());
         scenarioService.delete(id, appUser.getAppUserId());
 
-        addInc.setSeasonalOrder(new Integer []{-54325, -3});
+        addInc.setSeasonalOrder(new Integer []{-54325, -3, 1, 4});
         id = scenarioService.create(scenariodto, appUser.getAppUserId());
         scenarioService.delete(id, appUser.getAppUserId());
 
-
-
-        addInc.setIsHistoric(true);
-        addInc.setOrder(null);
-        id = scenarioService.create(scenariodto, appUser.getAppUserId());
-        scenarioService.delete(id, appUser.getAppUserId());
-
-        addInc.setOrder(new Integer []{0, 1, 1, 1000, 124124, 44444444, 1, 1, 1});
-        id = scenarioService.create(scenariodto, appUser.getAppUserId());
-        scenarioService.delete(id, appUser.getAppUserId());
-
-        addInc.setOrder(new Integer []{0});
-        id = scenarioService.create(scenariodto, appUser.getAppUserId());
-        scenarioService.delete(id, appUser.getAppUserId());
-
-        addInc.setOrder(new Integer []{-54325, -3});
-        id = scenarioService.create(scenariodto, appUser.getAppUserId());
-        scenarioService.delete(id, appUser.getAppUserId());
-
-        //seasonal Order
-        addInc.setSeasonalOrder(null);
-        id = scenarioService.create(scenariodto, appUser.getAppUserId());
-        scenarioService.delete(id, appUser.getAppUserId());
-
-        addInc.setSeasonalOrder(new Integer []{0, 1, 1, 1000, 124124, 44444444, 1, 1, 1});
-        id = scenarioService.create(scenariodto, appUser.getAppUserId());
-        scenarioService.delete(id, appUser.getAppUserId());
-
-        addInc.setSeasonalOrder(new Integer []{0});
-        id = scenarioService.create(scenariodto, appUser.getAppUserId());
-        scenarioService.delete(id, appUser.getAppUserId());
-
-        addInc.setSeasonalOrder(new Integer []{-54325, -3});
-        id = scenarioService.create(scenariodto, appUser.getAppUserId());
-        scenarioService.delete(id, appUser.getAppUserId());
-
-        addInc.setIsHistoric(false);
         addInc.setSeasonalOrder(null);
         addInc.setOrder(null);
     }
@@ -412,84 +371,6 @@ public class ScenarioValidationTest {
     public void testScenarioGetAll_InvalidID() {
         List<ScenarioResponseDto> list = scenarioService.getAll(-123L);
         assertTrue(list.size() == 0);
-    }
-
-    @Test
-    public void testScenarioValidationSettings() {
-
-        //Test ScenarioName Constraints
-        validateScenario(scenariodto, 0);
-        scenariodto.setScenarioName(null);
-        validateScenario(scenariodto, 1);
-        scenariodto.setScenarioName("");
-        validateScenario(scenariodto, 1);
-        scenariodto.setScenarioName("VERY LONG STRIIIIIIIIIIIIIIING");
-        validateScenario(scenariodto, 1);
-        scenariodto.setScenarioName("ValidName");
-
-        //Test ScenarioDescription Constraints
-        scenariodto.setScenarioDescription(null);
-        validateScenario(scenariodto, 1);
-        scenariodto.setScenarioDescription("");
-        validateScenario(scenariodto, 1);
-        scenariodto.setScenarioDescription("-------------------------------------------------------------------------" +
-                "----------------------------------------------------------------------------------------------------" +
-                "----------------------------------------------------------------------------------------------------");
-        validateScenario(scenariodto, 1);
-        scenariodto.setScenarioDescription("ValidDescription");
-
-        //Test Periods Constraint
-        scenariodto.setPeriods(null);
-        validateScenario(scenariodto, 1);
-        scenariodto.setPeriods(1);
-        validateScenario(scenariodto, 1);
-        scenariodto.setPeriods(2);
-
-        //Test Rates Constraint
-        scenariodto.setBusinessTaxRate(-0.1);
-        scenariodto.setCorporateTaxRate(-0.1);
-        scenariodto.setSolidaryTaxRate(-0.1);
-        scenariodto.setInterestOnLiabilitiesRate(-0.1);
-        validateScenario(scenariodto, 4);
-        scenariodto.setBusinessTaxRate(1.1);
-        scenariodto.setCorporateTaxRate(1.1);
-        scenariodto.setSolidaryTaxRate(1.1);
-        scenariodto.setInterestOnLiabilitiesRate(1.1);
-        validateScenario(scenariodto, 4);
-        scenariodto.setBusinessTaxRate(0.5);
-        scenariodto.setCorporateTaxRate(0.5);
-        scenariodto.setSolidaryTaxRate(0.5);
-        scenariodto.setInterestOnLiabilitiesRate(0.5);
-
-        //Test equityInterestRate Contstraint
-        scenariodto.setEquityInterestRate(-0.2);
-        validateScenario(scenariodto, 1);
-        scenariodto.setEquityInterestRate(1.1);
-        validateScenario(scenariodto, 1);
-
-        MultiPeriodAccountingFigureRequestDto addIncome = scenariodto.getAdditionalIncome();
-        addIncome.setIsHistoric(null);
-        validateScenario(scenariodto, 1);
-        addIncome.setIsHistoric(false);
-
-        TimeSeriesItemRequestDto tsdto = addIncome.getTimeSeries().get(0);
-        tsdto.setDate(null);
-        tsdto.setAmount(null);
-        validateScenario(scenariodto, 2);
-        tsdto.setDate(new TimeSeriesItemDateRequestDto(2014, 1));
-        tsdto.setAmount(50.0);
-
-        TimeSeriesItemDateRequestDto datedto = tsdto.getDate();
-        datedto.setYear(0);
-        datedto.setQuarter(0);
-        validateScenario(scenariodto, 2);
-        datedto.setYear(2200);
-        datedto.setQuarter(5);
-        validateScenario(scenariodto, 2);
-        datedto.setYear(2014);
-        datedto.setQuarter(1);
-        validateScenario(scenariodto, 0);
-
     }
 
     /**

@@ -12,6 +12,7 @@ import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.MultiPeriodAccountingFigureR
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPostRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioPutRequestDto;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.ScenarioResponseDto;
+import org.hibernate.Hibernate;
 
 /**
  *
@@ -175,6 +176,7 @@ public class ScenarioMapper {
 	}
 	
 	private static MultiPeriodAccountingFigureResponseDto selectMultiPeriodAccountingFigure(List<MultiPeriodAccountingFigureDao> figures, MultiPeriodAccountingFigureNames figureName) {
+
 
 		Optional<MultiPeriodAccountingFigureDao> figure = figures
 			.stream()

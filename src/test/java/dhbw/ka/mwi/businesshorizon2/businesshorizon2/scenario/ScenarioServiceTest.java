@@ -7,7 +7,9 @@ package dhbw.ka.mwi.businesshorizon2.businesshorizon2.scenario;
 
 import edu.dhbw.ka.mwi.businesshorizon2.App;
 import edu.dhbw.ka.mwi.businesshorizon2.businesslogic.services.ScenarioService;
+import edu.dhbw.ka.mwi.businesshorizon2.dataaccess.interfaces.IScenarioRepository;
 import edu.dhbw.ka.mwi.businesshorizon2.models.common.MultiPeriodAccountingFigureNames;
+import edu.dhbw.ka.mwi.businesshorizon2.models.daos.ScenarioDao;
 import edu.dhbw.ka.mwi.businesshorizon2.models.dtos.*;
 
 import java.util.*;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -37,6 +40,9 @@ public class ScenarioServiceTest {
 
     @Autowired
     ScenarioService scenarioService;
+
+    @Autowired
+    private IScenarioRepository scenarioRepository;
 
     Long appUserId;
 
@@ -233,12 +239,14 @@ public class ScenarioServiceTest {
 
         freeCashFlowsMPAFR = new MultiPeriodAccountingFigureRequestDto();
         freeCashFlowsMPAFR.setTimeSeries(freeCashFlowsTimeSeries);
+
     }
 
     @Test
     public void testScenarioCreation_Combination1_NonHistoric() {
         postRequestComb1.setScenarioName("PostTestComb1");
         postRequestComb1.setScenarioDescription("xyz");
+        postRequestComb1.setScenarioColor("Green");
         //prediction steps
         postRequestComb1.setPeriods(2);
         postRequestComb1.setBusinessTaxRate(0.5);
@@ -247,7 +255,6 @@ public class ScenarioServiceTest {
         postRequestComb1.setEquityInterestRate(0.5);
         postRequestComb1.setInterestOnLiabilitiesRate(0.5);
         postRequestComb1.setBrownRozeff(false);
-        postRequestComb1.setScenarioColor("Green");
 
         additionalIncomeMPAFR.setIsHistoric(false);
         depreciationMPAFR.setIsHistoric(false);
@@ -271,61 +278,20 @@ public class ScenarioServiceTest {
         postRequestComb1.setLiabilities(liabilitiesMPAFR);
 
         Long comb1Id = scenarioService.create(postRequestComb1, appUserId);
-        ScenarioResponseDto response = scenarioService.get(comb1Id, appUserId);
+        ScenarioDao dao = scenarioRepository.get(comb1Id);
 
-        //calculation methods are tested in other tests, therefore it is enough if response is not null / no exception occurs
-        assertNotNull(response.getApvValuationResult());
-        assertNotNull(response.getFteValuationResult());
-        assertNotNull(response.getFcfValuationResult());
+        assertNotNull(dao.getApvCompanyValuationResultDao());
+        assertNotNull(dao.getFteCompanyValuationResultDao());
+        assertNotNull(dao.getFcfCompanyValuationResultDao());
     }
 
     @Test
     public void testScenarioCreation_Combination1_Historic() {
         postRequestComb1.setScenarioName("PostTestComb1");
         postRequestComb1.setScenarioDescription("xyz");
+        postRequestComb1.setScenarioColor("Green");
         //prediction steps
         postRequestComb1.setPeriods(2);
-        postRequestComb1.setBusinessTaxRate(0.5);
-        postRequestComb1.setCorporateTaxRate(0.5);
-        postRequestComb1.setSolidaryTaxRate(0.5);
-        postRequestComb1.setEquityInterestRate(0.5);
-        postRequestComb1.setInterestOnLiabilitiesRate(0.5);
-
-        additionalIncomeMPAFR.setIsHistoric(true);
-        depreciationMPAFR.setIsHistoric(true);
-        additionalCostsMPAFR.setIsHistoric(true);
-        investmentsMPAFR.setIsHistoric(true);
-        divestmentsMPAFR.setIsHistoric(true);
-        revenueMPAFR.setIsHistoric(true);
-        costOfMaterialMPAFR.setIsHistoric(true);
-        costOfStaffMPAFR.setIsHistoric(true);
-        liabilitiesMPAFR.setIsHistoric(true);
-        freeCashFlowsMPAFR.setIsHistoric(true);
-
-        postRequestComb1.setAdditionalIncome(additionalIncomeMPAFR);
-        postRequestComb1.setDepreciation(depreciationMPAFR);
-        postRequestComb1.setAdditionalCosts(additionalCostsMPAFR);
-        postRequestComb1.setInvestments(investmentsMPAFR);
-        postRequestComb1.setDivestments(divestmentsMPAFR);
-        postRequestComb1.setRevenue(revenueMPAFR);
-        postRequestComb1.setCostOfMaterial(costOfMaterialMPAFR);
-        postRequestComb1.setCostOfStaff(costOfStaffMPAFR);
-        postRequestComb1.setLiabilities(liabilitiesMPAFR);
-
-        Long comb1Id = scenarioService.create(postRequestComb1, appUserId);
-        ScenarioResponseDto response = scenarioService.get(comb1Id, appUserId);
-
-        assertNotNull(response.getApvValuationResult());
-        assertNotNull(response.getFteValuationResult());
-        assertNotNull(response.getFcfValuationResult());
-    }
-    
-    @Test
-    public void testScenarioCreation_Combination1_Historic_InsufficientObservations() {
-        postRequestComb1.setScenarioName("PostTestComb1");
-        postRequestComb1.setScenarioDescription("xyz");
-        //prediction steps set to 20 for only 12 observations
-        postRequestComb1.setPeriods(20);
         postRequestComb1.setBusinessTaxRate(0.5);
         postRequestComb1.setCorporateTaxRate(0.5);
         postRequestComb1.setSolidaryTaxRate(0.5);
@@ -355,17 +321,61 @@ public class ScenarioServiceTest {
         postRequestComb1.setLiabilities(liabilitiesMPAFR);
 
         Long comb1Id = scenarioService.create(postRequestComb1, appUserId);
-        ScenarioResponseDto response = scenarioService.get(comb1Id, appUserId);
+        ScenarioDao dao = scenarioRepository.get(comb1Id);
 
-        assertNotNull(response.getApvValuationResult());
-        assertNotNull(response.getFteValuationResult());
-        assertNotNull(response.getFcfValuationResult());
+        assertNotNull(dao.getApvCompanyValuationResultDao());
+        assertNotNull(dao.getFteCompanyValuationResultDao());
+        assertNotNull(dao.getFcfCompanyValuationResultDao());
+    }
+    
+    @Test
+    public void testScenarioCreation_Combination1_Historic_InsufficientObservations() {
+        postRequestComb1.setScenarioName("PostTestComb1");
+        postRequestComb1.setScenarioDescription("xyz");
+        postRequestComb1.setScenarioColor("Green");
+        //prediction steps set to 20 for only 12 observations
+        postRequestComb1.setPeriods(8);
+        postRequestComb1.setBusinessTaxRate(0.5);
+        postRequestComb1.setCorporateTaxRate(0.5);
+        postRequestComb1.setSolidaryTaxRate(0.5);
+        postRequestComb1.setEquityInterestRate(0.5);
+        postRequestComb1.setInterestOnLiabilitiesRate(0.5);
+        postRequestComb1.setBrownRozeff(false);
+
+        additionalIncomeMPAFR.setIsHistoric(true);
+        depreciationMPAFR.setIsHistoric(true);
+        additionalCostsMPAFR.setIsHistoric(true);
+        investmentsMPAFR.setIsHistoric(true);
+        divestmentsMPAFR.setIsHistoric(true);
+        revenueMPAFR.setIsHistoric(true);
+        costOfMaterialMPAFR.setIsHistoric(true);
+        costOfStaffMPAFR.setIsHistoric(true);
+        liabilitiesMPAFR.setIsHistoric(true);
+        freeCashFlowsMPAFR.setIsHistoric(true);
+
+        postRequestComb1.setAdditionalIncome(additionalIncomeMPAFR);
+        postRequestComb1.setDepreciation(depreciationMPAFR);
+        postRequestComb1.setAdditionalCosts(additionalCostsMPAFR);
+        postRequestComb1.setInvestments(investmentsMPAFR);
+        postRequestComb1.setDivestments(divestmentsMPAFR);
+        postRequestComb1.setRevenue(revenueMPAFR);
+        postRequestComb1.setCostOfMaterial(costOfMaterialMPAFR);
+        postRequestComb1.setCostOfStaff(costOfStaffMPAFR);
+        postRequestComb1.setLiabilities(liabilitiesMPAFR);
+
+        Long comb1Id = scenarioService.create(postRequestComb1, appUserId);
+        ScenarioDao dao = scenarioRepository.get(comb1Id);
+
+        assertNotNull(dao.getApvCompanyValuationResultDao());
+        assertNotNull(dao.getFteCompanyValuationResultDao());
+        assertNotNull(dao.getFcfCompanyValuationResultDao());
     }
 
     @Test
     public void testScenarioCreation_Combination2_NonHistoric() {
         postRequestComb2.setScenarioName("PostTestComb2");
         postRequestComb2.setScenarioDescription("xyz");
+        postRequestComb2.setScenarioColor("Green");
         //prediction steps
         postRequestComb2.setPeriods(2);
         postRequestComb2.setBusinessTaxRate(0.5);
@@ -390,17 +400,18 @@ public class ScenarioServiceTest {
         postRequestComb2.setLiabilities(liabilitiesMPAFR);
 
         Long comb2Id = scenarioService.create(postRequestComb2, appUserId);
-        ScenarioResponseDto response = scenarioService.get(comb2Id, appUserId);
+        ScenarioDao dao = scenarioRepository.get(comb2Id);
 
-        assertNotNull(response.getApvValuationResult());
-        assertNotNull(response.getFteValuationResult());
-        assertNotNull(response.getFcfValuationResult());
+        assertNotNull(dao.getApvCompanyValuationResultDao());
+        assertNotNull(dao.getFteCompanyValuationResultDao());
+        assertNotNull(dao.getFcfCompanyValuationResultDao());
     }
 
     @Test
     public void testScenarioCreation_Combination2_Historic() {
         postRequestComb2.setScenarioName("PostTestComb2");
         postRequestComb2.setScenarioDescription("xyz");
+        postRequestComb2.setScenarioColor("Green");
         //prediction steps
         postRequestComb2.setPeriods(2);
         postRequestComb2.setBusinessTaxRate(0.5);
@@ -425,13 +436,14 @@ public class ScenarioServiceTest {
         postRequestComb2.setLiabilities(liabilitiesMPAFR);
 
         Long comb2Id = scenarioService.create(postRequestComb2, appUserId);
-        ScenarioResponseDto response = scenarioService.get(comb2Id, appUserId);
+        ScenarioDao dao = scenarioRepository.get(comb2Id);
 
-        assertNotNull(response.getApvValuationResult());
-        assertNotNull(response.getFteValuationResult());
-        assertNotNull(response.getFcfValuationResult());
+        assertNotNull(dao.getApvCompanyValuationResultDao());
+        assertNotNull(dao.getFteCompanyValuationResultDao());
+        assertNotNull(dao.getFcfCompanyValuationResultDao());
     }
 
+    @Transactional
     @Test
     public void testScenarioDelete() {
         List<ScenarioResponseDto> availableScenarios = scenarioService.getAll(appUserId);
@@ -443,6 +455,7 @@ public class ScenarioServiceTest {
         }
     }
 
+    @Transactional
     @Test
     public void testScenarioUpdate_Comb1Scenario_NonHistoric() {
         List<ScenarioResponseDto> availableScenarios = scenarioService.getAll(appUserId);
@@ -451,6 +464,7 @@ public class ScenarioServiceTest {
 
             putRequestComb1.setScenarioName("blub");
             putRequestComb1.setScenarioDescription("updated description");
+            putRequestComb1.setScenarioColor("Green");
             //prediction steps
             putRequestComb1.setPeriods(2);
             putRequestComb1.setBusinessTaxRate(0.5);
@@ -490,11 +504,13 @@ public class ScenarioServiceTest {
         }
     }
 
+    @Transactional
     @Test
     public void getAll_Test() {
         scenarioService.getAll(appUserId);
     }
 
+    @Transactional
     @Test
     public void get_Test() {
         List<ScenarioResponseDto> availableScenarios = scenarioService.getAll(appUserId);

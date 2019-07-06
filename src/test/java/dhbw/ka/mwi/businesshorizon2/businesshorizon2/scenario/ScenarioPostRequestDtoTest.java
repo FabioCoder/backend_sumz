@@ -43,6 +43,8 @@ public class ScenarioPostRequestDtoTest {
 		request.setSolidaryTaxRate(0.5);
 		request.setEquityInterestRate(0.5);
 		request.setInterestOnLiabilitiesRate(0.3);
+		request.setBrownRozeff(false);
+		request.setScenarioColor("Green");
 	
 		List<TimeSeriesItemRequestDto> freeCashFlowsTimeSeries = new ArrayList<TimeSeriesItemRequestDto>();
 		freeCashFlowsTimeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2000, 4), 50.0));
@@ -765,6 +767,8 @@ public class ScenarioPostRequestDtoTest {
 		request.setSolidaryTaxRate(0.5);
 		request.setEquityInterestRate(0.5);
 		request.setInterestOnLiabilitiesRate(0.5);
+		request.setBrownRozeff(false);
+		request.setScenarioColor("Green");
 		
 		List<TimeSeriesItemRequestDto> freeCashFlowsTimeSeries = new ArrayList<TimeSeriesItemRequestDto>();
 		freeCashFlowsTimeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2000), 50.0));
@@ -808,6 +812,8 @@ public class ScenarioPostRequestDtoTest {
 		request.setSolidaryTaxRate(0.5);
 		request.setEquityInterestRate(0.5);
 		request.setInterestOnLiabilitiesRate(0.5);
+		request.setBrownRozeff(false);
+		request.setScenarioColor("Green");
 		
 		List<TimeSeriesItemRequestDto> freeCashFlowsTimeSeries = new ArrayList<TimeSeriesItemRequestDto>();
 		freeCashFlowsTimeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(1999, 4), 50.0));
@@ -851,6 +857,8 @@ public class ScenarioPostRequestDtoTest {
 		request.setSolidaryTaxRate(0.5);
 		request.setEquityInterestRate(0.5);
 		request.setInterestOnLiabilitiesRate(0.5);
+		request.setBrownRozeff(false);
+		request.setScenarioColor("Green");
 				
 		List<TimeSeriesItemRequestDto> liabilitiesTimeSeries = new ArrayList<TimeSeriesItemRequestDto>();
 		liabilitiesTimeSeries.add(new TimeSeriesItemRequestDto(new TimeSeriesItemDateRequestDto(2000, 1), 50.0));
