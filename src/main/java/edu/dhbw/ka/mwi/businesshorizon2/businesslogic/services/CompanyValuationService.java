@@ -87,8 +87,7 @@ public class CompanyValuationService implements ICompanyValuationService {
             capitalStructureEffectSE = secs.addition(capitalStructureEffectSE, (taxShieldSE / Math.pow((1 + interestOnLiabilities), i + 1)));
         }
 
-	//presentValueOfCashflows is added with the last value of the list discounted
-		
+	//das ist der Restwert als ewige Rente, abgezinst?
         presentValueOfCashflows += (freeCashFlow.getKeyList().get(freeCashFlow.size() - 1)
                 / (equityInterest * Math.pow((1 + equityInterest), freeCashFlow.size() - 1)));
         presentValueOfCashflowsSE = secs.addition(presentValueOfCashflowsSE, (freeCashFlow.getValueList().get(freeCashFlow.size() - 1)
