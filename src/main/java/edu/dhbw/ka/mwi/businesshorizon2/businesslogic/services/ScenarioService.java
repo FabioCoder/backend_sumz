@@ -167,6 +167,7 @@ public class ScenarioService implements IScenarioService {
 
                 freeCashFlowsProvided = true;
             } catch (RuntimeException e) {
+                e.printStackTrace();
                 throw new RuntimeException("Brown Rozeff not applicable due to missing data");
             }
         }
@@ -221,9 +222,13 @@ public class ScenarioService implements IScenarioService {
         scenarioDao.setApvCompanyValuationResultDao(ApvCompanyValuationResultMapper.mapDtoToDao(apvRes));
         scenarioDao.setFteCompanyValuationResultDao(FteCompanyValuationResultMapper.mapDtoToDao(fteRes));
         scenarioDao.setFcfCompanyValuationResultDao(FcfCompanyValuationResultMapper.mapDtoToDao(fcfRes));
+        
+        System.out.println("Saving scenario to Repo");
 
         Long scenarioInDbId = scenarioGraphRepository.create(scenarioDao, appUserId);
 
+        System.out.println("Saved");
+        
         return scenarioInDbId;
     }
 
@@ -396,7 +401,7 @@ public class ScenarioService implements IScenarioService {
         TimeSeriesItemRequestDto found = null;
         
         for(TimeSeriesItemRequestDto tsir : mpacfr.getTimeSeries()) {
-            if(tsir.getDate() == tsird)
+            if(tsir.getDate().equals(tsird))
                 found = tsir;
         }
         
