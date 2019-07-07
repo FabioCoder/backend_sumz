@@ -63,24 +63,27 @@ public class AccountingFigureCalculationsService implements IAccountingFigureCal
         DoubleKeyValueListDto freeCashFlow = new DoubleKeyValueListDto();
 
         for (int i = 0; i < revenue.size(); i++) {
-            
-             //TODO: calc std error of fcf
 
+            //Erlöse enthalten nur zahlungswirksame Geschäftsvorfälle
             double proceeds = revenue.getKeyList().get(i) + additionalIncome.getKeyList().get(i);
             double proceedsSE = secs.addition(revenue.getValueList().get(i), additionalIncome.getValueList().get(i));
 
+            //Aufwände enthalten nur zahlungswirksame Geschäftsvorfälle
             double payments = costOfMaterial.getKeyList().get(i) + costOfStaff.getKeyList().get(i) + additionalCosts.getKeyList().get(i);
             double paymentsSE = secs.addition(costOfMaterial.getValueList().get(i), secs.addition(costOfStaff.getValueList().get(i) , additionalCosts.getValueList().get(i)));
 
+            //Daher entspricht der Cash Flow (hier eigentlich schon der operative Cashflow weil wir nur von Geschäftstätigkeit ausgehen?) einfach Erlöse abzüglich Aufwände (wobei die nachfolgenden Steuern eigentlich auch zu den Aufwänden gehören?)
             double cashFlow = proceeds - payments;
             double cashFlowSE = secs.subtraction(proceedsSE, paymentsSE);
 
+            //Für die Berechnung der Steuern benötigen wir aber die Abschreibungen - müssten die Abschreibungen hierfür nicht addiert werden weil diese mitversteuert werden müssen?
             double absoluteTaxes = (cashFlow - depreciation.getKeyList().get(i)) * (businessTaxRate + (corporateTaxRate * (1 + solidaryTaxRate)));
             double absoluteTaxesSE = secs.subtraction(cashFlowSE, depreciation.getValueList().get(i)) * (businessTaxRate + (corporateTaxRate * (1 + solidaryTaxRate)));
 
             double operatingCashFlow = cashFlow - absoluteTaxes;
             double operatingCashFlowSE = secs.subtraction(cashFlowSE, absoluteTaxesSE);
 
+            //FCF entspricht dem operativen FCF +- Cashflows aus Investitionstätigkeit
             freeCashFlow.add(new SimpleEntry<>(operatingCashFlow - (investments.getKeyList().get(i) - divestments.getKeyList().get(i)), secs.subtraction(operatingCashFlowSE, secs.subtraction(investments.getValueList().get(i), divestments.getValueList().get(i)))));
             
         }
@@ -122,7 +125,7 @@ public class AccountingFigureCalculationsService implements IAccountingFigureCal
         return flowToEquity;
     }
 
-    //this methods calculates the effective tax rate
+    //this methods calculates the effective tax rate - where is the 0.75 from?
     /**
      * @param businessTaxRate
      * @param corporateTaxRate
